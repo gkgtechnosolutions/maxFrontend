@@ -1,0 +1,28 @@
+<h2 mat-dialog-title style="color: gold;">Add or Update Slot and Amount Range</h2>
+
+<mat-dialog-content>
+  <app-loader *ngIf="loader"></app-loader>
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Select Slot</mat-label>
+    <mat-select [(ngModel)]="selectedSlot">
+      <mat-option *ngFor="let slot of slots" [value]="slot.id">{{ slot.startTime }} - {{ slot.endTime }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill"  class="w-100">
+    <mat-label>Select Amount Range</mat-label>
+    <mat-select [(ngModel)]="selectedAmountRange">
+      <mat-option *ngFor="let range of amountRanges" [value]="range.id">{{ range.minAmount }} - {{ range.maxAmount }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-icon-button mat-dialog-close class="close-button">
+    <mat-icon style="color: gold">close</mat-icon>
+  </button>
+</mat-dialog-content>
+
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" (click)="onAddOrUpdate()">Update</button>
+</mat-dialog-actions>

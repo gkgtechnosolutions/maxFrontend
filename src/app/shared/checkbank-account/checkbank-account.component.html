@@ -1,0 +1,50 @@
+<h2 mat-dialog-title  style="color: gold;">Get Bank List</h2>
+<mat-dialog-content>
+  <app-loader *ngIf="loader"></app-loader>
+  <form [formGroup]="bankForm" (ngSubmit)="onGetBanks()">
+    <mat-grid-list cols="3" rowHeight="100px" gutterSize="16px">
+      <mat-grid-tile colspan="1">
+      <mat-form-field>
+      <mat-label>Time</mat-label>
+      <input matInput type="time" formControlName="time" placeholder="Enter time">
+    </mat-form-field>
+  </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+    <mat-form-field>
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" formControlName="amount" placeholder="Enter amount">
+    </mat-form-field>
+  </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+    <button mat-raised-button color="primary" type="submit" style="width: 100%;">
+        Get Banks
+      </button>
+  </mat-grid-tile>
+  </mat-grid-list>
+  
+  </form>
+
+  <mat-table [dataSource]="bankList"  *ngIf="bankList.length > 0">
+    <ng-container matColumnDef="bankName">
+      <mat-header-cell *matHeaderCellDef> Bank Name </mat-header-cell>
+      <mat-cell *matCellDef="let bank"> {{bank.bankName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="holderName">
+      <mat-header-cell *matHeaderCellDef> Bank Holder Name </mat-header-cell>
+      <mat-cell *matCellDef="let bank"> {{bank.bankHolderName}} </mat-cell>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="balance">
+      <mat-header-cell *matHeaderCellDef> Balance </mat-header-cell>
+      <mat-cell *matCellDef="let bank"> {{bank.balance}} </mat-cell>
+    </ng-container> -->
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <button mat-icon-button mat-dialog-close class="close-button">
+    <mat-icon style="color: gold">close</mat-icon>
+  </button>
+</mat-dialog-content>
+

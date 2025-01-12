@@ -1,0 +1,233 @@
+<app-loader *ngIf="loader"></app-loader>
+<div class="row">
+  <div class="search-container col-lg-6">
+    <input
+      type="text"
+      placeholder="Hinted search text"
+      class="search-input"
+      (input)="updateSearchText($event)"
+      (keyup.enter)="onSearchClick()"
+    />
+    <button class="search-button" (click)="onSearchClick()">
+      <svg
+        width="24"
+        height="24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-search"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+  </div>
+  <div class="col-lg-6">
+    <div class="row">
+      <div class="col-lg-4">
+        <mat-form-field style="border-radius: 10px">
+          <mat-label style="color: white; border-radius: 10px"
+            >Select Status</mat-label
+          >
+          <mat-select [formControl]="selectedStatuses" multiple>
+            <mat-select-trigger>
+              {{ selectedStatuses.value?.[0] || '' }}
+              <ng-container *ngIf="(selectedStatuses.value?.length || 0) > 1">
+                <span class="example-additional-selection">
+                  (+{{ (selectedStatuses.value?.length || 0) - 1 }}
+                  {{
+                    selectedStatuses.value?.length === 2 ? "other" : "others"
+                  }})
+                </span>
+              </ng-container>
+            </mat-select-trigger>
+            <mat-option *ngFor="let status of statuses" [value]="status">{{
+              status
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-8">
+        <button
+          mat-flat-button
+          (click)="refresh()"
+          style="height: 53px; background-color: #333; color: white"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="withdraws" class="mat-table">
+  
+
+    <ng-container matColumnDef="Sr.no">
+      <th mat-header-cell *matHeaderCellDef> No.</th>
+      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+    <!-- UserId Column -->
+    <ng-container matColumnDef="userId">
+      <th mat-header-cell *matHeaderCellDef>Order ID</th>
+      <td mat-cell *matCellDef="let element">212{{ element.userId }}341</td>
+    </ng-container>
+
+    <!-- UtrNumber Column -->
+    <ng-container matColumnDef="utrNumber">
+      <th mat-header-cell *matHeaderCellDef>UTR Number</th>
+      <td mat-cell *matCellDef="let element">{{ element.utrNumber }}</td>
+    </ng-container>
+
+    <!-- Amount Column -->
+    <ng-container matColumnDef="amount">
+      <th mat-header-cell *matHeaderCellDef>Amount</th>
+      <td mat-cell *matCellDef="let element">{{ element.amount }}</td>
+    </ng-container>
+
+    <!-- EntryTime Column -->
+    <ng-container matColumnDef="entryTime">
+      <th mat-header-cell *matHeaderCellDef>Entry Time</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.entryTime | date : "short" }}
+      </td>
+    </ng-container>
+
+    <!-- Site Column -->
+    <ng-container matColumnDef="site">
+      <th mat-header-cell *matHeaderCellDef>Vendors Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.site.name }}</td>
+    </ng-container>
+
+    <!-- RequestBy Column -->
+    <!-- <ng-container matColumnDef="requestBy">
+      <th mat-header-cell *matHeaderCellDef >Requested By</th>
+      <td mat-cell *matCellDef="let element">{{ element.requestBy.username }}</td>
+    </ng-container> -->
+
+    <!-- approveWithdrawStatus Column -->
+    <ng-container matColumnDef="approveWithdrawStatus" >
+      <th mat-header-cell *matHeaderCellDef>Approval Status</th>
+      <td mat-cell *matCellDef="let user" >
+        <span
+          *ngIf="user.approveWithdrawStatus === 'PENDING'"
+          style="color: yellow; font-weight: 200"
+          matTooltip="Pending"
+        >
+          <i class="fa-solid fa-hourglass-half"></i>
+          <!-- Pending icon -->
+        </span>
+
+        <!-- Failed status -->
+        <span
+          *ngIf="user.approveWithdrawStatus === 'FAILED'"
+          style="color: red; font-weight: 200"
+          matTooltip="Failed"
+        >
+          <i class="fa-solid fa-circle-xmark"></i>
+          <!-- Failed icon -->
+        </span>
+
+        <!-- Done status -->
+        <span
+          *ngIf="user.approveWithdrawStatus === 'DONE'"
+          style="color: rgb(98, 252, 98); font-weight: 200"
+          matTooltip="Done"
+        >
+          <i class="fa-solid fa-circle-check fa-lg"></i>
+          <!-- Done icon -->
+        </span>
+        <!-- Reject status -->
+        <i
+          *ngIf="user.approveWithdrawStatus === 'REJECTED'"
+          class="fa-solid fa-circle-xmark fa-lg"
+          style="color: red"
+          matTooltip="Rejected"
+        >
+        </i>
+
+        <!-- Manual Approve status -->
+
+        <i
+          *ngIf="user.approveWithdrawStatus === 'APPROVED'"
+          class="fa-solid fa-circle-check fa-lg"
+          style="color: rgb(245, 166, 49)"
+          matTooltip="Manually Approved"
+        >
+        </i>
+        <i
+          *ngIf="user.approveWithdrawStatus === 'INSUFFICIENT_BALANCE'"
+          class="fa-solid fa-triangle-exclamation userName"
+          style="color: #ffcc00; margin-left: 10px"
+          matTooltip="INSUFFICIENT_BALANCE"
+        >
+        </i>
+        <i
+          *ngIf="user.approveWithdrawStatus === 'MESSAGE_SENT'"
+          class="fa-solid fa-paper-plane userName"
+          style="color: #00ccff; margin-left: 10px"
+          matTooltip="MESSAGE_SENT"
+        >
+        </i>
+        <div class="loader" *ngIf="user.approveWithdrawStatus === 'IN_PROCESS'">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="approve">
+      <th mat-header-cell *matHeaderCellDef>Approve</th>
+      <td mat-cell *matCellDef="let user">
+        <div>
+          @if(user.approveWithdrawStatus.startsWith('F') ){
+          <i
+            matTooltip="Retry"
+            (click)="retry(user.id)"
+            class="fa-solid fa-arrows-rotate userName icon"
+            style="color: #59e94e"
+          ></i>
+          }@else{
+
+          <i 
+            matTooltip="Check Approve"
+            (click)="checkApprove(user)"
+            class="fa-solid fa-eye userName icon"
+            style="color: #59e94e"
+          >
+          </i>
+          }
+        </div>
+      </td>
+    </ng-container>
+
+    <!-- Operations Column -->
+    <ng-container matColumnDef="Operations">
+      <th mat-header-cell *matHeaderCellDef>Operations</th>
+      <td mat-cell *matCellDef="let user">
+        <i
+          (click)="deleteReport(user.id)"
+          class="fa-solid fa-trash userName"
+          style="color: #f90808; margin-left: 10px"
+        ></i>
+      </td>
+    </ng-container>
+
+    <!-- Header Row -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <!-- Data Row -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" ></tr>
+  </table>
+
+  <!-- Paginator -->
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

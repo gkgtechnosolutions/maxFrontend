@@ -1,0 +1,351 @@
+<app-loader *ngIf="prograsbar"></app-loader>
+<div>
+  <div class="row">
+    <div class="col-md-6 containe">
+      <h5 style="color: white">Fill Details :-</h5>
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onSubmit($event)"
+        class="row"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
+        <!-- Top Row -->
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>User ID</mat-label>
+              <input
+                matInput
+                formControlName="userId"
+                placeholder="Enter User ID"
+                (input)="onUserInput($event)"
+                (keydown)="onKeydown($event)"
+              />
+              <div class="three-body" *ngIf="loader1">
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+              </div>
+              <mat-error
+                *ngIf="
+                  formGroup.get('userId').invalid &&
+                  (formGroup.get('userId').dirty ||
+                    formGroup.get('userId').touched)
+                "
+              >
+              <span *ngIf="formGroup.get('userId').errors['required']"
+              >User ID is required.</span
+            >
+                <span *ngIf="formGroup.get('userId').errors['userExists']"
+                  >User Not Found.</span
+                >
+                <span *ngIf="formGroup.get('userId').errors['minlength']"
+                  >User ID must be at least 4 characters long.</span
+                >
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Select Type</mat-label>
+              <mat-select style="color: white;" formControlName="depositType" (keydown.enter)="onSubmit($event)">
+                <mat-option *ngFor="let depositType of depositTypes" [value]="depositType">{{ depositType }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- Bottom Type Row -->
+        <div class="row">
+          <!-- Display error messages for Amount -->
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Amount</mat-label>
+              <input
+                matInput
+                formControlName="amount"
+                type="number"
+                placeholder="Enter Amount"
+                (keydown)="onKeydown($event)"
+              />
+              <!-- Display error messages for required and min validation -->
+              <mat-error
+                *ngIf="
+                  formGroup.get('amount').invalid &&
+                  (formGroup.get('amount').dirty ||
+                    formGroup.get('amount').touched)
+                "
+              >
+                <span *ngIf="formGroup.get('amount').errors['required']"
+                  >Amount is required.</span
+                >
+                <span *ngIf="formGroup.get('amount').errors['min']"
+                  >Amount must be greater than 0.</span
+                >
+                <span *ngIf="formGroup.get('amount').errors['pattern']"
+                  >Amount must be in number only</span
+                >
+              </mat-error>
+            </mat-form-field>
+          </div>
+       
+          <div class="col-md-6">
+            <form [formGroup]="formGroup" class="example-form">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>Select Bank</mat-label>
+                <input type="text"
+                       placeholder="Start typing to select a bank"
+                       aria-label="Bank"
+                       matInput
+                       [formControl]="bankIdControl"
+                       [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let bank of filteredBanks | async" [value]="bank.accountHolder">
+                    {{bank.accountHolder}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>UTR Number</mat-label>
+              <input
+                matInput
+                formControlName="utrNumber"
+                placeholder="Enter UTR Number"
+                maxlength="12"
+                #UTRInput
+                (input)="onInput($event)"
+                (keydown)="onKeydown($event)"
+              />
+              <div class="three-body" *ngIf="loader2">
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+              </div>
+              <mat-error
+                *ngIf="utrNumber.errors?.['required'] || utrNumber.errors?.['utrExists']"
+              >
+                <span *ngIf="utrNumber.errors?.['utrExists']">
+                  UTR Already used.
+                </span>
+
+                <span *ngIf="utrNumber.errors?.['required']">
+                  UTR Number is required.
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <button
+              *ngIf="utrNumber.errors?.['utrExists']"
+              style="color: #20d813"
+              mat-button
+              (click)="openUTRDetailsPopup()"
+            >
+              Check UTR Details
+            </button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-5 md-7 my-2">
+              <label class="custum-file-upload" for="file">
+                <div *ngIf="true">
+                  <div class="icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill=""
+                      viewBox="0 0 24 24"
+                    >
+                      <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
+                      <g
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        id="SVGRepo_tracerCarrier"
+                      ></g>
+                      <g id="SVGRepo_iconCarrier">
+                        <path
+                          fill=""
+                          d="M10 1C9.73478 1 9.48043 1.10536 9.29289 1.29289L3.29289 7.29289C3.10536 7.48043 3 7.73478 3 8V20C3 21.6569 4.34315 23 6 23H7C7.55228 23 8 22.5523 8 22C8 21.4477 7.55228 21 7 21H6C5.44772 21 5 20.5523 5 20V9H10C10.5523 9 11 8.55228 11 8V3H18C18.5523 3 19 3.44772 19 4V9C19 9.55228 19.4477 10 20 10C20.5523 10 21 9.55228 21 9V4C21 2.34315 19.6569 1 18 1H10ZM9 7H6.41421L9 4.41421V7ZM14 15.5C14 14.1193 15.1193 13 16.5 13C17.8807 13 19 14.1193 19 15.5V16V17H20C21.1046 17 22 17.8954 22 19C22 20.1046 21.1046 21 20 21H13C11.8954 21 11 20.1046 11 19C11 17.8954 11.8954 17 13 17H14V16V15.5ZM16.5 11C14.142 11 12.2076 12.8136 12.0156 15.122C10.2825 15.5606 9 17.1305 9 19C9 21.2091 10.7909 23 13 23H20C22.2091 23 24 21.2091 24 19C24 17.1305 22.7175 15.5606 20.9844 15.122C20.7924 12.8136 18.858 11 16.5 11Z"
+                          clip-rule="evenodd"
+                          fill-rule="evenodd"
+                        ></path>
+                      </g>
+                    </svg>
+                  </div>
+                  <div class="text">
+                    <span>{{ imageStatus }}</span>
+                  </div>
+                  <input
+                    type="file"
+                    id="file"
+                    #file
+                    (change)="onFileSelected($event)"
+                    (keydown)="onKeydown($event)"
+                  />
+                </div>
+              </label>
+            </div>
+            <div class="col-lg-7 md-5 my-2">
+              @if(dataSource.length >0){
+              <div class="table">
+                <table mat-table [dataSource]="dataSource">
+                  <!--- Note that these columns can be defined in any order. The actual rendered columns are set as a property on the row definition -->
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="userName" [sticky]="true">
+                    <th
+                      style="color: #ffd700"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      UserId
+                    </th>
+                    <td
+                      mat-cell
+                      *matCellDef="let element"
+                      (click)="openDialog()"
+                      class="userName"
+                    >
+                      {{ element.userName }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="amount" [sticky]="true">
+                    <th
+                      style="color: #ffd700"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Amount
+                    </th>
+                    <td
+                      mat-cell
+                      [matTooltip]="element.time"
+                      matTooltipPosition="above"
+                      aria-label="Button that displays a tooltip when focused or hovered over"
+                      *matCellDef="let element"
+                      (click)="openDialog()"
+                      class="amount"
+                    >
+                      {{ element.amount }}
+                    </td>
+                  </ng-container>
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="status" [sticky]="true">
+                    <th
+                      style="color: #ffd700"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Status
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="status-cell">
+                      @switch (element.status) { @case ('In Process') {
+                      <div class="loader">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                      </div>
+                      } @case ('Success') {
+                      <i
+                        class="fa-solid fa-circle-check fa-lg"
+                        style="color: #20d813"
+                      ></i>
+                      <i
+                        (click)="openDepositDialog(element)"
+                        class="fa-solid fa-receipt fa-lg"
+                        style="color: #f5cb32; padding-left: 10px"
+                      ></i>
+                      } @case ('Failed:Balance Not Sufficient') {
+                      <i
+                        class="fa-solid fa-exclamation-triangle fa-lg"
+                        style="color: #f39c12"
+                      ></i>
+                      } @default { @if(element.status.startsWith('F') ) {
+                      <i
+                        class="fa-solid fa-circle-xmark fa-lg"
+                        style="color: #df7630"
+                      ></i>
+                      } @else {
+                      {{ element.status }}
+                      } } }
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="retry" [sticky]="true">
+                    <th
+                      style="color: #ffd700"
+                      mat-header-cell
+                      *matHeaderCellDef
+                    >
+                      Operations
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="justify-content-evenly">
+                        @if(element.status.startsWith('F')){
+                        <i
+                          (click)="retry(element)"
+                          class="fa-solid fa-arrows-rotate userName"
+                          style="color: #8cf584"
+                        ></i>
+                        } @if(element.status.startsWith('F')
+                        ||element.status.startsWith('I') ){
+                        <i
+                          (click)="deleteReport(element.id)"
+                          class="fa-solid fa-trash userName"
+                          style="color: #f90808; margin-left: 10px"
+                        ></i>
+                        }
+                      </div>
+                    </td>
+                  </ng-container>
+                  <tr
+                    mat-header-row
+                    *matHeaderRowDef="displayedColumns; sticky: true"
+                  ></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                  ></tr>
+                </table>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+        <div class="row"></div>
+        <br /><br />
+        <div class="row justify-content-center">
+          <button class="Btn" [disabled]="!formGroup.valid">Button</button>
+        </div>
+        <input type="hidden" formControlName="id" />
+      </form>
+    </div>
+
+    <div class="col">
+      <div class="instructions">
+        <h5>Instructions</h5>
+        <p>Welcome to the user details form. Here are the steps to follow:</p>
+        <ol>
+          <li>The username corresponds to various websites.</li>
+          <li>
+            Please provide the username associated with the respective website.
+          </li>
+          <li>Select the amount you wish to process.</li>
+          <li>Enter the Unique Transaction Reference (UTR) number.</li>
+          <li>
+            Optionally, operators can upload a screenshot of the UTR or drag and
+            drop it into the designated space.
+          </li>
+        </ol>
+        <p>
+          Thank you for following these instructions. If you encounter any
+          issues, please feel free to reach out for assistance.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

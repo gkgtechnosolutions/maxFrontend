@@ -1,0 +1,96 @@
+<app-loader *ngIf="loader"></app-loader>
+<h2 mat-dialog-title style="color: gold;">Update Bank Details:-</h2>
+<mat-dialog-content>
+  <form [formGroup]="bankAccountForm" (ngSubmit)="onSubmit()" class="container">
+    <div class="row" style="margin-top: 10px;">
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Select Account ID</mat-label>
+          <mat-select formControlName="accId" (selectionChange)="onAccIdChange($event.value)">
+            <mat-option *ngFor="let account of bankAccounts" [value]="account.accId">{{ account.accId }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px;">
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Bank Name</mat-label>
+          <input matInput formControlName="bankName" required>
+          <mat-error *ngIf="bankAccountForm.get('bankName').hasError('required')">
+            Bank Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Account Holder</mat-label>
+          <input matInput formControlName="accountHolder" required>
+          <mat-error *ngIf="bankAccountForm.get('accountHolder').hasError('required')">
+            Account Holder is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Account ID</mat-label>
+          <input matInput formControlName="accId" required >
+          <mat-error *ngIf="bankAccountForm.get('accId').hasError('required')">
+            Account ID is required
+          </mat-error>
+        </mat-form-field>
+      </div> -->
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>IFSC Code</mat-label>
+          <input matInput formControlName="ifscCode" required>
+          <mat-error *ngIf="bankAccountForm.get('ifscCode').hasError('required')">
+            IFSC Code is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Branch Name</mat-label>
+          <input matInput formControlName="branchName">
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Balance</mat-label>
+          <input matInput formControlName="balance" type="number" required>
+          <mat-error *ngIf="bankAccountForm.get('balance').hasError('required')">
+            Balance is required
+          </mat-error>
+          <mat-error *ngIf="bankAccountForm.get('balance').hasError('min')">
+            Balance must be positive
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 16px;">
+      <div class="col-12 d-flex align-items-center">
+        <mat-slide-toggle formControlName="freeze" class="white-text">Freeze Account</mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+
+  <button mat-icon-button mat-dialog-close class="close-button">
+    <mat-icon style="color: gold;">close</mat-icon>
+  </button>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12 d-flex justify-content-center">
+    <button mat-raised-button color="secondary" type="submit" (click)="onSubmit()" [disabled]="bankAccountForm.invalid">Update</button>
+  </div>
+</mat-dialog-actions>
+

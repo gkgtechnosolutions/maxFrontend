@@ -1,0 +1,215 @@
+.full-screen-container {
+  position: relative;
+  height: 100vh;
+  background: url("/assets/bg.png") no-repeat center center;
+  background-size: cover;
+}
+
+.login-container {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  color: white;
+  padding-top: 80px;
+  // margin-bottom: 10px; /* Adjust spacing below the header */
+}
+
+.centered-card {
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  position: relative;
+  background-color: #00000000;
+  width: 480px;
+  height: 300px;
+  border-radius: 14px;
+  z-index: 1111;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 20px 20px 60px #000000, -20px -20px 60px #000000;
+}
+
+.bg {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 470px;
+  height: 290px;
+  z-index: 2;
+  // backdrop-filter: blur(24px);
+  border-radius: 10px;
+  // overflow: hidden;
+
+  padding: 20px;
+}
+
+.blob {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 250px;
+  border-radius: 50%;
+  background-color: #fbec6d;
+  background-image: linear-gradient(to right, rgb(251, 238, 123), #b17c14);
+  opacity: 1;
+  filter: blur(12px);
+  animation: blob-bounce 5s infinite ease;
+}
+
+@keyframes blob-bounce {
+  0% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+
+  25% {
+    transform: translate(-100%, -100%) translate3d(100%, 0, 0);
+  }
+
+  50% {
+    transform: translate(-100%, -100%) translate3d(100%, 100%, 0);
+  }
+
+  75% {
+    transform: translate(-100%, -100%) translate3d(0, 100%, 0);
+  }
+
+  100% {
+    transform: translate(-100%, -100%) translate3d(0, 0, 0);
+  }
+}
+.example-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-container {
+  margin-top: 20px; /* Adjust this value as needed for spacing */
+  display: flex;
+  justify-content: center; /* Horizontally center the button */
+}
+.button-container button {
+  border: rgb(251, 238, 123) 1px solid;
+  background: #000000;
+  color: white !important;
+}
+.bg p {
+  color: white !important;
+}
+/* Apply styles to make mat-form-field transparent and text white */
+/* Apply styles to make mat-form-field transparent and text white */
+:host ::ng-deep .example-full-width .mat-form-field {
+  background-color: transparent !important; /* Use !important cautiously */
+}
+::ng-deep .example-full-width .mat-form-field-label {
+  color: white;
+}
+
+::ng-deep .example-full-width .mat-form-field-underline {
+  background-color: white; /* Set underline color to white */
+}
+
+::ng-deep .example-full-width .mat-form-element {
+  color: white;
+}
+
+/* Adjust the color of the placeholder text */
+::ng-deep .example-full-width .mat-form-field-placeholder {
+  color: white;
+}
+
+/* Adjust the color of the mat-error text */
+::ng-deep .example-full-width .mat-error {
+  color: white;
+}
+mat-form-field.mat-form-field.mat-white {
+  &.mat-focused {
+    .mat-form-field-label {
+      color: #fafafa00;
+    }
+    .mat-form-field-ripple {
+      background-color: #fafafa00 !important;
+    }
+  }
+}
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: transparent !important;
+}
+::ng-deep
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+  .mdc-floating-label,
+.mdc-text-field--filled:not(.mdc-text-field--disabled)
+  .mdc-floating-label--float-above {
+  color: rgba(255, 255, 255, 0.738) !important;
+}
+::ng-deep
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+  .mdc-text-field__input {
+  color: white !important;
+}
+.black_line {
+  border-bottom: 1px solid white !important;
+}
+//************************************************************************************************
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  border-bottom: 1px solid rgb(255, 255, 255);
+}
+
+::ng-deep
+  .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled.mdc-text-field--invalid {
+  border-bottom: 0px solid rgb(255, 255, 255);
+}
+@media screen and (max-width: 768px) {
+  .header {
+    padding-top: 00px;
+  }
+
+  .login-container[_ngcontent-ng-c3560363056] {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .card {
+    width: 350px;
+  }
+  .bg {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 350px;
+    height: 290px;
+    z-index: 2;
+    // backdrop-filter: blur(24px);
+    border-radius: 10px;
+    // overflow: hidden;
+
+    padding: 10px;
+  }
+//   .success-snackbar {
+//     --mdc-snackbar-container-color: #435b42 !important;
+  
+//     --mat-mdc-snack-bar-button-color: rgb(242, 21, 21);
+//   }
+}

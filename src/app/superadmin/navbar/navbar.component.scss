@@ -1,0 +1,299 @@
+.t{
+  margin-left: 80px;
+  transition: 0.3s;
+  &.sidebarExpanded {
+    margin-left: 150px;
+  }
+}
+
+.navbar {
+  background-color: #000000;
+  width: 100%;
+  padding: 2px;
+}
+
+
+/* Define styles for the 'golden' class */
+.golden {
+  /* Set text color to transparent to make the gradient visible */
+  color: transparent;
+  /* Apply golden gradient to the text */
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  /* Clip the gradient to the text */
+  -webkit-background-clip: text;
+  background-clip: text;
+  padding-right: 0;
+  /* Set the text fill color */
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar-nav .nav-link {
+  color: grey;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Apply golden gradient to active links */
+.navbar-nav .nav-link.active {
+  /* Apply golden gradient to the text */
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Apply golden gradient on hover */
+.navbar-nav .nav-link:hover {
+  /* Apply golden gradient to the text */
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+}
+
+.chevron::before {
+  border-style: solid;
+  border-width: 0.15em 0.15em 0 0;
+  content: "";
+  display: inline-block;
+  height: 0.35em;
+  left: 0.15em;
+  position: relative;
+  top: 0.3em;
+  vertical-align: top;
+  width: 0.35em;
+}
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  height: 100vh;
+  transition: 0.3s;
+
+  width: 60px;
+  &.expanded {
+    width: 150px;
+
+    .header {
+      h1 {
+        margin-left: 10px;
+      }
+      .chevron {
+        margin-left: 0px;
+        &::before {
+          transform: rotate(-135deg);
+        }
+      }
+    }
+    .content {
+      .link {
+        .content {
+          .title {
+            max-width: 100px;
+          }
+          .icon {
+            margin-right: 3px;
+          }
+        }
+        .children {
+          .content {
+            padding-left: 30px;
+          }
+        }
+      }
+    }
+  }
+
+  background: #000000;
+  color: #6d6e7e;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+
+    background: #0f1017;
+
+    h1 {
+      font-size: 20px;
+      color: #f5f5ff;
+      margin: 0;
+      flex: 1;
+      transition: 0.3s;
+
+      margin-left: -100px;
+    }
+
+    .chevron {
+      color: #6d6e7e;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-left: -25px;
+
+      padding: 10px;
+      min-width: 20px;
+      height: 20px;
+      display: block;
+      text-align: center;
+
+      &::before {
+        transition: 0.3s;
+        transform: rotate(45deg);
+      }
+
+      &:hover {
+        color: white;
+      }
+    }
+  }
+
+  .content {
+    .link {
+      .children {
+        .content {
+          background: #27283a;
+          // padding-left: 30px;
+          padding-left: 10px;
+
+          &.active {
+            background: #191a27;
+          }
+        }
+      }
+      .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+
+        &:hover {
+          background: #0f1017;
+          .title {
+            color: white;
+          }
+          svg {
+            fill: white;
+          }
+        }
+
+        &.active {
+          background: #0f1017;
+          .title {
+            color: white;
+          }
+        }
+
+        .icon {
+          flex: 0 0 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 0px;
+        }
+        .title {
+          flex: 1;
+          // display: none;
+          color: #6d6e7e;
+          transition: 0.3s;
+          max-width: 0px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
+//    material icons
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+.active .icon {
+  background: linear-gradient(to right, #ffd700, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.sidebar .header .title {
+  background: linear-gradient(to right, #ffd700, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* Define styles for the 'golden' class */
+.golden {
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  -webkit-background-clip: text; /* For Safari/Chrome */
+  background-clip: text;
+  color: transparent;
+}
+
+.golden:hover {
+  color: darkgoldenrod; /* Change color on hover */
+  /* Additional hover styles */
+}
+
+.dropdown-menu {
+  left: auto; /* Reset the left positioning */
+  right: 0; /* Align the dropdown to the right side */
+  min-width: unset; /* Reset the minimum width */
+}
+.nav-item h3 {
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.golden-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: middle;
+  content: "";
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid gold; /* Change 'gold' to the color you desire */
+  margin-left: 5px; /* Adjust the margin as needed */
+}
+.menu {
+  display: none;
+}
+.menu a {
+  text-decoration: none !important;
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+//header
+@media (max-width: 993px) {
+  .header {
+    display: none;
+  }
+  .dropdown {
+    display: none;
+  }
+  .menu {
+    display: block !important;
+  }
+  .t{
+    display: none;
+  }
+}
+.nav-item {
+  cursor: pointer;
+}
+.nav-item a:hover {
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

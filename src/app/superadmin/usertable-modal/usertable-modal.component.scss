@@ -1,0 +1,18 @@
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  mat-header-cell{
+    color: gold;
+  }
+  h2 {
+    background-color: rgb(35, 30, 9);
+   
+ }
+ mat-dialog-content , mat-dialog-actions {
+    background-color: rgb(35, 30, 9)}
+
+::-webkit-scrollbar-track {
+        background-image: linear-gradient(to right, rgb(35, 30, 9), rgb(35, 30, 9));
+      }

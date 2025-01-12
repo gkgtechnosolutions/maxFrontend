@@ -1,0 +1,91 @@
+<app-loader *ngIf="loader"></app-loader>
+<div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="newcard">
+        <div class="card-body">
+          <h5 class="card-title">Total Sites</h5>
+          <p class="card-text"> {{siteCount}} </p>
+        </div>
+       
+      </div>
+    </div>
+    <div class="col-sm-8"> 
+      <div class="col containe">
+  <h5 style="color: white">Add sites :-</h5>
+  <form [formGroup]="siteForm" class="row">
+  
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>User Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter SiteName" />
+          <mat-error>
+            <span *ngIf="siteForm.get('name').hasError('required')">
+              url is required.
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Url</mat-label>
+          <input
+            matInput
+            formControlName="url"
+            type="url"
+            placeholder="Enter url"
+          />
+          <mat-error *ngIf="siteForm.get('url').hasError('required')">
+            URL is required.
+          </mat-error>
+       
+        </mat-form-field>
+      </div>
+    </div>
+
+    <br /><br />
+
+    <div class="row justify-content-center">
+      <button class="Btn" (click)="onSubmit()">Button</button>
+    </div>
+   
+  </form>
+</div>
+      
+    </div>
+    
+  </div>
+</div>
+<div class="row" style="margin-left: 2px;">
+  <table>
+    <thead>
+        <tr>
+            <th>Sr. No.</th>
+            <th>Site_Id</th>
+            <th>Site_Url</th>
+            <th >Update</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of sites; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ user.name}}</td>
+        <td>{{ user.url }}</td>
+        <td ><button class="btn btn-success"  (click)="openUpdateSiteDialog(user)">Update<i
+          class="fa-solid fa-pencil userName"
+          style="color: #080808; margin-left: 10px"
+        ></i></button></td>
+        <td><button class="btn btn-danger" (click)="deleteSite(user.id)">Delete<i
+          class="fa-solid fa-trash userName"
+          style="color: #080808; margin-left: 10px"
+        ></i></button></td>
+        </tr>
+        <!-- Repeat the above <tr> block for more rows -->
+    </tbody>
+</table>
+</div>
+
+
+

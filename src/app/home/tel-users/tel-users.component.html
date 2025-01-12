@@ -1,0 +1,83 @@
+<app-loader *ngIf="loader"></app-loader>
+
+<div class="row">
+  <div class="search-container col-lg-12">
+    <input
+    type="text"
+    placeholder="Hinted search text"
+    class="search-input"
+    (input)="updateSearchText($event)"
+    (keyup.enter)="onSearchClick()"
+  />
+    <button class="search-button" (click)=onSearchClick()>
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+        stroke-linejoin="round" class="feather feather-search">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+  </div>
+  
+
+
+</div>
+
+<div class="row">
+  <mat-table [dataSource]="telUser" matSort>
+
+    <!-- Sr. No. Column -->
+    <ng-container matColumnDef="srNo">
+      <mat-header-cell *matHeaderCellDef > Sr. No. </mat-header-cell>
+      <mat-cell *matCellDef="let user; let i = index"> {{ i + 1 }} </mat-cell>
+    </ng-container>
+  
+    <!-- User Id Column -->
+    <ng-container matColumnDef="userId">
+      <mat-header-cell *matHeaderCellDef > User Id </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{ user.userId }} </mat-cell>
+    </ng-container>
+  
+    <!-- First Name Column -->
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef > First Name </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{ user.firstName }} </mat-cell>
+    </ng-container>
+  
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="lastName">
+      <mat-header-cell *matHeaderCellDef > Last Name </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{ user.lastName }} </mat-cell>
+    </ng-container>
+  
+    <!-- Operations Column -->
+    <ng-container matColumnDef="operations">
+      <mat-header-cell *matHeaderCellDef> Operations </mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        <i class="fa-solid fa-triangle-exclamation userName"
+          style="color: #ffcc00; margin-left: 10px"
+          (click)="openClientDialog(user.userId)"
+          >
+        </i>
+        <i class="material-symbols-outlined"
+        style="color: #00a6ff; margin-left: 10px"
+        matTooltip="Send message"
+        (click)="openEditDialog()"
+        >
+          sms
+          </i>
+      </mat-cell>
+     </ng-container>
+  
+    <!-- Edit Operation Column -->
+   
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  
+  </mat-table>
+  
+
+  <mat-paginator [length]="page?.totalElements || 0" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageEvent($event)">
+  </mat-paginator>
+</div>

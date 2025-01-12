@@ -1,0 +1,60 @@
+.container {
+  
+  max-width: 800px;
+ 
+  margin: 100px auto;
+  text-align: center;
+  padding: 20px;
+  background-color: #000000;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #ffd9009a;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px; /* Decrease padding for smaller screens */
+    max-width: 250px;
+    margin-top: 20px;
+  }
+}
+
+h1 {
+  color: transparent;
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  padding-right: 0;
+  -webkit-text-fill-color: transparent;
+}
+
+p {
+  color: #d4cece;
+}
+
+.options {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+  padding-right: 0;
+  font-weight: 700;
+}
+
+.option {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background-image: linear-gradient(to right, #ffd700, #ffd700) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important  ;
+  color: transparent !important;
+
+  -webkit-text-fill-color: transparent !important;
+}
+
+.option:hover {
+  transform: translateY(-5px);
+}
+
+.option i {
+  font-size: 48px;
+  margin-bottom: 10px;
+}

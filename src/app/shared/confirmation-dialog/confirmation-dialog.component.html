@@ -1,0 +1,20 @@
+<h1 mat-dialog-title style="background-color: white !important;"><strong>Confirmation</strong></h1>
+<div mat-dialog-content>
+  @if (data==null) {
+    <p style="color: black;">Do you really want delete it</p>
+  }
+  @else if(data.amount==null) {
+    <p>Do you really want to update it</p>
+  }
+  @else if(data.amount=="CheckAppv") {
+    <p>Do you really want to Approve it</p>
+  }
+  @else {
+  <p>Do you want to add Amount <strong>{{data.amount}}</strong> to user ID <strong>{{data.userId}}</strong>?</p>
+  }
+  
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onConfirm()">Confirm</button>
+  <button mat-button (click)="onCancel()">Cancel</button>
+</div>

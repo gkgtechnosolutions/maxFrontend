@@ -1,0 +1,37 @@
+<h2 mat-dialog-title  style="color: gold;">Linked Ids to Tel-User</h2>
+<mat-dialog-content>
+  <app-loader *ngIf="loader"></app-loader>
+
+  <mat-table [dataSource]="clientList"  >
+
+    <ng-container matColumnDef="srNo">
+      <mat-header-cell *matHeaderCellDef > Sr. No. </mat-header-cell>
+      <mat-cell *matCellDef="let user; let i = index"> {{ i + 1 }} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="userId">
+      <mat-header-cell *matHeaderCellDef>  user Id</mat-header-cell>
+      <mat-cell *matCellDef="let client"> {{client.userId}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>  Name </mat-header-cell>
+      <mat-cell *matCellDef="let client"> {{client.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="operation">
+        <mat-header-cell *matHeaderCellDef>  Unlink </mat-header-cell>
+        <mat-cell *matCellDef="let client">
+          <span class="material-symbols-outlined" style="color: #f9c0c0;  cursor: pointer;" (click)="onDlinkClient(client.userId)" matTooltip="DeLink" >
+            tab_close
+            </span>
+           </mat-cell>
+      </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <button mat-icon-button mat-dialog-close class="close-button">
+    <mat-icon style="color: gold">close</mat-icon>
+  </button>
+</mat-dialog-content>

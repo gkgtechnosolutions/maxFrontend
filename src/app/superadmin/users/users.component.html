@@ -1,0 +1,110 @@
+<div class="container">
+    <div class="search">
+      <input
+        placeholder="Search User"
+        type="text"
+        #search
+        (input)="onUserInput($event)"
+        (keyup.enter)="getUser(search.value)"
+      />
+      <button type="submit" (click)="getUser(search.value)">Go</button>
+      <div class="three-body" *ngIf="loader1">
+        <div class="three-body__dot"></div>
+        <div class="three-body__dot"></div>
+        <div class="three-body__dot"></div>
+      </div>
+    </div>
+  
+    <br />
+    <br />
+    @if (dataSource.data.length > 0) {
+  
+    <div class="container">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        (matSortChange)="announceSortChange($event)"
+        class="mat-elevation-z8"
+      >
+        <!-- Position Column -->
+        <ng-container matColumnDef="userId">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by userId"
+          >
+            User Id
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.userId }}</td>
+        </ng-container>
+  
+        <!-- Name Column -->
+        <ng-container matColumnDef="siteName">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by siteName"
+          >
+            Site Name
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.siteName }}</td>
+        </ng-container>
+  
+        <!-- Weight Column -->
+        <ng-container matColumnDef="masterName">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by masterName"
+          >
+            Master Name
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.masterName }}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="update" >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by masterName"
+          > Operations </th>
+          <td mat-cell *matCellDef="let element"   class="icon-container">
+           <div class="icon" (click)="openDialog(element.userId)" >
+              <span class="material-symbols-outlined"> key </span>
+            </div>
+            <div class="icon" (click)="openDepositDialog(element.userId)" >
+              <span class="material-symbols-outlined"> download </span>
+            </div>
+            <div class="icon" (click)="openWithdrawDialog(element.userId)" >
+              <span class="material-symbols-outlined"> upload </span>
+            </div>
+           
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+     } @else{
+    <div class="instructions">
+      <h5>Instructions</h5>
+      <p>Welcome to the users table. Here are the steps to follow:</p>
+      <ol>
+        <li>To begin using the search functionality</li>
+        <li>Determine the specific criteria you will use to search for users. </li>
+        <li>You have the option to search by userId, sitename, mastername, or a combination of these fields.</li>
+      </ol>
+      <p>
+        Thank you for following these instructions. If you encounter any
+        issues, please feel free to reach out for assistance.
+      </p>
+    </div>
+  }
+  </div>

@@ -1,0 +1,47 @@
+
+
+  
+    .rowheader{
+      border: 1px solid  #e7eca792 ; 
+      // margin-bottom: 6px;
+      background-color: rgb(35, 30, 9);
+     
+    } 
+    mat-dialog-content {
+      background-color:   rgb(35, 30, 9) !important;
+      // overflow: hidden;
+     
+    
+     
+      
+    }
+    
+ 
+  
+  
+      mat-dialog-actions ,mat-paginator,  td {
+      background-color:   rgb(35, 30, 9);
+      // overflow: hidden;
+      
+      
+    }
+  
+  
+    ::-webkit-scrollbar-track {
+      background-image: linear-gradient(to right, rgb(35, 30, 9), rgb(35, 30, 9));
+    }
+  
+    h1 {
+      background-color: rgb(35, 30, 9);
+   }
+   .close-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    .userName{
+      cursor: pointer;
+    }
+    //===============================================================
+ 
+  

@@ -1,0 +1,27 @@
+/* Style for the dialog title */
+ .mat-dialog-title {
+  
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Style for the dialog content */
+  .mat-dialog-content p {
+    font-size: 18px;
+  }
+  
+  /* Style for the dialog actions */
+  .mat-dialog-actions {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Style for the buttons */
+  .mat-dialog-actions button {
+    margin-left: 10px;
+  }
+
+  ::ng-deep  .mat-mdc-dialog-container .mdc-dialog__title{ 
+    background-color:   rgb(115, 112, 102)  !important;
+ }
+  

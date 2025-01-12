@@ -1,0 +1,47 @@
+<app-loader *ngIf="loader"></app-loader>
+<h1 mat-dialog-title >UTR Details: 
+   <i *ngIf="UtrDetails.source === 'approve_operation'"style="color: rgb(7, 109, 146);">Received By Telegram </i>
+   <i *ngIf="UtrDetails.source === 'operation' "style="color:green;">Received By Whatsapp </i>
+  </h1>
+<div mat-dialog-content class="glass-background">
+  <!-- Display UTR details here -->
+  <div *ngIf="UtrDetails.source === 'approve_operation'; else defaultDetails">
+    <div class="row">
+      <div class="col-lg-6">
+        <p>UTR Number: {{ data.utrNumber }}</p>
+        <p>User ID: {{ UtrDetails.data.userId }}</p>
+        <p>Amount: {{ UtrDetails.data.amount }}</p>
+        <p>Site Name: {{ UtrDetails.data.site.name }}</p> 
+      </div>
+      <div class="col-lg-6">
+        <p *ngIf="UtrDetails.data.executedBy ">Approved By: {{ UtrDetails.data.executedBy.username }}</p>
+        <p>Approval Time: {{ getFormattedDate(UtrDetails.data.executedTime) }}</p>
+        <p *ngIf="UtrDetails.data.bankDetails">BankName: {{UtrDetails.data.bankDetails.bankName}}</p>
+        <p>Requested By: {{ UtrDetails.data.requestBy.username }}</p> 
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #defaultDetails>
+   <div class="row">
+   <div class="col-lg-6">
+    <p>UTR Number: {{ data.utrNumber }}</p>
+    <p>User id: {{ UtrDetails.data.userId }}</p>
+    <p>amount: {{UtrDetails.data.amount }}</p> 
+    <p *ngIf="UtrDetails.data.bankDetails">BankName: {{UtrDetails.data.bankDetails.bankName}}</p>
+   
+  </div>
+   <div class="col-lg-6">
+    <p> date : {{getFormattedDate(UtrDetails.data.date) }}</p>
+    <p> Status : {{UtrDetails.data.status }}</p>
+    <p>  Site : {{UtrDetails.data.site.name }} </p>
+  </div>
+</div>
+</ng-template>
+  
+  <!-- Add other UTR details as needed -->
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Close</button>
+</div>

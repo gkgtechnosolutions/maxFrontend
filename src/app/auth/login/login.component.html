@@ -1,0 +1,74 @@
+<app-loader *ngIf="loader"></app-loader>
+
+<div class="full-screen-container">
+  <div class="header">
+    <br />
+    <br />
+    <h1
+      style="
+        background-image: linear-gradient(
+          to right,
+          rgb(251, 238, 123),
+          #b17c14
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      "
+    >
+      Welcome
+    </h1>
+  </div>
+  <div class="login-container">
+    <div class="centered-card">
+      <div class="card">
+        <div class="bg">
+          <p>Please enter login details :-</p>
+          <form
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+            class="example-form"
+          >
+            <mat-form-field class="example-full-width">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="username" required />
+              <mat-error
+                *ngIf="
+                  loginForm.get('username').invalid &&
+                  loginForm.get('username').touched
+                "
+              >
+                Username should be at least 5 characters long.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                formControlName="password"
+                type="password"
+                required
+              />
+              <mat-error
+                *ngIf="
+                  loginForm.get('password').invalid &&
+                  loginForm.get('password').touched
+                "
+              >
+                Password is required and must be at least 5 characters long.
+              </mat-error>
+            </mat-form-field>
+
+            <div class="button-container">
+              <button mat-raised-button color="primary" type="submit">
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- <div class="blob"></div> -->
+      </div>
+    </div>
+  </div>
+</div>

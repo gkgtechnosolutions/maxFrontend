@@ -1,0 +1,208 @@
+h1 {
+    font-size: 2rem;
+    color: transparent;
+    background-image: linear-gradient(to right, #ffd700, #ffd700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    padding-left: 15px;
+    padding-right: 0;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;
+  }
+
+  .rowheader{
+    border: 1px solid  #eeff06 ; 
+    // margin-bottom: 6px;
+    background-color: rgb(35, 30, 9);
+   
+  } 
+  mat-dialog-content {
+    background-color:   rgb(35, 30, 9);
+    // overflow: hidden;
+    padding-bottom: 0 !important;
+  
+   
+    
+  }
+  
+  .mdc-dialog__title::before{
+    height: 0 !important;
+  }
+
+
+    mat-dialog-actions ,mat-paginator,  td {
+    background-color:   rgb(35, 30, 9);
+    // overflow: hidden;
+    
+    
+  }
+
+
+  ::-webkit-scrollbar-track {
+    background-image: linear-gradient(to right, rgb(35, 30, 9), rgb(35, 30, 9));
+  }
+
+  h2 {
+    background-color: rgb(35, 30, 9);
+ }
+ .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  //===============================================================
+  ::ng-deep .mat-paginator {
+    background-color: white !important;
+    color: rgb(243, 243, 243);
+  }
+  
+  ::ng-deep .mat-paginator .mat-paginator-range-label,
+  ::ng-deep .mat-paginator .mat-select-value-text,
+  ::ng-deep .mat-paginator .mat-icon-button {
+    color: black;
+  }
+  
+  ::ng-deep .mat-paginator .mat-icon-button {
+    border: 1px solid rgb(208, 202, 202);
+  }
+  
+  ::ng-deep .mat-paginator .mat-icon-button.mat-button-disabled {
+    color: grey;
+    border-color: grey;
+  }
+
+  ::ng-deep .mat-mdc-paginator-container{
+    color: rgb(243, 243, 243) !important;
+  }
+
+  ::ng-deep .mat-mdc-paginator-icon {
+    fill: rgba(245, 237, 241, 0.919) !important;
+  }
+
+
+
+// ::ng-deep .mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before{
+//     // background-color: #fff !important;
+//   }
+ //=========================================================================
+ .inp{
+  width: 100%;
+  height: 55px;
+  color: #fffbfb; 
+  border: solid #DDDDDD 1px;
+  border-radius: 10px ;
+  background-color:   rgb(35, 30, 9);
+  font-weight: 5; 
+  
+}
+.row{
+  margin-top: 10px;
+}
+
+//=========================================================================
+/* Style the text in the input fields */
+mat-form-field input {
+  color: gray !important;
+}
+
+/* Style the placeholders in the input fields */
+mat-form-field input::placeholder {
+  color: gray !important;
+  opacity: 1; /* Ensure the color is fully applied */
+}
+
+/* Style the icons in the date picker toggle */
+mat-datepicker-toggle .mat-datepicker-toggle-default-icon {
+  color: gray !important;
+}
+
+::ng-deep .mat-label {
+  color: #ffff !important;
+}
+mat-form-field{
+  height: auto;
+}
+
+// <mat-label _ngcontent-ng-c1827798723="" style="
+//     color: white;
+// ">Enter a date range</mat-label>
+//=================================================
+.switch-container{
+  margin-top: 20px;
+ }
+ 
+ 
+ 
+ .switch {
+ 
+  margin-left: 12px;
+ 
+  font-size: 10px;
+  position: relative;
+  display: inline-block;
+  width: 3em;
+  height: 1.8em;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+ 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  border: 2px solid #414141;
+  border-radius: 50px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1.4em;
+  width: 1.4em;
+  left: 0.2em;
+  bottom: 0.2em;
+  background-color: white;
+  border-radius: inherit;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.switch input:checked + .slider {
+  box-shadow: 0 0 20px  #ffd700;
+  border: 2px solid  #ffd700;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(1.5em);
+}
+.switch-container {
+  margin-top: -12;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color:  rgb(35, 30, 9) !important;  
+}
+.b1{ 
+  justify-self: center;
+  height: 100%;
+ 
+   border-radius: 10px;
+ 
+   
+ }
+ 
+ #b2{
+  justify-self: center;
+   width: 80%;
+   font-weight: 500;
+   color: #0d0d0d; 
+ }

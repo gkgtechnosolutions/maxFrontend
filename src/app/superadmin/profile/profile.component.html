@@ -1,0 +1,128 @@
+<app-loader *ngIf="loader"></app-loader>
+
+<div class="header" style="color: white">
+  <h3
+    style="
+      background-image: linear-gradient(to right, #ffd700, #b17c14);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    "
+  >
+    {{ Username }} : Update Password
+  </h3>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-6">
+    <mat-card class="password-card containe">
+      <div class="login-container">
+        <div class="centered-card">
+          <div>
+            <div class="bg">
+              <form
+                [formGroup]="passwordForm"
+                (ngSubmit)="onSubmit()"
+                class="example-form"
+              >
+                <div class="row">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Old Password</mat-label>
+                    <input
+                      matInput
+                      formControlName="oldPassword"
+                      [type]="showOldPassword ? 'text' : 'password'"
+                      required
+                    />
+                    <mat-icon
+                      matSuffix
+                      (click)="showOldPassword = !showOldPassword"
+                      [style.cursor]="'pointer'"
+                    >
+                      {{ showOldPassword ? "visibility_off" : "visibility" }}
+                    </mat-icon>
+                    <mat-error
+                      *ngIf="
+                        passwordForm.get('oldPassword').invalid &&
+                        passwordForm.get('oldPassword').touched
+                      "
+                    >
+                      Password should be at least 5 characters long.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>New Password</mat-label>
+                    <input
+                      matInput
+                      formControlName="password"
+                      [type]="showNewPassword ? 'text' : 'password'"
+                      required
+                    />
+                    <mat-icon
+                      matSuffix
+                      (click)="showNewPassword = !showNewPassword"
+                      [style.cursor]="'pointer'"
+                    >
+                      {{ showNewPassword ? "visibility_off" : "visibility" }}
+                    </mat-icon>
+                    <mat-error
+                      *ngIf="
+                        passwordForm.get('password').invalid &&
+                        passwordForm.get('password').touched
+                      "
+                    >
+                      Password is required and must be at least 5 characters
+                      long.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="row">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Confirm Password</mat-label>
+                    <input
+                      matInput
+                      formControlName="confirmPassword"
+                      [type]="showConfirmPassword ? 'text' : 'password'"
+                      required
+                    />
+                    <mat-icon
+                      matSuffix
+                      (click)="showConfirmPassword = !showConfirmPassword"
+                      [style.cursor]="'pointer'"
+                    >
+                      {{
+                        showConfirmPassword ? "visibility_off" : "visibility"
+                      }}
+                    </mat-icon>
+                    <mat-error
+                      *ngIf="
+                        passwordForm.get('confirmPassword').invalid &&
+                        passwordForm.get('confirmPassword').touched
+                      "
+                    >
+                      Password confirmation is required.
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="button-container">
+                  <button
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="!passwordForm.valid"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </div>
+            <!-- <div class="blob"></div> -->
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,279 @@
+<app-loader *ngIf="loader"></app-loader>
+
+<div class="row">
+  <div class="search-container col-lg-6">
+    <input
+      type="text"
+      placeholder="Hinted search text"
+      class="search-input"
+      (input)="updateSearchText($event)"
+      (keyup.enter)="onSearchClick()"
+    />
+    <button class="search-button" (click)="onSearchClick()">
+      <svg
+        width="24"
+        height="24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="feather feather-search"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+  </div>
+  <div class="col-lg-6">
+    <div class="row">
+      <div class="col-lg-4">
+        <mat-form-field style="border-radius: 10px">
+          <mat-label style="color: white; border-radius: 10px"
+            >Select Status</mat-label
+          >
+          <mat-select [formControl]="selectedStatuses" multiple>
+            <mat-select-trigger>
+              {{ selectedStatuses.value?.[0] || '' }}
+              <ng-container *ngIf="(selectedStatuses.value?.length || 0) > 1">
+                <span class="example-additional-selection">
+                  (+{{ (selectedStatuses.value?.length || 0) - 1 }}
+                  {{
+                    selectedStatuses.value?.length === 2 ? "other" : "others"
+                  }})
+                </span>
+              </ng-container>
+            </mat-select-trigger>
+            <mat-option *ngFor="let status of statuses" [value]="status">{{
+              status
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-8">
+        <button
+          mat-flat-button
+          (click)="refresh()"
+          style="height: 53px; background-color: #333; color: white"
+        >
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="color: white">
+  <p>
+    Showing Results of :
+    <span
+      >@if (selectedStatuses.value) {
+      <span>{{ selectedStatuses.value }}</span>
+      }@else {
+      <span>In Proscess , Pending,Approved</span>}
+    </span>
+  </p>
+</div>
+<div class="row">
+  <table>
+    <thead>
+      <tr>
+        <th>Sr. No.</th>
+        <th>Order Id</th>
+        <th>Utr Number</th>
+        <th>Amount</th>
+        <th>Date / Time</th>
+        <th>Vendors Name</th>
+        <th>bankHolderName</th>
+        <!-- <th>Bot User Name</th> -->
+        <!-- <th>Bank Name</th> -->
+        <th class="status">Status</th>
+        <th>Approve</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of deposits; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>231{{ user.userId }}122</td>
+        <td>{{ user.utrNumber }}</td>
+        <!-- <td><Img [src]="user.bankUtrImageLink" width="100px" height="100px"></td> -->
+        <td>{{ user.amount }}</td>
+        <td>{{ getFormattedDate(user.entryTime) }}</td>
+        <td>{{ user.site.name }}</td>
+        <td>{{ user.bank.bankHolderName }}</td>
+        <!-- <td>{{ user.dtoZuser.username }}</td> -->
+        <!-- <td>{{ user.bankDetails.bankName }}</td> -->
+
+        <td>
+          <!-- Pending status -->
+          <span
+            *ngIf="user.approveStatus === 'PENDING'"
+            style="color: yellow; font-weight: 200"
+            matTooltip="Pending">
+            <i class="fa-solid fa-hourglass-half"></i>
+            <!-- Pending icon -->
+          </span>
+
+          <!-- Failed status -->
+          <span
+            *ngIf="user.approveStatus === 'FAILED'"
+            style="color: red; font-weight: 200"
+            matTooltip="Failed"
+          >
+            <i class="fa-solid fa-circle-xmark"></i>
+            <!-- Failed icon -->
+          </span>
+
+          <!-- Done status -->
+          <span
+            *ngIf="user.approveStatus === 'DONE'"
+            style="color: rgb(98, 252, 98); font-weight: 200"
+            matTooltip="Done"
+          >
+            <i class="fa-solid fa-circle-check fa-lg"></i>
+            <!-- Done icon -->
+          </span>
+          <!-- Reject status -->
+          <i
+            *ngIf="user.approveStatus === 'REJECTED'"
+            class="fa-solid fa-circle-xmark fa-lg"
+            style="color: red"
+            matTooltip="Rejected"
+          >
+          </i>
+
+          <!-- Manual Approve status -->
+          <i
+            (click)="manulAvp(user.utrNumber)"
+            *ngIf="user.approveStatus === 'APPROVED'"
+            class="fa-solid fa-circle-check fa-lg"
+            style="color: rgb(245, 166, 49)"
+            matTooltip="Manually Approved"
+          >
+          </i>
+          <div class="loader" *ngIf="user.approveStatus === 'IN_PROCESS'">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+        </td>
+        <td>
+          <div *ngIf="user.requestBy.id === 0; else remainingCode">
+            <!-- @if(user.approveStatus.startsWith('F') ){
+              <i
+                matTooltip="Retry"
+                (click)="retry(user.id)"
+                class="fa-solid fa-arrows-rotate userName"
+                style="color: #8cf584"
+              ></i>
+              }@else{ -->
+
+            <!-- <i
+              matTooltip="Check Approve"
+              (click)="
+                user.approveStatus === 'PENDING' ? checkApprove(user) : null
+              "
+              class="fa-solid fa-eye userName"
+              [ngStyle]="{
+                color: user.approveStatus === 'PENDING' ? '#8cf584' : 'gray'
+              }"
+              [class.disabled]="user.approveStatus !== 'PENDING'"
+            >
+            </i> -->
+            
+            <i matTooltip="Check Approve" 
+            (click)="onClick(user)" 
+            class="fa-solid fa-eye userName" 
+            style="color: #59e94e">
+         </i>
+
+          <!-- } -->
+          </div>
+          <ng-template #remainingCode>
+            @if(user.approveStatus.startsWith('F') ){
+            <i
+              matTooltip="Retry"
+              (click)="retry(user.id)"
+              class="fa-solid fa-arrows-rotate userName"
+              style="color: #8cf584"
+            ></i>
+            }@else{
+            <div>
+              <button
+                class="approve-btn"
+                (click)="disableButton(user.id); Avp(user.id, 0)"
+                [style.background-color]="
+                  user.approveStatus === 'PENDING' ? '#20d813' : 'gray'
+                "
+                [disabled]="
+                  user.approveStatus !== 'PENDING' || isButtonClicked[user.id]
+                "
+                mat-raised-button
+                aria-label="Button that displays a tooltip when focused or hovered over"
+              >
+                Approve
+              </button>
+            </div>
+
+            &nbsp; &nbsp; &nbsp;
+            <div
+              class="material-symbols-outlined golden fa-lg icon"
+              [style.color]="
+                user.approveStatus === 'PENDING' ? '#df7630' : 'gray'
+              "
+              [class.disabled]="user.approveStatus !== 'PENDING'"
+              [attr.disabled]="user.approveStatus !== 'PENDING' ? true : null"
+              style="margin-left: -25px"
+              data-bs-toggle="collapse"
+              [attr.data-bs-target]="'#navbarNavDarkDropdown' + user.id"
+            >
+              keyboard_arrow_down
+            </div>
+
+            <div
+              class="collapse dropdown1"
+              [attr.id]="'navbarNavDarkDropdown' + user.id"
+            >
+              <Button
+                class="btn"
+                style="
+                  background-color: rgb(248, 244, 244);
+                  color: red;
+                  margin-top: 3px;
+                "
+                (click)="Reject(user.id)"
+                >Reject</Button
+              >
+            </div>
+
+            }
+          </ng-template>
+        </td>
+        @if(user.approveStatus!=="DELETED" ){
+        <td>
+          <i
+            (click)="openEditDialog(user)"
+            class="fa-solid fa-edit userName"
+            style="color: #007bff; margin-left: 10px"
+          ></i>
+          <i
+            (click)="deleteReport(user.id)"
+            class="fa-solid fa-trash userName"
+            style="color: #f90808; margin-left: 10px"
+          ></i>
+        </td>
+        }
+      </tr>
+      <!-- Repeat the above <tr> block for more rows -->
+    </tbody>
+  </table>
+
+  <mat-paginator
+    [length]="page?.totalElements || 0"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageEvent($event)"
+  >
+  </mat-paginator>
+</div>

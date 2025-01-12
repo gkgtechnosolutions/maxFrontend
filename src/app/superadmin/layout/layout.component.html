@@ -1,0 +1,10 @@
+<div class="bg">
+  <app-navbar
+    [isExpanded]="sidebarExpanded"
+    (toggleSidebar)="sidebarExpanded = !sidebarExpanded"
+  ></app-navbar>
+  <div class="content" [ngClass]="{ sidebarExpanded: sidebarExpanded }">
+    <br />
+    <router-outlet></router-outlet>
+  </div>
+</div>

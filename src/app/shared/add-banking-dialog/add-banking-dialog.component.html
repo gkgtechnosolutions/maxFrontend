@@ -1,0 +1,148 @@
+<app-loader *ngIf="loader"></app-loader>
+<h2 mat-dialog-title style="color: gold;">Please Fill Details:-</h2>
+<mat-dialog-content>
+  <form [formGroup]="bankFormGroup" (ngSubmit)="onBankSubmit()" class="row">
+    <div class="container">        
+      <div class="row ">
+        <div class="col-md-6">
+          <!-- Bank Holder Name -->
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Bank Holder Name</mat-label>
+            <input matInput formControlName="bankHolderName" placeholder="Enter Bank Holder Name" />
+            <mat-error *ngIf="bankFormGroup.get('bankHolderName').invalid && (bankFormGroup.get('bankHolderName').dirty || bankFormGroup.get('bankHolderName').touched)">
+              <!-- <span *ngIf="bankFormGroup.get('bankHolderName').errors['required']">Bank Holder Name is required.</span> -->
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Bank Name -->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Bank Name</mat-label>
+            <input matInput formControlName="bankName" placeholder="Enter Bank Name" />
+            <mat-error *ngIf="bankFormGroup.get('bankName').invalid && (bankFormGroup.get('bankName').dirty || bankFormGroup.get('bankName').touched)">
+              <!-- <span *ngIf="bankFormGroup.get('bankName').errors['required']">Bank Name is required.</span> -->
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row ">
+        <!-- Account Number -->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Account Number</mat-label>
+            <input matInput formControlName="accountNumber" placeholder="Enter Account Number" />
+            <mat-error *ngIf="bankFormGroup.get('accountNumber').invalid && (bankFormGroup.get('accountNumber').dirty || bankFormGroup.get('accountNumber').touched)">
+              <!-- <span *ngIf="bankFormGroup.get('accountNumber').errors['required']">Account Number is required.</span> -->
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- IFSC Code -->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>IFSC Code</mat-label>
+            <input matInput formControlName="ifscCode" placeholder="Enter IFSC Code" />
+            <mat-error *ngIf="bankFormGroup.get('ifscCode').invalid && (bankFormGroup.get('ifscCode').dirty || bankFormGroup.get('ifscCode').touched)">
+              <!-- <span *ngIf="bankFormGroup.get('ifscCode').errors['required']">IFSC Code is required.</span> -->
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row ">
+        <!-- GPay UPI -->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>GPay UPI</mat-label>
+            <input matInput formControlName="gpayUPI" placeholder="Enter GPay UPI" />
+          </mat-form-field>
+        </div>
+
+        <!-- PhonePe UPI -->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>PhonePe UPI</mat-label>
+            <input matInput formControlName="phonePeUPI" placeholder="Enter PhonePe UPI" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row ">
+
+        <!-- UPI ID -->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>UPI ID</mat-label>
+            <input matInput formControlName="upiId" placeholder="Enter UPI ID" />
+          </mat-form-field>
+        </div>
+
+        <!-- Active -->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Balance</mat-label>
+              <input matInput formControlName="balance" type="number" placeholder="Enter Balance" />
+            </mat-form-field>
+        </div>
+      </div>
+      <div class="row ">
+
+      <!-- UPI ID -->
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Scanner Name</mat-label>
+          <input matInput formControlName="scannerName" placeholder="Enter Scanner Name" />
+        </mat-form-field>
+      </div>
+
+      <!-- Active -->
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Qr Link-1</mat-label>
+            <input matInput formControlName="qrLink1"  placeholder="Enter Qr Link-1" />
+          </mat-form-field>
+      </div>
+     </div>
+     <div class="row ">
+
+      <!-- UPI ID -->
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Branch Name</mat-label>
+          <input matInput formControlName="branchName" placeholder="Enter Branch Name" />
+        </mat-form-field>
+      </div>
+
+      <!-- Active -->
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Qr Link-2</mat-label>
+            <input matInput formControlName="qrLink2"  placeholder="Enter Qr Link-2" />
+          </mat-form-field>
+      </div>
+    </div>
+
+     
+    </div>
+    
+    
+    <div class="row justify-content-center">
+      
+    </div>
+    <input type="hidden" formControlName="id" />
+  </form>
+  
+  
+
+
+      <button mat-icon-button mat-dialog-close class="close-button" >
+        <mat-icon style="color: gold;">close</mat-icon>
+      </button>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12 d-flex justify-content-center">
+    <button  [disabled]="!bankFormGroup.valid" (click)="onBankSubmit()">Submit</button>
+  </div>
+
+</mat-dialog-actions>

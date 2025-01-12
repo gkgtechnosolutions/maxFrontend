@@ -1,0 +1,30 @@
+
+<h2 style="background-color: white !important;" mat-dialog-title>Reject Reason</h2>
+<mat-dialog-content>
+  <app-loader *ngIf="loader"></app-loader>
+  <!-- Custom Reason Input -->
+  <!-- <label for="customReason">Custom Reason</label> -->
+  <textarea
+    id="customReason"
+    rows="3"
+    cols="30"
+    [(ngModel)]="customReason"
+    placeholder="Enter your reason">
+  </textarea>
+
+  <!-- Predefined Reasons Chips (Side by Side) -->
+  <mat-chip-set aria-label="Select reason">
+    <mat-chip
+      *ngFor="let reason of predefinedReasons"
+      [color]="selectedReasons.includes(reason) ? 'primary' : ''"
+      (click)="selectReason(reason)">
+      {{ reason }}
+    </mat-chip>
+  </mat-chip-set>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button  (click)="onConfirm()">submit</button>
+</mat-dialog-actions>
+

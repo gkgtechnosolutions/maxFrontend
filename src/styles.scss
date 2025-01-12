@@ -1,0 +1,109 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single CSS file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$adminpanel-primary: mat.define-palette(
+  mat.$grey-palette
+); // Use grey as primary color
+
+$adminpanel-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$adminpanel-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$adminpanel-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $adminpanel-primary,
+      accent: $adminpanel-accent,
+      warn: $adminpanel-warn,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($adminpanel-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.success-snackbar {
+  --mdc-snackbar-container-color: #517e4e;
+
+  --mat-mdc-snack-bar-button-color: rgb(242, 21, 21);
+}
+
+.success-snackbar.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
+    .mat-mdc-button {
+      color: #fbec6d !important;
+    }
+  }
+
+  .mat-mdc-snack-bar-label.mdc-snackbar__label {
+    color: #fbec6d;
+    font-weight: 500;
+    white-space: pre-wrap;
+  }
+}
+.error-snackbar {
+  --mdc-snackbar-container-color: black;
+
+  --mat-mdc-snack-bar-button-color: rgb(242, 21, 21);
+}
+.error-snackbar.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
+    .mat-mdc-button {
+      color: #fb6d6d !important;
+    }
+  }
+
+  .mat-mdc-snack-bar-label.mdc-snackbar__label {
+    color: #ff0000;
+    font-weight: 500;
+    white-space: pre-wrap;
+  }
+}
+//*******************************************Scroll-Bar****************************************************
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(to right, #e2be00, #ffd900);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-image: linear-gradient(to right, #000000, #111111);
+}
+
+a {
+  text-decoration: none !important;
+}
+//******************************************* loader ****************************************************
+// .cdk-overlay-pane {
+  
+//   margin-bottom: 20% !important;
+// }

@@ -1,0 +1,78 @@
+<div class="body">
+  <div class="row modal-header">
+    <div class="col-4">
+      <img
+        src="../../../assets/Arjun Logo(2).png"
+        alt="Logo"
+        class="logo me-2"
+      />
+    </div>
+    <div class="col-8 title-container text-right">
+      <h2 class="modal-title mb-0">{{ slipType }} DONE</h2>
+      <p class="mb-0" style="color: rgb(255, 0, 0)">
+        RECEIPT NO: {{ slipData.opId }}
+      </p>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row white">
+        <div class="col-4 mb-2">
+          <div class="col-6 fw-bold">Username/ID</div>
+          <div class="col-6">{{ slipData.userName }}</div>
+        </div>
+        <div class="col-4 mb-2">
+          <div class="col-6 fw-bold" *ngIf="!tableVisibility">password</div>
+
+          <div class="col-6">{{ slipData.updatedPassword }}</div>
+        </div>
+        <div class="col-4 mb-2"></div>
+      </div>
+      <table class="table" *ngIf="tableVisibility">
+        <thead>
+          <tr>
+            <th class="black">TIME DATE</th>
+            <th class="black">TRANSACTION NO</th>
+            <th class="black">STATUS</th>
+            <th class="gold">AMOUNT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="gray" style="font-size: small">{{ slipData.time }}</td>
+            <td class="gray fw-bold">{{ slipData.utrnumber }}</td>
+            <td class="gray fw-bold">Done</td>
+            <td class="darker fw-bold">{{ slipData.amount }}</td>
+          </tr>
+          <tr>
+            <td class="white"></td>
+            <td class="white fw-bold">Bonus</td>
+            <td class="white fw-bold"></td>
+            <td class="white">0.0</td>
+          </tr>
+          <tr>
+            <td class="gd"></td>
+            <td class="gd fw-bold">Grand Total</td>
+            <td class="gd fw-bold"></td>
+            <td class="gd">{{ slipData.amount }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="background-color: #f6efefbc">
+        <div class="row">
+          <div class="col-md-6 fw-bold">www.arjunonlinebook.com</div>
+          <div class="col-md-6">24 x 7</div>
+        </div>
+        <hr />
+        <div class="text-center mt-4">
+          <p class="mb-1"></p>
+          <!-- <p style="margin-bottom: 0px; padding-bottom: 12px;"><i class="fa-brands fa-square-whatsapp fa-lg" style="color: #1af816;"></i>  8908810810, 8908860860, 8908870870</p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button (click)="captureAndDownload()" class="btn black">
+  Download Slip as Image
+</button>

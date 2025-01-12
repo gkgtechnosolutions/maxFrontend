@@ -1,0 +1,63 @@
+<app-loader *ngIf="loader"></app-loader>
+
+<div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="newcard">
+        <div class="card-body">
+          <h5 class="card-title">Today's Deposited</h5>
+          <p class="card-text">{{ todayDeposit }}</p>
+        </div>
+        <div class="temp-scale" (click)="navigateToPage('deposit')">
+          <i class="fa-solid fa-arrow-right" style="color: #926108"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="newcard">
+        <div class="card-body">
+          <h5 class="card-title">Today's Withdraw</h5>
+          <p class="card-text">{{ todayWithdraw }}</p>
+        </div>
+        <div class="temp-scale" (click)="navigateToPage('withdraw')" >
+          <i class="fa-solid fa-arrow-right" style="color: #926108"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="newcard">
+        <div class="card-body ">
+          <h5 class="card-title">Today's New Client</h5>
+          <p class="card-text">{{ todayClients }}</p>
+        </div>
+        <div class="temp-scale"  (click)="navigateToPage('users')">
+          <i class="fa-solid fa-arrow-right" style="color: #926108;"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="newcard">
+        <div class="card-body">
+          <h5 class="card-title">Total Bot Users</h5>
+          <p class="card-text">{{ totalusers }}</p>
+        </div>
+        <div class="temp-scale" (click)="fetchDataFromBackend()">
+          <i class="fa-solid fa-arrow-right" style="color: #926108"></i>
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div>
+  <div class="row">
+    <div class="col-lg-6">
+      <h1>Deposit Chart</h1>
+      <canvas #depositChart width="550" height="230"></canvas>
+    </div>
+    <div class="col-lg-6">
+      <h1>Withdrawal Chart</h1>
+      <canvas #withdrawChart width="550" height="230"></canvas>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,158 @@
+<app-loader *ngIf="loader"></app-loader>
+<div>
+  <div class="row">
+    <div class="col containe">
+      <h5 style="color: white">Fill Details :-</h5>
+      <form [formGroup]="formGroup" class="row">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Role</mat-label>
+              <mat-select
+                formControlName="role"
+                placeholder="Select Role"
+                
+                tabindex="1"
+              >
+                <mat-option *ngFor="let role of roles" [value]="role">
+                  {{ role }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Top Row -->
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>User Name</mat-label>
+              <input
+                matInput
+                formControlName="username"
+                placeholder="Enter Username"
+               
+               
+                tabindex="3"
+              />
+         
+              <mat-error
+                *ngIf="
+                  formGroup.get('username').invalid &&
+                  (formGroup.get('username').dirty ||
+                    formGroup.get('username').touched)
+                "
+              >
+                <span
+                  *ngIf="
+                    formGroup.get('username').errors &&
+                    formGroup.get('username').errors['userExists']
+                  "
+                >
+                  User already exists.
+                </span>
+
+                <span *ngIf="formGroup.get('username').errors['required']"
+                  >User ID is required.</span
+                >
+                <span *ngIf="formGroup.get('username').errors['minlength']"
+                  >User ID must be at least 4 characters long.</span
+                >
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                formControlName="password"
+                type="password"
+                [type]="hide ? 'password' : 'text'"
+                placeholder="Enter Password"
+                tabindex="4"
+              />
+              <button
+                mat-icon-button
+                matSuffix
+                (click)="hide = !hide"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide"
+              >
+                <mat-icon>{{
+                  hide ? "visibility_off" : "visibility"
+                }}</mat-icon>
+              </button>
+              <mat-error *ngIf="formGroup.get('password').hasError('required')">
+                Password is required.
+              </mat-error>
+              <mat-error
+                *ngIf="formGroup.get('password').hasError('invalidPassword')"
+              >
+                1 uppercase letter, 1 lowercase letter, 1 number, 8 digit long
+                Password Needed.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Name</mat-label>
+              <input
+                matInput
+                formControlName="name"
+                placeholder="Enter Name"
+                tabindex="5"
+              />
+              <mat-error
+                *ngIf="
+                  formGroup.get('name').invalid &&
+                  (formGroup.get('name').dirty || formGroup.get('name').touched)
+                "
+              >
+                <span *ngIf="formGroup.get('name').errors['required']"
+                  >Name is required.</span
+                >
+              </mat-error>
+            </mat-form-field>
+          </div>
+        
+         
+        </div> -->
+
+      
+
+        <br /><br />
+
+        <div class="row justify-content-center">
+          <button class="Btn" (click)="onSubmit()">Button</button>
+        </div>
+        <input type="hidden" formControlName="id" />
+      </form>
+    </div>
+    <div class="col">
+      <div class="instructions">
+        <h5>Instructions</h5>
+        <p>Welcome to the user details form. Here are the steps to follow:</p>
+        <ol>
+          <!-- <li>The username corresponds to various websites.</li>
+          <li>
+            Please provide the username associated with the respective website.
+          </li>
+          <li>Select the amount you wish to process.</li>
+          <li>Enter the Unique Transaction Reference (UTR) number.</li>
+          <li>
+            Optionally, operators can upload a screenshot of the UTR or drag and
+            drop it into the designated space.
+          </li> -->
+        </ol>
+        <p>
+          Thank you for following these instructions. If you encounter any
+          issues, please feel free to reach out for assistance.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

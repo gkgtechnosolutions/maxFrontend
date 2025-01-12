@@ -1,0 +1,70 @@
+<app-loader *ngIf="loader"></app-loader>
+<h2 mat-dialog-title style="color: gold">Please Fill Details:-</h2>
+<mat-dialog-content>
+  <div class="switch-container">
+    <h6 style="color:gold; font: 1em sans-serif;">{{saveData}} :</h6>
+  <label class="switch"> 
+    <input type="checkbox"(change)="onToggle($event)">
+    <span class="slider"></span>
+  </label>
+  </div>
+
+  <form [formGroup]="bankAccountForm"  class="container">
+    <div class="row" style="margin-top: 10px">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Select Bank</mat-label>
+          <mat-select style="color: white;" formControlName="id" >
+            <mat-option *ngFor="let bank of banks" [value]="bank.id">{{ bank.bankName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>amount</mat-label>
+          <input matInput formControlName="amount" type="number" required />
+          <mat-error *ngIf="bankAccountForm.get('amount').hasError('required')">
+            Balance is required
+          </mat-error>
+          <mat-error *ngIf="bankAccountForm.get('amount').hasError('min')">
+            Balance must be positive
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- <div class="row">
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>amount</mat-label>
+          <input matInput formControlName="amount" type="number" required />
+          <mat-error *ngIf="bankAccountForm.get('amount').hasError('required')">
+            Balance is required
+          </mat-error>
+          <mat-error *ngIf="bankAccountForm.get('amount').hasError('min')">
+            Balance must be positive
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div> -->
+
+  </form>
+
+  <button mat-icon-button mat-dialog-close class="close-button">
+    <mat-icon style="color: gold">close</mat-icon>
+  </button>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12 d-flex justify-content-center">
+    <button
+      mat-raised-button
+      color="secondary"
+      type="submit"
+      (click)="onSubmit()"
+      
+    >
+    {{saveData}}
+    </button>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,43 @@
+<app-loader *ngIf="loader"></app-loader>
+<h2 mat-dialog-title style="color: gold;">Update Site Details:-</h2>
+<mat-dialog-content>
+  <form [formGroup]="siteForm" (ngSubmit)="onSubmit()" class="container">
+    <div class="row" style="margin-top: 10px;">
+      <div class="form-group col-md-6">
+   
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px;">
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Site Name</mat-label>
+          <input matInput formControlName="name" required>
+          <mat-error *ngIf="siteForm.get('name').hasError('required')">
+            Site Name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Site URL</mat-label>
+          <input matInput formControlName="url"  required>
+          <mat-error *ngIf="siteForm.get('url').hasError('required')">
+            Site URL is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+  <button mat-icon-button mat-dialog-close class="close-button">
+    <mat-icon style="color: gold;">close</mat-icon>
+  </button>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-12 d-flex justify-content-center">
+    <button mat-raised-button color="secondary" type="submit" (click)="onSubmit()" [disabled]="siteForm.invalid">Update</button>
+  </div>
+</mat-dialog-actions>
+

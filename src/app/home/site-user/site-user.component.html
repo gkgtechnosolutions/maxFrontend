@@ -1,0 +1,342 @@
+<app-loader *ngIf="loader"></app-loader>
+<mat-tab-group animationDuration="0ms">
+  <mat-tab label="Site User List">
+    <div class="row" style="margin-left: 2px;">
+      <table>
+          <thead>
+            <tr>
+              <th>Sr. No.</th>
+              <th>UserId</th>
+              <th>Password</th>
+              <th>Balance</th>
+              <th>Site_Name </th>
+              <th> Active </th>
+              <!-- <th>Delete</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of siteUsers; let i = index">
+              <td>{{ getSerialNumber(i) }}</td>
+              <td>{{ user.userId }}</td>
+              <td>{{ user.password }}</td>
+              <td>{{ user.balance }}</td>
+              <td>{{ user.site.name }}</td>
+              <td>{{ user.activeStatus }}</td>
+              <!-- <td>
+                <button class="btn btn-danger" (click)="deleteSiteMaster(user.id)">
+                  Delete
+                  <i class="fa-solid fa-trash" style="color: #080808; margin-left: 10px"></i>
+                </button>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
+        <mat-paginator [length]="totalUsers" [pageSize]="pageSize" (page)="onPageChange($event)">
+        </mat-paginator>
+  </div>
+  </mat-tab>
+  <mat-tab label="Add Site User">
+    <div class="col-md-6  containe">
+      <h5 style="color: white">Add Site User:-</h5>
+    <form [formGroup]="siteMasterForm" (ngSubmit)="onSubmit()" >
+      <div class="row" style="margin-top: 10px;">
+        <div class="form-group col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="userId" required>
+            <mat-error *ngIf="siteMasterForm.get('userId').hasError('required')">
+              Username is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" required>
+            <mat-error *ngIf="siteMasterForm.get('password').hasError('required')">
+              Password is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Site</mat-label>
+            <mat-select
+              formControlName="site_id"
+              placeholder="Select Master"
+              tabindex="2"
+            >
+              <mat-option
+                *ngFor="let siteMaster of sites"
+                [value]="siteMaster.id"
+              >
+                {{ siteMaster.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Master</mat-label>
+            <mat-select
+              formControlName="masterId"
+              placeholder="Select Master"
+              tabindex="2"
+            >
+              <mat-option
+                *ngFor="let siteMaster of siteMaters"
+                [value]="siteMaster.id"
+              >
+                {{ siteMaster.username }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Name</mat-label>
+            <input
+              matInput
+              formControlName="name"
+              placeholder="Enter Name"
+              tabindex="5"
+            />
+            <mat-error
+              *ngIf="
+              siteMasterForm.get('name').invalid &&
+                (siteMasterForm.get('name').dirty || siteMasterForm.get('name').touched)
+              "
+            >
+              <span *ngIf="siteMasterForm.get('name').errors['required']"
+                >Name is required.</span
+              >
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6" >
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Credit Reference</mat-label>
+            <input
+              [disabled]="true"
+              matInput
+              formControlName="creditReference"
+              placeholder="Credit Reference"
+              tabindex="6"
+            />
+            <mat-error
+              *ngIf="
+              siteMasterForm.get('creditReference').invalid &&
+                (siteMasterForm.get('creditReference').dirty ||
+                siteMasterForm.get('creditReference').touched)
+              "
+            >
+              <span
+                *ngIf="siteMasterForm.get('creditReference').errors['required']"
+                >Credit Reference is required.</span
+              >
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- <div class="form-group col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Site</mat-label>
+            <mat-select formControlName="siteId" required>
+              <mat-option *ngFor="let site of sites" [value]="site.id">
+                {{ site.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="siteMasterForm.get('siteId').hasError('required')">
+              Site is required
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+      </div>
+    
+     
+    
+      <div class="row" style="margin-top: 16px;">
+        <div class="col-12 d-flex justify-content-center">
+          <button mat-raised-button color="primary" type="submit">Submit</button>
+        </div>
+      </div>
+    </form>
+    </div>
+  </mat-tab>
+  <mat-tab label="Update Site User ">
+    <div class="col-md-6  containe">
+      <h5 style="color: white">Update Site User:-</h5>
+      <form [formGroup]="siteMasterForm" (ngSubmit)="onUpdate()" >
+        <div class="row" style="margin-top: 10px;">
+          <div class="form-group col-md-12">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Select Site User</mat-label>
+              <mat-select (selectionChange)="onSiteMasterChange($event)">
+                <mat-option *ngFor="let siteUser of siteUsers" [value]="siteUser">
+                  {{ siteUser.name }} 
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+          <div class="form-group col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Username</mat-label>
+              <input matInput formControlName="userId" (input)="onUserInput($event)" required>
+              <div class="three-body" *ngIf="loader1">
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+              </div>
+              <mat-error *ngIf="siteMasterForm.get('userId').hasError('required')">
+                Username is required
+              </mat-error>
+
+            </mat-form-field>
+          </div>
+          <div class="form-group col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Password</mat-label>
+              <input matInput formControlName="password" type="password" required>
+              <mat-error *ngIf="siteMasterForm.get('password').hasError('required')">
+                Password is required
+              </mat-error>
+              <mat-error
+              *ngIf="
+                siteMasterForm.get('userId').invalid &&
+                (siteMasterForm.get('userId').dirty ||
+                siteMasterForm.get('userId').touched)
+              "
+            >
+              <span
+                *ngIf="
+                  siteMasterForm.get('userId').errors &&
+                  siteMasterForm.get('userId').errors['userExists']
+                "
+              >
+                User already exists.
+              </span>
+
+              <span *ngIf="siteMasterForm.get('userId').errors['required']"
+                >User ID is required.</span
+              >
+              <span *ngIf="siteMasterForm.get('userId').errors['minlength']"
+                >User ID must be at least 4 characters long.</span
+              >
+            </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Site</mat-label>
+              <mat-select
+                formControlName="site_id"
+                placeholder="Select user"
+                tabindex="2"
+              >
+                <mat-option
+                  *ngFor="let site of sites"
+                  [value]="site.id"
+                >
+                  {{ site.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Master</mat-label>
+              <mat-select
+                formControlName="masterId"
+                placeholder="Select Master"
+                tabindex="2"
+              >
+                <mat-option
+                  *ngFor="let siteMaster of siteMaters"
+                  [value]="siteMaster.id"
+                >
+                  {{ siteMaster.username }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Name</mat-label>
+              <input
+                matInput
+                formControlName="name"
+                placeholder="Enter Name"
+                tabindex="5"
+              />
+              <mat-error
+                *ngIf="
+                siteMasterForm.get('name').invalid &&
+                  (siteMasterForm.get('name').dirty || siteMasterForm.get('name').touched)
+                "
+              >
+                <span *ngIf="siteMasterForm.get('name').errors['required']"
+                  >Name is required.</span
+                >
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6" >
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Credit Reference</mat-label>
+              <input
+                [disabled]="true"
+                matInput
+                formControlName="creditReference"
+                placeholder="Credit Reference"
+                tabindex="6"
+              />
+              <mat-error
+                *ngIf="
+                siteMasterForm.get('creditReference').invalid &&
+                  (siteMasterForm.get('creditReference').dirty ||
+                  siteMasterForm.get('creditReference').touched)
+                "
+              >
+                <span
+                  *ngIf="siteMasterForm.get('creditReference').errors['required']"
+                  >Credit Reference is required.</span
+                >
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <div class="form-group col-md-6">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>Site</mat-label>
+              <mat-select formControlName="siteId" required>
+                <mat-option *ngFor="let site of sites" [value]="site.id">
+                  {{ site.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="siteMasterForm.get('siteId').hasError('required')">
+                Site is required
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+        </div>
+        <div class="row" style="margin-top: 16px;">
+          <div class="col-12 d-flex justify-content-center">
+            <button mat-raised-button color="primary" type="submit">Update</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+  </mat-tab>
+</mat-tab-group>
+

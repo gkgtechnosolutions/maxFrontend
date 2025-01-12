@@ -1,0 +1,192 @@
+.card{
+    width: 200px;
+    background-color: #000000;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ffd9009a;
+    // align-items: center;
+    
+  }
+  .card-text{
+    color: rgb(255, 240, 240);
+    font-size: 50px;
+    font-weight: 700;
+  }
+  
+  
+  .card-title{
+  color: #fcf9f9;
+  font-size: 30px ;
+  font-weight: 5;
+  }
+  
+  
+  
+  
+  h1 {
+    font-size: 2rem;
+    color: transparent;
+    background-image: linear-gradient(to right, #ffd700, #ffd700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    padding-left: 15px;
+    padding-right: 0;
+    -webkit-text-fill-color: transparent;
+  }
+
+
+
+//   =========================table=============================================
+.example-container {
+    // background-color: #000000;
+    // color: #ffd277;
+    margin-top: 13px;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+    
+  }
+  
+  .mat-table {
+    border: #ffd700;
+    overflow: auto;
+    max-height: 500px;
+   
+  }
+  .tbl{
+    background-color: rgb(5, 5, 5);
+  }
+  .rowheader{
+    border: 1px solid  #DDDDDD ; 
+    margin-bottom: 6px;
+    background-color: rgb(35, 30, 9);
+   
+  } 
+
+// ============================================================================
+.mat-form-field {
+  background-color:  rgb(35, 30, 9);
+}
+.mdc-text-field--filled {
+  background-color: rgb(35, 30, 9) !important;
+}
+::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+   background-color: rgb(35, 30, 9) !important; 
+}
+.mat-row {
+  border-bottom: 10px solid rgba(244, 244, 244, 0.959) !important; /* Adjust border color and thickness as needed */
+}
+//========================================================new card =================================
+.newcard {
+  width: auto;
+  height: 180px;
+  position: relative;
+  padding: 25px;
+  background: radial-gradient(78.94% 270.41% at 26.42% 160.41%, rgba(179, 155, 51, 0.962) 12%,rgb(146, 97, 8) 80.88%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
+  border-radius: 23px;
+  transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+  margin-bottom: 10px;
+ 
+}
+
+.newcard2 {
+  width: auto;
+  height: 85px;
+  position: relative;
+  padding: 25px;
+  background: radial-gradient(78.94% 270.41% at 26.42% 160.41%, rgba(179, 155, 51, 0.962) 12%,rgb(146, 97, 8) 80.88%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
+  border-radius: 23px;
+  transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+  margin-bottom: 10px;
+ 
+}
+
+
+
+.temp-scale:hover {
+  transform: scale(1.25);
+}
+
+.con {
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  right: -35px;
+  top: -50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.7);
+  
+}
+.temp-scale {
+  width: 40px;
+  height: 38px;
+  position: absolute;
+  right: 25px;
+  bottom: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(237, 230, 230, 0.695);
+  border-radius: 100px;
+  transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+  cursor: pointer;
+}
+
+//=============================input=================================
+
+.inp{
+  width: 100%;
+  margin-bottom: 1px;
+  height: 40px;
+  color: #fffbfb; 
+  border: solid #DDDDDD 1px;
+  border-radius: 10px ;
+  background-coloR:#01041c;
+  font-weight: 5;
+
+}
+
+.b1{
+  
+ height: 25%;
+
+  border-radius: 10px;
+
+  
+}
+
+#b2{
+  width: 100%;
+  font-weight: 500;
+  color: #0d0d0d; 
+}
+#b3{
+  width: 100%;
+  font-weight: 500;
+  color: #0d0d0d; 
+}
+#b4{
+  width: 100%;
+  font-weight: 550;
+  color: #fffbfb; 
+}
+#s1{
+  font-weight: 500;
+  color: #fffbfb; 
+  border: none !important;
+}
+
+//============================================Op cell===========================================
+.operation-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.operation-cell i {
+  margin-left: 0; /* Adjust margin if needed */
+}
+.userName{
+  cursor: pointer;
+}
