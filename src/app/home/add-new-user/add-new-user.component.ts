@@ -79,18 +79,18 @@ export class AddNewUserComponent {
   utrNumberImageFileName: '';
   prograsbar: boolean = false;
   pBarPecentage: number = 0;
- 
+
   ngOnInit(): void {
     this.titleService.changeTitle('Add New User');
-  
+
     this.myFormValues();
     const currentDate = new Date();
     this.formGroup.get('date').setValue(currentDate);
     this.getuserID();
-    
+
     this.getAddUser();
 
-      this.subscribeToSiteSelection();
+    this.subscribeToSiteSelection();
 
     this.subscription = interval(5000).subscribe(() => {
       this.getAddUser();
@@ -104,23 +104,21 @@ export class AddNewUserComponent {
     this.fileInput.nativeElement.click();
   }
   myFormValues(): void {
-    
-      this.formGroup = this.fb.group({
-        userId: ['', [Validators.required, Validators.minLength(4)]],
-        password: ['', []],
-        name: [''],
-        balance: ['0'],
-        creditReference: ['0'],
-        site_id: ['', Validators.required],
-        betStatus: [false],
-        activeStatus: [false],
-        masterId: [''],
-        id: ['0'],
-        zuserId: [''],
-        date: [new Date()],
-        utrNumber: ['', Validators.required],
-      });
- 
+    this.formGroup = this.fb.group({
+      userId: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', []],
+      name: [''],
+      balance: ['0'],
+      creditReference: ['0'],
+      site_id: ['', Validators.required],
+      betStatus: [false],
+      activeStatus: [false],
+      masterId: ['1'],
+      id: ['0'],
+      zuserId: [''],
+      date: [new Date()],
+      utrNumber: ['', Validators.required],
+    });
   }
   get utrNumber() {
     return this.formGroup.get('utrNumber');
@@ -151,10 +149,8 @@ export class AddNewUserComponent {
     }
   }
   onSubmit() {
-   
     const userData = localStorage.getItem('user');
     if (this.formGroup.valid) {
-     
       if (userData) {
         this.user = JSON.parse(userData);
       } else {
@@ -165,29 +161,25 @@ export class AddNewUserComponent {
       this.formGroup.patchValue({ zuserId: id });
 
       this.increaseProgressBar();
-     
-     
-    
 
-        this.operation.addUser(this.formGroup.value).subscribe(
-          (data) => {
-            this.snackbarService.snackbar(
-              `added user successfully with name ${this.formGroup.value.userId} `,
-              'success'
-            );
-            this.prograsbar = false;
-            this.pBarPecentage = 0;
-            this.resetForm();
-          },
-          (error) => {
-            this.prograsbar = false;
-            this.pBarPecentage = 0;
-            this.snackbarService.snackbar('failed!', 'error');
+      this.operation.addUser(this.formGroup.value).subscribe(
+        (data) => {
+          this.snackbarService.snackbar(
+            `added user successfully with name ${this.formGroup.value.userId} `,
+            'success'
+          );
+          this.prograsbar = false;
+          this.pBarPecentage = 0;
+          this.resetForm();
+        },
+        (error) => {
+          this.prograsbar = false;
+          this.pBarPecentage = 0;
+          this.snackbarService.snackbar('failed!', 'error');
 
-            confirm(error.error.message);
-          }
-        );
-   
+          confirm(error.error.message);
+        }
+      );
     }
   }
   increaseProgressBar() {
@@ -288,19 +280,17 @@ export class AddNewUserComponent {
   }
 
   onUserIdChange(event: Event): void {
-   
-      const userIdControl = this.formGroup.get('userId');
-      let currentUserId = userIdControl.value;
-      if (!currentUserId.startsWith(this.userIdPrefix)) {
-        currentUserId =
-          this.userIdPrefix + currentUserId.substring(this.userIdPrefix.length);
-        userIdControl.setValue(currentUserId);
-      } else if (currentUserId.length > this.userIdPrefix.length) {
-        const charactersAfterPrefix = currentUserId.substring(
-          this.userIdPrefix.length
-        );
-      }
-    
+    const userIdControl = this.formGroup.get('userId');
+    let currentUserId = userIdControl.value;
+    if (!currentUserId.startsWith(this.userIdPrefix)) {
+      currentUserId =
+        this.userIdPrefix + currentUserId.substring(this.userIdPrefix.length);
+      userIdControl.setValue(currentUserId);
+    } else if (currentUserId.length > this.userIdPrefix.length) {
+      const charactersAfterPrefix = currentUserId.substring(
+        this.userIdPrefix.length
+      );
+    }
   }
   onUTRInput(utrValue: string) {
     this.loader2 = true;
@@ -411,7 +401,6 @@ export class AddNewUserComponent {
     }, this.doneTypingInterval);
   }
 
-
   retry(op: any) {
     this.prograsbar = true;
     this.retryserv.postRetry(op).subscribe((data) => {
@@ -453,7 +442,6 @@ export class AddNewUserComponent {
         this.operations = data;
       },
       (error) => {
-        
         this.snackbarService.snackbar('failed!', 'error');
       }
     );
@@ -477,10 +465,7 @@ export class AddNewUserComponent {
       operation: this.operations,
     };
 
-    
     const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((result) => {
-     
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

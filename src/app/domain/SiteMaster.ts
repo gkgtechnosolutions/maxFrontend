@@ -19,22 +19,22 @@ export interface siteMaster {
 export const masters777Exch: SiteMaster[] = [
   {
     id: 1,
-    username: 'Arjunag',
+    username: 'Master1',
     password: '**',
     transactionCode: '**',
   },
-  {
-    id: 2,
-    username: 'Arjunn002',
-    password: '**',
-    transactionCode: '**',
-  },
-  {
-    id: 3,
-    username: 'Arjun04a',
-    password: '**',
-    transactionCode: '**',
-  },
+  // {
+  //   id: 2,
+  //   username: 'Arjunn002',
+  //   password: '**',
+  //   transactionCode: '**',
+  // },
+  // {
+  //   id: 3,
+  //   username: 'Arjun04a',
+  //   password: '**',
+  //   transactionCode: '**',
+  // },
 ];
 export const mastersWood: SiteMaster[] = [
   {
@@ -53,16 +53,16 @@ export const mastersWood: SiteMaster[] = [
 export const mastersWorld: SiteMaster[] = [
   {
     id: 1,
-    username: 'Arjduos',
+    username: 'master1',
     password: '**',
     transactionCode: '**',
   },
-  {
-    id: 2,
-    username: 'Arjunn2121',
-    password: '**',
-    transactionCode: '**',
-  },
+  // {
+  //   id: 2,
+  //   username: 'Arjunn2121',
+  //   password: '**',
+  //   transactionCode: '**',
+  // },
 ];
 export const mastersCrex247: SiteMaster[] = [
   {
@@ -82,7 +82,7 @@ export const mastersCrex247: SiteMaster[] = [
 export const masterJoker: SiteMaster[] = [
   {
     id: 1,
-    username: 'Arjunag',
+    username: 'Master1',
     password: '**',
     transactionCode: '**',
   },
