@@ -1,51 +1,46 @@
-
 .container {
   text-align: center;
   margin: 10px;
   padding: 5px;
   // background-color: #000000;
   // border-radius: 8px;
-  // box-shadow: 0 0 10px #ffd9009a;
+  // box-shadow: 0 0 10px #a141a2;
 }
 
 .container1 {
   align-items: center;
   width: auto;
-  margin-top: -40px!important;
+  margin-top: -40px !important;
 
   text-align: center;
   padding: 20px;
-//   background-color: #000000;
-//   border-radius: 8px;
-//   box-shadow: 0 0 10px #ffd9009a;
- }
- .card{
+  //   background-color: #000000;
+  //   border-radius: 8px;
+  //   box-shadow: 0 0 10px #a141a2;
+}
+.card {
   width: 200px;
   background-color: #000000;
   border-radius: 8px;
-  box-shadow: 0 0 10px #ffd9009a;
+  box-shadow: 0 0 10px #a141a2;
   // align-items: center;
-  
 }
-.card-text{
+.card-text {
   color: rgb(255, 240, 240);
   font-size: 300%;
   font-weight: 700;
 }
 
-
-.card-title{
-color: #fcf9f9;
-font-size: 170%;
-font-weight: 5;
+.card-title {
+  color: #fcf9f9;
+  font-size: 170%;
+  font-weight: 5;
 }
-
-
 
 h1 {
   font-size: 2rem;
   color: transparent;
-  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  background-image: linear-gradient(to right, #a141a2, #a141a2);
   -webkit-background-clip: text;
   background-clip: text;
   padding-left: 15px;
@@ -53,7 +48,6 @@ h1 {
   -webkit-text-fill-color: transparent;
 }
 .Btn {
-  
   width: 140px;
   height: 30px;
   // margin-left: 50px;
@@ -70,7 +64,7 @@ h1 {
   );
   background-size: 250%;
   background-position: left;
-  color: #ffd700;
+  color: #a141a2;
   position: relative;
   display: flex;
   align-items: center;
@@ -83,7 +77,7 @@ h1 {
 .Btn::before {
   position: absolute;
   content: "Explore";
-  color: #ffd277;
+  color: #a141a2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -112,7 +106,7 @@ h1 {
 .three-body {
   --uib-size: 30px;
   --uib-speed: 0.8s;
-  --uib-color: #ffd700;
+  --uib-color: #a141a2;
   // position: absolute;
   display: inline-block;
   height: var(--uib-size);
@@ -212,19 +206,23 @@ h1 {
   }
 }
 
-
 //========================================================new card =================================
 .newcard {
   width: auto;
   height: 180px;
   position: relative;
   padding: 25px;
-  background: radial-gradient(78.94% 270.41% at 26.42% 160.41%, rgba(179, 155, 51, 0.962) 12%,rgb(146, 97, 8) 80.88%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
+  background: radial-gradient(
+        78.94% 270.41% at 26.42% 160.41%,
+        rgba(179, 155, 51, 0.962) 12%,
+        rgb(146, 97, 8) 80.88%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    #ffffff;
   // box-shadow: 0px 155px 62px rgba(0, 0, 0, 0.01), 0px 87px 52px rgba(0, 0, 0, 0.05), 0px 39px 39px rgba(0, 0, 0, 0.09), 0px 10px 21px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
   border-radius: 23px;
   transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
   margin-bottom: 20px;
- 
 }
 
 .temp-scale:hover {
@@ -256,11 +254,3 @@ h1 {
   border-radius: 100px;
   transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
 }
-
-
-
-
-
-
-
-

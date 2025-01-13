@@ -7,25 +7,22 @@
           <h5 class="card-title">Total Accounts</h5>
           <p class="card-text">{{ activeAccount }}</p>
         </div>
-        
       </div>
     </div>
     <div class="col-sm-4">
       <div class="newcard2">
         <div class="card-body">
           <h5 class="card-title">Slots</h5>
-        
         </div>
-        <div class="temp-scale" (click)="openBankSlots()" >
+        <div class="temp-scale" (click)="openBankSlots()">
           <i class="fa-solid fa-arrow-right" style="color: #926108"></i>
         </div>
       </div>
       <div class="newcard2">
         <div class="card-body">
           <h5 class="card-title">Amount Range</h5>
-          
         </div>
-        <div class="temp-scale" (click)="openAmountRange()" >
+        <div class="temp-scale" (click)="openAmountRange()">
           <i class="fa-solid fa-arrow-right" style="color: #926108"></i>
         </div>
       </div>
@@ -93,7 +90,7 @@
     matSort
   >
     <ng-container matColumnDef="position">
-      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
+      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
         No.
       </mat-header-cell>
       <mat-cell
@@ -105,7 +102,7 @@
     </ng-container>
 
     <ng-container matColumnDef="bankName">
-      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
+      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
         BankName
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -114,7 +111,7 @@
     </ng-container>
 
     <ng-container matColumnDef="accId">
-      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
+      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
         AccNum
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -123,7 +120,7 @@
     </ng-container>
 
     <ng-container matColumnDef="bankHolderName">
-      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
+      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
         bankHolderName
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -132,7 +129,7 @@
     </ng-container>
 
     <ng-container matColumnDef="ifscCode">
-      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
+      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
         IfscCode
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -141,7 +138,7 @@
     </ng-container>
 
     <!-- <ng-container matColumnDef="balance">
-      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
+      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
         Balance
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -150,24 +147,34 @@
     </ng-container> -->
 
     <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
+      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
         Status
       </mat-header-cell>
-      <mat-cell *matCellDef="let element" style="color: white ; ">
+      <mat-cell *matCellDef="let element" style="color: white">
         {{ element.freeze ? "Freeze" : "Active" }}
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="Operation" [sticky]="true">
-      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
+      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
         Operations
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <span style="color: #fffbfb;  cursor: pointer;" class="material-symbols-outlined" (click)="openDialogAttach(element)"  matTooltip="Add Slot & AmountRange" >
+        <span
+          style="color: #fffbfb; cursor: pointer"
+          class="material-symbols-outlined"
+          (click)="openDialogAttach(element)"
+          matTooltip="Add Slot & AmountRange"
+        >
           library_add
-          </span>
-          <span class="material-symbols-outlined" style="color: #f9c0c0;  cursor: pointer;" (click)="unlinked(element.id)" matTooltip="Unlink Slot & AmountRange" >
-            tab_close
-            </span>
+        </span>
+        <span
+          class="material-symbols-outlined"
+          style="color: #f9c0c0; cursor: pointer"
+          (click)="unlinked(element.id)"
+          matTooltip="Unlink Slot & AmountRange"
+        >
+          tab_close
+        </span>
       </mat-cell>
     </ng-container>
 
@@ -181,4 +188,3 @@
     ></mat-row>
   </mat-table>
 </div>
-

@@ -9,10 +9,10 @@
   border: 1px solid rgba(255, 255, 255, 0.2); /* Transparent border */
   box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37); /* Box shadow for depth */
 }
-.userName{
+.userName {
   cursor: pointer !important;
 }
-.table{
+.table {
   height: 200px;
   // width: 300px;
   // border: 2px solid #b2b2b2;
@@ -20,8 +20,15 @@
   border-radius: 10px;
   overflow: auto;
 }
-.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell
-{
+.mat-mdc-table tbody,
+.mat-mdc-table tfoot,
+.mat-mdc-table thead,
+.mat-mdc-cell,
+.mat-mdc-footer-cell,
+.mat-mdc-header-row,
+.mat-mdc-row,
+.mat-mdc-footer-row,
+.mat-mdc-table .mat-mdc-header-cell {
   height: 30px;
   color: white;
   background: black;
@@ -88,7 +95,7 @@
 }
 
 .golden-progress-bar {
-  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  background-image: linear-gradient(to right, #a141a2, #a141a2);
   /* Other styles for the progress bar */
 }
 /* modal.component.css */
@@ -112,7 +119,7 @@
   padding: 20px;
   background-color: #000000;
   border-radius: 8px;
-  box-shadow: 0 0 10px #ffd9009a;
+  box-shadow: 0 0 10px #a141a2;
 }
 .Btn {
   width: 140px;
@@ -122,15 +129,15 @@
   background: linear-gradient(
     to right,
     #000000,
-    #ffd700,
+    #a141a2,
     #000000,
     #000000,
-    #ffd700,
+    #a141a2,
     #000000
   );
   background-size: 250%;
   background-position: left;
-  color: #ffd700;
+  color: #a141a2;
   position: relative;
   display: flex;
   align-items: center;
@@ -143,7 +150,7 @@
 .Btn::before {
   position: absolute;
   content: "Withdraw";
-  color: #ffd277;
+  color: #a141a2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,7 +269,7 @@ mat-form-field.mat-form-field.mat-white {
 .three-body {
   --uib-size: 30px;
   --uib-speed: 0.8s;
-  --uib-color: #ffd700;
+  --uib-color: #a141a2;
   position: absolute;
   display: inline-block;
   height: var(--uib-size);
@@ -364,7 +371,7 @@ mat-form-field.mat-form-field.mat-white {
 }
 //progressbar
 ::ng-deep .mdc-linear-progress__bar-inner {
-  border-color: #ffd700 !important;
+  border-color: #a141a2 !important;
 }
 
 // =======================loader======================
@@ -378,7 +385,6 @@ mat-form-field.mat-form-field.mat-white {
   display: flex;
   align-items: center;
   margin-left: 6px;
-  
 }
 
 .bar {
@@ -393,11 +399,11 @@ mat-form-field.mat-form-field.mat-white {
 .bar:nth-child(2) {
   height: 15px;
   margin: 0 5px;
-  animation-delay: .25s;
+  animation-delay: 0.25s;
 }
 
 .bar:nth-child(3) {
-  animation-delay: .5s;
+  animation-delay: 0.5s;
 }
 
 @keyframes scale-up4 {
@@ -410,4 +416,3 @@ mat-form-field.mat-form-field.mat-white {
     transform: scaleY(1);
   }
 }
-

@@ -9,22 +9,20 @@
 //   transition: all 0.3s;
 //   box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
 // }\
- h2 {
-   background-color: rgb(35, 30, 9);
+h2 {
+  background-color: rgb(35, 30, 9);
 }
 
-
-mat-dialog-content{
+mat-dialog-content {
   padding: 10px;
   height: auto;
 }
 
- mat-dialog-content , mat-dialog-actions {
-  background-color:   rgb(35, 30, 9);
+mat-dialog-content,
+mat-dialog-actions {
+  background-color: rgb(35, 30, 9);
   overflow: hidden;
   padding: 10px;
-  
-
 }
 .custum-file-upload {
   height: 200px;
@@ -40,7 +38,7 @@ mat-dialog-content{
   background-color: rgba(255, 255, 255, 1);
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0px 48px 35px -48px  rgb(35, 35, 35);
+  box-shadow: 0px 48px 35px -48px rgb(35, 35, 35);
 }
 
 .custum-file-upload .icon {
@@ -62,7 +60,7 @@ mat-dialog-content{
 
 .custum-file-upload .text span {
   font-weight: 400;
-  color: rgb(35, 35, 35)
+  color: rgb(35, 35, 35);
 }
 
 .custum-file-upload input {
@@ -70,7 +68,7 @@ mat-dialog-content{
 }
 
 .golden-progress-bar {
-  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  background-image: linear-gradient(to right, #a141a2, #a141a2);
   /* Other styles for the progress bar */
 }
 /* modal.component.css */
@@ -90,7 +88,6 @@ mat-dialog-content{
   height: 120vh; /* Adjust the height as needed */
 }
 
-
 // .loader {
 //   display: inline-block;
 //   margin-left: 5px; /* Adjust margin as needed */
@@ -106,7 +103,6 @@ mat-dialog-content{
   display: flex;
   align-items: center;
   margin-left: 6px;
-  
 }
 
 .bar {
@@ -121,11 +117,11 @@ mat-dialog-content{
 .bar:nth-child(2) {
   height: 15px;
   margin: 0 5px;
-  animation-delay: .25s;
+  animation-delay: 0.25s;
 }
 
 .bar:nth-child(3) {
-  animation-delay: .5s;
+  animation-delay: 0.5s;
 }
 
 @keyframes scale-up4 {
@@ -139,34 +135,33 @@ mat-dialog-content{
   }
 }
 
-
-
-
-
-
-
-
-.userName{
+.userName {
   cursor: pointer !important;
 }
 
-.table{
+.table {
   height: 200px;
   // width: 300px;
   // border: 2px solid #b2b2b2;
   margin-left: 10px;
 
   overflow-y: auto;
-    overflow-x: hidden ;
+  overflow-x: hidden;
 }
-.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell
-{
+.mat-mdc-table tbody,
+.mat-mdc-table tfoot,
+.mat-mdc-table thead,
+.mat-mdc-cell,
+.mat-mdc-footer-cell,
+.mat-mdc-header-row,
+.mat-mdc-row,
+.mat-mdc-footer-row,
+.mat-mdc-table .mat-mdc-header-cell {
   height: 20px;
   color: white;
-  background:  rgb(35, 30, 9);
+  background: rgb(35, 30, 9);
   border-bottom: none;
 }
-
 
 .custum-file-upload {
   height: 150px;
@@ -195,10 +190,10 @@ mat-dialog-content{
   align-items: center;
   justify-content: center;
   border: 2px dashed #b2b2b2;
-  background-color:  rgb(35, 30, 9);
+  background-color: rgb(35, 30, 9);
   padding: 1.5rem;
   border-radius: 10px;
-  box-shadow: 0px 48px 35px -48px  rgb(35, 30, 9);
+  box-shadow: 0px 48px 35px -48px rgb(35, 30, 9);
 }
 
 .custum-file-upload .icon {
@@ -228,7 +223,7 @@ mat-dialog-content{
 }
 
 .golden-progress-bar {
-  background-image: linear-gradient(to right, #ffd700, #ffd700);
+  background-image: linear-gradient(to right, #a141a2, #a141a2);
   /* Other styles for the progress bar */
 }
 
@@ -251,7 +246,7 @@ mat-dialog-content{
   padding: 20px;
   background-color: #000000;
   border-radius: 8px;
-  box-shadow: 0 0 10px #ffd9009a;
+  box-shadow: 0 0 10px #a141a2;
 }
 .Btn {
   width: 140px;
@@ -261,15 +256,15 @@ mat-dialog-content{
   background: linear-gradient(
     to right,
     #000000,
-    #ffd700,
+    #a141a2,
     #000000,
     #000000,
-    #ffd700,
+    #a141a2,
     #000000
   );
   background-size: 250%;
   background-position: left;
-  color: #ffd700;
+  color: #a141a2;
   position: relative;
   display: flex;
   align-items: center;
@@ -282,7 +277,7 @@ mat-dialog-content{
 .Btn::before {
   position: absolute;
   // content: "Deposit";
-  color: #ffd277;
+  color: #a141a2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -405,7 +400,7 @@ mat-form-field.mat-form-field.mat-white {
 .three-body {
   --uib-size: 30px;
   --uib-speed: 0.8s;
-  --uib-color: #ffd700;
+  --uib-color: #a141a2;
   position: absolute;
   display: inline-block;
   height: var(--uib-size);
@@ -507,7 +502,5 @@ mat-form-field.mat-form-field.mat-white {
 }
 //progressbar
 ::ng-deep .mdc-linear-progress__bar-inner {
-  border-color: #ffd700 !important;
+  border-color: #a141a2 !important;
 }
-
-
