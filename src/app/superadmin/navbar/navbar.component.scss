@@ -1,4 +1,4 @@
-.t {
+.t{
   margin-left: 80px;
   transition: 0.3s;
   &.sidebarExpanded {
@@ -12,12 +12,13 @@
   padding: 2px;
 }
 
+
 /* Define styles for the 'golden' class */
 .golden {
   /* Set text color to transparent to make the gradient visible */
   color: transparent;
   /* Apply golden gradient to the text */
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   /* Clip the gradient to the text */
   -webkit-background-clip: text;
   background-clip: text;
@@ -35,7 +36,7 @@
 /* Apply golden gradient to active links */
 .navbar-nav .nav-link.active {
   /* Apply golden gradient to the text */
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -44,7 +45,7 @@
 /* Apply golden gradient on hover */
 .navbar-nav .nav-link:hover {
   /* Apply golden gradient to the text */
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -214,20 +215,20 @@
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 .active .icon {
-  background: linear-gradient(to right, #a141a2, #a141a2);
+  background: linear-gradient(to right, #ffd700, #ffd700);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .sidebar .header .title {
-  background: linear-gradient(to right, #a141a2, #a141a2);
+  background: linear-gradient(to right, #ffd700, #ffd700);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 /* Define styles for the 'golden' class */
 .golden {
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   -webkit-background-clip: text; /* For Safari/Chrome */
   background-clip: text;
   color: transparent;
@@ -244,7 +245,7 @@
   min-width: unset; /* Reset the minimum width */
 }
 .nav-item h3 {
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -265,7 +266,7 @@
 }
 .menu a {
   text-decoration: none !important;
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -283,7 +284,7 @@
   .menu {
     display: block !important;
   }
-  .t {
+  .t{
     display: none;
   }
 }
@@ -291,7 +292,7 @@
   cursor: pointer;
 }
 .nav-item a:hover {
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -1,12 +1,13 @@
 .container {
+  
   max-width: 800px;
-
+ 
   margin: 100px auto;
   text-align: center;
   padding: 20px;
   background-color: #000000;
   border-radius: 8px;
-  box-shadow: 0 0 10px #a141a2;
+  box-shadow: 0 0 10px #ffd9009a;
 }
 
 @media (max-width: 768px) {
@@ -19,7 +20,7 @@
 
 h1 {
   color: transparent;
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   -webkit-background-clip: text;
   background-clip: text;
   padding-right: 0;
@@ -41,7 +42,7 @@ p {
 .option {
   cursor: pointer;
   transition: transform 0.3s ease;
-  background-image: linear-gradient(to right, #a141a2, #a141a2) !important;
+  background-image: linear-gradient(to right, #ffd700, #ffd700) !important;
   -webkit-background-clip: text !important;
   background-clip: text !important  ;
   color: transparent !important;

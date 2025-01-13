@@ -1,7 +1,7 @@
 <!-- Top Navbar -->
 <div class="d-flex justify-content-end">
   <!-- <div class="container">
-    <h1 style="color:  #a141a2;">  Welcome to Super Admin Panel</h1>
+    <h1 style="color:  #ffd700;">  Welcome to Super Admin Panel</h1>
   </div> -->
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid justify-content-end">
@@ -20,17 +20,10 @@
       </button>
       <!-- <h3  style="color: chartreuse;"> Welcome to Super Admin Panel</h3> -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="t" [ngClass]="{ sidebarExpanded: isExpanded }">
-          <h3 style="color: gold">
-            Super Admin
-            <span style="color: rgb(246, 245, 241); font-weight: 300"
-              >| {{ title }}</span
-            >
-          </h3>
-        </div>
+        <div class="  t " [ngClass]="{ sidebarExpanded: isExpanded  }"> <h3 style="color: gold;">Super Admin  <span style="color: rgb(246, 245, 241); font-weight: 300;">| {{title}}</span> </h3> </div>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item header">
-            <h3>{{ userName }}</h3>
+            <h3>{{userName}} </h3>  
           </li>
           <li class="nav-item btn-group dropdown">
             <a
@@ -107,7 +100,7 @@
         <div class="title">Deposite</div>
       </div>
     </div>
-    <div class="link">
+    <div class="link" >
       <div
         class="content"
         [routerLink]="['withdraw']"
@@ -119,11 +112,10 @@
         <div class="title">Withdraw</div>
       </div>
     </div>
-    <div class="link">
+    <div class="link" >
       <div
         class="content"
-        [routerLink]="['Banking']"
-        [routerLinkActive]="'active'"
+        [routerLink]="['Banking']" [routerLinkActive]="'active'"
       >
         <div class="icon">
           <span class="material-symbols-outlined"> Balance </span>
@@ -152,19 +144,15 @@
       </div>
     </div>
     <div class="link">
-      <div
-        class="content"
-        [routerLink]="['add-site']"
-        [routerLinkActive]="'active'"
-      >
+      <div class="content" [routerLink]="['add-site']" [routerLinkActive]="'active'">
         <div class="icon">
           <span class="material-symbols-outlined"> web </span>
         </div>
         <div class="title">Add Site</div>
       </div>
     </div>
-
-    <div class="link">
+ 
+    <div class="link" >
       <div
         class="content"
         [routerLink]="['users']"

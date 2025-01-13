@@ -8,31 +8,28 @@ import { ComponettitleService } from '../../services/componenttitle.service';
   templateUrl: './landingpage.component.html',
   styleUrl: './landingpage.component.scss',
 })
-export class LandingpageComponent implements OnInit  {
-  constructor(private route: Router,
-    private titleService :ComponettitleService
+export class LandingpageComponent implements OnInit {
+  constructor(
+    private route: Router,
+    private titleService: ComponettitleService
   ) {}
-  
-  Operator : string;
-  
+
+  Operator: string;
+
   ngOnInit(): void {
     this.titleService.changeTitle('Dashboard');
     this.getrole();
-    
   }
   navigateToPage(component: String): void {
     this.route.navigateByUrl(`home/${component}`);
   }
 
-
-  getrole(){
+  getrole() {
     const userString = localStorage.getItem('user');
     if (userString) {
       // Step 2: Access user_role attribute
       const user = JSON.parse(userString);
       this.Operator = user.role_user;
-      
     }
   }
-  
 }

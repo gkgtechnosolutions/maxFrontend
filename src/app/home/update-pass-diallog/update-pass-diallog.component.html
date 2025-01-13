@@ -1,99 +1,91 @@
 <mat-dialog-content>
-  <div>
-    <div class="row">
-      <div class="col containe">
-        <h5 style="color: #a141a2; margin-bottom: 20px">Update Password :-</h5>
-        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="row">
-          <!-- Top Row -->
-          <div class="row">
-            <div class="col-md-12">
-              <mat-form-field
-                style="background-color: rgb(35, 30, 9)"
-                appearance="fill"
-                class="w-100"
-              >
-                <mat-label>User ID</mat-label>
-                <input
-                  readonly
-                  matInput
-                  formControlName="userId"
-                  placeholder="Enter User ID"
-                  disable
-                />
-                <div class="three-body" *ngIf="loader1">
-                  <div class="three-body__dot"></div>
-                  <div class="three-body__dot"></div>
-                  <div class="three-body__dot"></div>
+    <div>
+        <div class="row">
+          <div class="col containe">
+            <h5 style="color: #ffd700;; margin-bottom:20px;">Update Password :-</h5>
+            <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="row">
+              <!-- Top Row -->
+              <div class="row" >
+                <div class="col-md-12">
+                  <mat-form-field style="background-color:  rgb(35, 30, 9);"appearance="fill" class="w-100">
+                    <mat-label>User ID</mat-label>
+                    <input readonly 
+                      matInput
+                      formControlName="userId"
+                      placeholder="Enter User ID"
+                      disable
+                    />
+                    <div class="three-body" *ngIf="loader1">
+                      <div class="three-body__dot"></div>
+                      <div class="three-body__dot"></div>
+                      <div class="three-body__dot"></div>
+                    </div>
+                    <mat-error
+                      *ngIf="
+                        formGroup.get('userId').invalid &&
+                        (formGroup.get('userId').dirty ||
+                          formGroup.get('userId').touched)
+                      "
+                    >
+                      <span *ngIf="formGroup.get('userId').errors['required']"
+                        >User ID is required.</span
+                      >
+                      <span *ngIf="formGroup.get('userId').errors['minlength']"
+                        >User ID must be at least 4 characters long.</span
+                      >
+                      <span
+                        *ngIf="
+                          formGroup.get('userId').errors &&
+                          formGroup.get('userId').errors['userExists']
+                        "
+                      >
+                        User Not Found .
+                      </span>
+                    </mat-error>
+                  </mat-form-field>
                 </div>
-                <mat-error
-                  *ngIf="
-                    formGroup.get('userId').invalid &&
-                    (formGroup.get('userId').dirty ||
-                      formGroup.get('userId').touched)
-                  "
-                >
-                  <span *ngIf="formGroup.get('userId').errors['required']"
-                    >User ID is required.</span
-                  >
-                  <span *ngIf="formGroup.get('userId').errors['minlength']"
-                    >User ID must be at least 4 characters long.</span
-                  >
-                  <span
-                    *ngIf="
-                      formGroup.get('userId').errors &&
-                      formGroup.get('userId').errors['userExists']
-                    "
-                  >
-                    User Not Found .
-                  </span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-
-            <!-- Bottom Row -->
-
-            <!-- Display error messages for Amount -->
+      
+                <!-- Bottom Row -->
+      
+                <!-- Display error messages for Amount -->
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>password</mat-label>
+                    <input
+                      matInput
+                      formControlName="password"
+                      placeholder="Enter password"
+                    />
+                    <!-- Display error messages for required and min length -->
+                    <mat-error
+                      *ngIf="
+                        formGroup.get('password').invalid &&
+                        (formGroup.get('password').dirty ||
+                          formGroup.get('password').touched)
+                      "
+                    >
+                      <span *ngIf="formGroup.get('password').errors['required']"
+                        >Password is required</span
+                      >
+                      <span
+                        *ngIf="formGroup.get('password').errors['minlength']"
+                      ></span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row justify-content-center mt-3">
+                <button class="Btn">Button</button>
+              </div>
+              <input type="hidden" formControlName="id" />
+            </form>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <mat-form-field appearance="fill" class="w-100">
-                <mat-label>password</mat-label>
-                <input
-                  matInput
-                  formControlName="password"
-                  placeholder="Enter password"
-                />
-                <!-- Display error messages for required and min length -->
-                <mat-error
-                  *ngIf="
-                    formGroup.get('password').invalid &&
-                    (formGroup.get('password').dirty ||
-                      formGroup.get('password').touched)
-                  "
-                >
-                  <span *ngIf="formGroup.get('password').errors['required']"
-                    >Password is required</span
-                  >
-                  <span
-                    *ngIf="formGroup.get('password').errors['minlength']"
-                  ></span>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="row justify-content-center mt-3">
-            <button class="Btn">Button</button>
-          </div>
-          <input type="hidden" formControlName="id" />
-        </form>
+        </div>
       </div>
-    </div>
-  </div>
-</mat-dialog-content>
-<button
-  mat-icon-button
-  mat-dialog-close
-  style="position: absolute; top: 3px; right: 10px; color: #a141a2"
->
-  <mat-icon>close</mat-icon>
-</button>
+    </mat-dialog-content>
+    <button mat-icon-button mat-dialog-close style="position: absolute; top: 3px; right: 10px; color: #ffd700;">
+      <mat-icon>close</mat-icon>
+    </button>
+    

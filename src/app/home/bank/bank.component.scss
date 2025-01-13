@@ -1,432 +1,435 @@
 .card {
-  width: 95%;
-  color: #e9e9e9; /* Text color */
-  padding: 0.7em 1.7em; /* Padding for content */
-  font-size: 18px; /* Font size */
-  border-radius: 0.5em; /* Rounded corners */
-  background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
-  backdrop-filter: blur(10px); /* Apply blur effect */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Transparent border */
-  box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37); /* Box shadow for depth */
-}
-
-::ng-deep matInput {
-  background-color: #ffd387;
-}
-
-.userName {
-  // display: flex;
-  // align-items: center;
-  cursor: pointer !important;
-}
-
-.table {
-  // table-layout:fixed !important;
-  height: 200px;
-  // width: 100%;
-  // border: 2px solid #b2b2b2;
-  margin-left: 10px;
-  border-radius: 10px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.mat-mdc-table tbody,
-.mat-mdc-table tfoot,
-.mat-mdc-table thead,
-.mat-mdc-cell,
-.mat-mdc-footer-cell,
-.mat-mdc-header-row,
-.mat-mdc-row,
-.mat-mdc-footer-row,
-.mat-mdc-table .mat-mdc-header-cell {
-  height: 30px;
-  color: white;
-  background-color: rgb(161, 27, 27);
-  border-bottom: none;
-}
-
-.custum-file-upload {
-  height: 200px;
-  // width: 300px;
-  display: flex;
-  flex-direction: column;
-  .card {
-    color: #ffd387; /* Text color */
-    // padding: 0.7em 1.7em; /* Padding for content */
+    width: 95%;
+    color: #e9e9e9; /* Text color */
+    padding: 0.7em 1.7em; /* Padding for content */
     font-size: 18px; /* Font size */
     border-radius: 0.5em; /* Rounded corners */
-    background-color: rgba(
-      255,
-      255,
-      255,
-      0.2
-    ); /* Transparent white background */
+    background-color: rgba(255, 255, 255, 0.2); /* Transparent white background */
     backdrop-filter: blur(10px); /* Apply blur effect */
     border: 1px solid rgba(255, 255, 255, 0.2); /* Transparent border */
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Box shadow for depth */
+    box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37); /* Box shadow for depth */
   }
-
-  align-items: space-between;
-  gap: 20px;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed#ffd387;
-  background-color: rgb(86, 84, 84);
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
-}
-
-.custum-file-upload .icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.custum-file-upload .icon svg {
-  height: 80px;
-  fill: #ffd387;
-}
-
-.custum-file-upload .text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.custum-file-upload .text span {
-  font-weight: 400;
-  color: #b2b2b2;
-}
-
-.custum-file-upload input {
-  display: none;
-}
-
-.golden-progress-bar {
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
-  /* Other styles for the progress bar */
-}
-
-.custom-dialog-content {
-  position: relative;
-  padding-right: 48px; /* Adjust as needed */
-}
-
-.close-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-:host {
-  height: 120vh; /* Adjust the height as needed */
-}
-.containe {
-  align-items: center;
-  padding: 20px;
-  background-color: rgb(86, 84, 84);
-  border-radius: 8px;
-  box-shadow: 0 0 10px #a141a2;
-}
-.Btn {
-  width: 140px;
-  height: 40px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(
-    to right,
-    #000000,
-    #a141a2,
-    #000000,
-    #000000,
-    #a141a2,
-    #000000
-  );
-  background-size: 250%;
-  background-position: left;
-  color: #a141a2;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition-duration: 1s;
-  overflow: hidden;
-}
-
-.Btn::before {
-  position: absolute;
-  content: "Submit";
-  color: #a141a2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 97%;
-  height: 90%;
-  border-radius: 8px;
-  transition-duration: 1s;
-  background-color: rgba(0, 0, 0, 0.842);
-  background-size: 200%;
-}
-
-.Btn:hover {
-  background-position: right;
-  transition-duration: 1s;
-}
-
-.Btn:hover::before {
-  background-position: right;
-  transition-duration: 1s;
-}
-
-.Btn:active {
-  transform: scale(0.95);
-}
-.instructions {
-  padding: 20px;
-
-  color: #d0cccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.instructions h5 {
-  color: #c9c9c9;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-.instructions ol {
-  list-style-type: decimal;
-  padding-left: 20px;
-}
-
-.instructions li {
-  margin-bottom: 10px;
-  font-size: 16px;
-  line-height: 1.5;
-}
-:host ::ng-deep .example-full-width .mat-form-field {
-  background-color: transparent !important; /* Use !important cautiously */
-}
-::ng-deep .example-full-width .mat-form-field-label {
-  color: white;
-}
-
-::ng-deep .example-full-width .mat-form-field-underline {
-  background-color: white; /* Set underline color to white */
-}
-
-::ng-deep .example-full-width .mat-form-element {
-  color: white;
-}
-
-/* Adjust the color of the placeholder text */
-::ng-deep .example-full-width .mat-form-field-placeholder {
-  color: white;
-}
-
-/* Adjust the color of the mat-error text */
-::ng-deep .example-full-width .mat-error {
-  color: white;
-}
-mat-form-field.mat-form-field.mat-white {
-  &.mat-focused {
-    .mat-form-field-label {
-      color: #fafafa00;
-    }
-    .mat-form-field-ripple {
-      background-color: #fafafa00 !important;
-    }
+  
+  
+  ::ng-deep matInput{
+    background-color:#ffd387 ;
   }
-}
-::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color: transparent !important;
-}
-::ng-deep
-  .mdc-text-field--filled:not(.mdc-text-field--disabled)
-  .mdc-floating-label,
-.mdc-text-field--filled:not(.mdc-text-field--disabled)
-  .mdc-floating-label--float-above {
-  color: #ffd387 !important;
-}
-::ng-deep
-  .mdc-text-field--filled:not(.mdc-text-field--disabled)
-  .mdc-text-field__input {
-  color: white !important;
-}
-.black_line {
-  border-bottom: 1px solid white !important;
-}
-//************************************************************************************************
-::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  border-bottom: 1px solid rgb(255, 255, 255);
-}
-
-::ng-deep
-  .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled.mdc-text-field--invalid {
-  border-bottom: 0px solid rgb(255, 255, 255);
-}
-@media (max-width: 768px) {
-  .instructions {
+  
+  
+  
+  
+  
+  
+  
+  
+  .userName{
+    // display: flex;
+    // align-items: center;
+    cursor: pointer !important;
+  }
+  
+  .table{
+    // table-layout:fixed !important;
+    height: 200px;
+    // width: 100%;
+    // border: 2px solid #b2b2b2;
+    margin-left: 10px;
+    border-radius: 10px;
+    overflow-y: auto;
+      overflow-x: hidden ;
+  }
+  .mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell
+  {
+    height: 30px;
+    color: white;
+    background-color: rgb(161, 27, 27);
+    border-bottom: none;
+  }
+  
+  
+  .custum-file-upload {
+    height: 200px;
+    // width: 300px;
+    display: flex;
+    flex-direction: column;
+    .card {
+      color: #ffd387; /* Text color */
+      // padding: 0.7em 1.7em; /* Padding for content */
+      font-size: 18px; /* Font size */
+      border-radius: 0.5em; /* Rounded corners */
+      background-color: rgba(
+        255,
+        255,
+        255,
+        0.2
+      ); /* Transparent white background */
+      backdrop-filter: blur(10px); /* Apply blur effect */
+      border: 1px solid rgba(255, 255, 255, 0.2); /* Transparent border */
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Box shadow for depth */
+    }
+  
+    align-items: space-between;
+    gap: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed#ffd387;
+    background-color: rgb(86, 84, 84);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custum-file-upload .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .custum-file-upload .icon svg {
+    height: 80px;
+    fill: #ffd387;
+  }
+  
+  .custum-file-upload .text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .custum-file-upload .text span {
+    font-weight: 400;
+    color: #b2b2b2;
+  }
+  
+  .custum-file-upload input {
     display: none;
   }
-  .custum-file-upload[_ngcontent-ng-c2108877578] {
-    height: 150px;
-    width: 220px;
+  
+  .golden-progress-bar {
+    background-image: linear-gradient(to right, #ffd700, #ffd700);
+    /* Other styles for the progress bar */
   }
-}
-//-------------loader -----
-.three-body {
-  --uib-size: 30px;
-  --uib-speed: 0.8s;
-  --uib-color: #a141a2;
-  position: absolute;
-  display: inline-block;
-  height: var(--uib-size);
-  width: var(--uib-size);
-  right: 0px;
-  animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
-}
-
-.three-body__dot {
-  position: absolute;
-  height: 100%;
-  width: 30%;
-}
-
-.three-body__dot:after {
-  content: "";
-  position: absolute;
-  height: 0%;
-  width: 100%;
-  padding-bottom: 100%;
-  background-color: var(--uib-color);
-  border-radius: 50%;
-}
-
-.three-body__dot:nth-child(1) {
-  bottom: 5%;
-  left: 0;
-  transform: rotate(60deg);
-  transform-origin: 50% 85%;
-}
-
-.three-body__dot:nth-child(1)::after {
-  bottom: 0;
-  left: 0;
-  animation: wobble1 var(--uib-speed) infinite ease-in-out;
-  animation-delay: calc(var(--uib-speed) * -0.3);
-}
-
-.three-body__dot:nth-child(2) {
-  bottom: 5%;
-  right: 0;
-  transform: rotate(-60deg);
-  transform-origin: 50% 85%;
-}
-
-.three-body__dot:nth-child(2)::after {
-  bottom: 0;
-  left: 0;
-  animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15)
-    ease-in-out;
-}
-
-.three-body__dot:nth-child(3) {
-  bottom: -5%;
-  left: 0;
-  transform: translateX(116.666%);
-}
-
-.three-body__dot:nth-child(3)::after {
-  top: 0;
-  left: 0;
-  animation: wobble2 var(--uib-speed) infinite ease-in-out;
-}
-
-@keyframes spin78236 {
-  0% {
-    transform: rotate(0deg);
+  
+  .custom-dialog-content {
+    position: relative;
+    padding-right: 48px; /* Adjust as needed */
   }
-
-  100% {
-    transform: rotate(360deg);
+  
+  .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
-}
-
-@keyframes wobble1 {
-  0%,
-  100% {
-    transform: translateY(0%) scale(1);
-    opacity: 1;
+  
+  :host {
+    height: 120vh; /* Adjust the height as needed */
   }
-
-  50% {
-    transform: translateY(-66%) scale(0.65);
-    opacity: 0.8;
+  .containe {
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(86, 84, 84);
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ffd9009a;
   }
-}
-
-@keyframes wobble2 {
-  0%,
-  100% {
-    transform: translateY(0%) scale(1);
-    opacity: 1;
+  .Btn {
+    width: 140px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(
+      to right,
+      #000000,
+      #ffd700,
+      #000000,
+      #000000,
+      #ffd700,
+      #000000
+    );
+    background-size: 250%;
+    background-position: left;
+    color: #ffd700;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition-duration: 1s;
+    overflow: hidden;
   }
-
-  50% {
-    transform: translateY(66%) scale(0.65);
-    opacity: 0.8;
+  
+  .Btn::before {
+    position: absolute;
+    content: "Submit";
+    color: #ffd277;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 97%;
+    height: 90%;
+    border-radius: 8px;
+    transition-duration: 1s;
+    background-color: rgba(0, 0, 0, 0.842);
+    background-size: 200%;
   }
-}
-//progressbar
-::ng-deep .mdc-linear-progress__bar-inner {
-  border-color: #a141a2 !important;
-}
-
-// =======================loader======================
-
-.status-cell {
-  display: flex;
-  align-items: center;
-}
-
-.loader {
-  display: flex;
-  align-items: center;
-  margin-left: 6px;
-}
-
-.bar {
-  display: inline-block;
-  width: 1.4px;
-  height: 10px;
-  background-color: rgba(177, 190, 82, 0.5);
-  border-radius: 10px;
-  animation: scale-up4 1s linear infinite;
-}
-
-.bar:nth-child(2) {
-  height: 15px;
-  margin: 0 5px;
-  animation-delay: 0.25s;
-}
-
-.bar:nth-child(3) {
-  animation-delay: 0.5s;
-}
-
-@keyframes scale-up4 {
-  20% {
-    background-color: #ecf316;
-    transform: scaleY(1.5);
+  
+  .Btn:hover {
+    background-position: right;
+    transition-duration: 1s;
   }
-
-  40% {
-    transform: scaleY(1);
+  
+  .Btn:hover::before {
+    background-position: right;
+    transition-duration: 1s;
   }
-}
-// ===================
+  
+  .Btn:active {
+    transform: scale(0.95);
+  }
+  .instructions {
+    padding: 20px;
+  
+    color: #d0cccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .instructions h5 {
+    color: #c9c9c9;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .instructions ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+  }
+  
+  .instructions li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  :host ::ng-deep .example-full-width .mat-form-field {
+    background-color: transparent !important; /* Use !important cautiously */
+  }
+  ::ng-deep .example-full-width .mat-form-field-label {
+    color: white;
+  }
+  
+  ::ng-deep .example-full-width .mat-form-field-underline {
+    background-color: white; /* Set underline color to white */
+  }
+  
+  ::ng-deep .example-full-width .mat-form-element {
+    color: white;
+  }
+  
+  /* Adjust the color of the placeholder text */
+  ::ng-deep .example-full-width .mat-form-field-placeholder {
+    color: white;
+  }
+  
+  /* Adjust the color of the mat-error text */
+  ::ng-deep .example-full-width .mat-error {
+    color: white;
+  }
+  mat-form-field.mat-form-field.mat-white {
+    &.mat-focused {
+      .mat-form-field-label {
+        color: #fafafa00;
+      }
+      .mat-form-field-ripple {
+        background-color: #fafafa00 !important;
+      }
+    }
+  }
+  ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent !important;
+  }
+  ::ng-deep
+    .mdc-text-field--filled:not(.mdc-text-field--disabled)
+    .mdc-floating-label,
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+    .mdc-floating-label--float-above {
+    color: #ffd387 !important;
+  }
+  ::ng-deep
+    .mdc-text-field--filled:not(.mdc-text-field--disabled)
+    .mdc-text-field__input {
+    color: white !important;
+  }
+  .black_line {
+    border-bottom: 1px solid white !important;
+  }
+  //************************************************************************************************
+  ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    border-bottom: 1px solid rgb(255, 255, 255);
+  }
+  
+  ::ng-deep
+    .mat-mdc-text-field-wrapper.mdc-text-field.mdc-text-field--filled.mdc-text-field--invalid {
+    border-bottom: 0px solid rgb(255, 255, 255);
+  }
+  @media (max-width: 768px) {
+    .instructions {
+      display: none;
+    }
+    .custum-file-upload[_ngcontent-ng-c2108877578] {
+      height: 150px;
+      width: 220px;
+    }
+  }
+  //-------------loader -----
+  .three-body {
+    --uib-size: 30px;
+    --uib-speed: 0.8s;
+    --uib-color: #ffd700;
+    position: absolute;
+    display: inline-block;
+    height: var(--uib-size);
+    width: var(--uib-size);
+    right: 0px;
+    animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+  }
+  
+  .three-body__dot {
+    position: absolute;
+    height: 100%;
+    width: 30%;
+  }
+  
+  .three-body__dot:after {
+    content: "";
+    position: absolute;
+    height: 0%;
+    width: 100%;
+    padding-bottom: 100%;
+    background-color: var(--uib-color);
+    border-radius: 50%;
+  }
+  
+  .three-body__dot:nth-child(1) {
+    bottom: 5%;
+    left: 0;
+    transform: rotate(60deg);
+    transform-origin: 50% 85%;
+  }
+  
+  .three-body__dot:nth-child(1)::after {
+    bottom: 0;
+    left: 0;
+    animation: wobble1 var(--uib-speed) infinite ease-in-out;
+    animation-delay: calc(var(--uib-speed) * -0.3);
+  }
+  
+  .three-body__dot:nth-child(2) {
+    bottom: 5%;
+    right: 0;
+    transform: rotate(-60deg);
+    transform-origin: 50% 85%;
+  }
+  
+  .three-body__dot:nth-child(2)::after {
+    bottom: 0;
+    left: 0;
+    animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15)
+      ease-in-out;
+  }
+  
+  .three-body__dot:nth-child(3) {
+    bottom: -5%;
+    left: 0;
+    transform: translateX(116.666%);
+  }
+  
+  .three-body__dot:nth-child(3)::after {
+    top: 0;
+    left: 0;
+    animation: wobble2 var(--uib-speed) infinite ease-in-out;
+  }
+  
+  @keyframes spin78236 {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes wobble1 {
+    0%,
+    100% {
+      transform: translateY(0%) scale(1);
+      opacity: 1;
+    }
+  
+    50% {
+      transform: translateY(-66%) scale(0.65);
+      opacity: 0.8;
+    }
+  }
+  
+  @keyframes wobble2 {
+    0%,
+    100% {
+      transform: translateY(0%) scale(1);
+      opacity: 1;
+    }
+  
+    50% {
+      transform: translateY(66%) scale(0.65);
+      opacity: 0.8;
+    }
+  }
+  //progressbar
+  ::ng-deep .mdc-linear-progress__bar-inner {
+    border-color: #ffd700 !important;
+  }
+  
+  // =======================loader======================
+  
+  .status-cell {
+    display: flex;
+    align-items: center;
+  }
+  
+  .loader {
+    display: flex;
+    align-items: center;
+    margin-left: 6px;
+    
+  }
+  
+  .bar {
+    display: inline-block;
+    width: 1.4px;
+    height: 10px;
+    background-color: rgba(177, 190, 82, 0.5);
+    border-radius: 10px;
+    animation: scale-up4 1s linear infinite;
+  }
+  
+  .bar:nth-child(2) {
+    height: 15px;
+    margin: 0 5px;
+    animation-delay: .25s;
+  }
+  
+  .bar:nth-child(3) {
+    animation-delay: .5s;
+  }
+  
+  @keyframes scale-up4 {
+    20% {
+      background-color: #ecf316;
+      transform: scaleY(1.5);
+    }
+  
+    40% {
+      transform: scaleY(1);
+    }
+  }
+  // ===================

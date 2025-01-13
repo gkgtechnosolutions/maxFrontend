@@ -10,6 +10,7 @@
   box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37); /* Box shadow for depth */
 }
 
+
 // .loader {
 //   display: inline-block;
 //   margin-left: 5px; /* Adjust margin as needed */
@@ -18,13 +19,20 @@
 
 // Operator: number;
 
-.userName {
+
+
+
+
+
+
+
+.userName{
   // display: flex;
   // align-items: center;
   cursor: pointer !important;
 }
 
-.table {
+.table{
   // table-layout:fixed !important;
   height: 200px;
   // width: 100%;
@@ -32,22 +40,16 @@
   margin-left: 10px;
   border-radius: 10px;
   overflow-y: auto;
-  overflow-x: hidden;
+    overflow-x: hidden ;
 }
-.mat-mdc-table tbody,
-.mat-mdc-table tfoot,
-.mat-mdc-table thead,
-.mat-mdc-cell,
-.mat-mdc-footer-cell,
-.mat-mdc-header-row,
-.mat-mdc-row,
-.mat-mdc-footer-row,
-.mat-mdc-table .mat-mdc-header-cell {
+.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell
+{
   height: 30px;
   color: white;
   background: black;
   border-bottom: none;
 }
+
 
 .custum-file-upload {
   height: 200px;
@@ -109,7 +111,7 @@
 }
 
 .golden-progress-bar {
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   /* Other styles for the progress bar */
 }
 
@@ -132,7 +134,7 @@
   padding: 20px;
   background-color: #000000;
   border-radius: 8px;
-  box-shadow: 0 0 10px #a141a2;
+  box-shadow: 0 0 10px #ffd9009a;
 }
 .Btn {
   width: 140px;
@@ -142,15 +144,15 @@
   background: linear-gradient(
     to right,
     #000000,
-    #a141a2,
+    #ffd700,
     #000000,
     #000000,
-    #a141a2,
+    #ffd700,
     #000000
   );
   background-size: 250%;
   background-position: left;
-  color: #a141a2;
+  color: #ffd700;
   position: relative;
   display: flex;
   align-items: center;
@@ -163,7 +165,7 @@
 .Btn::before {
   position: absolute;
   content: "Deposit";
-  color: #a141a2;
+  color: #ffd277;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,7 +288,7 @@ mat-form-field.mat-form-field.mat-white {
 .three-body {
   --uib-size: 30px;
   --uib-speed: 0.8s;
-  --uib-color: #a141a2;
+  --uib-color: #ffd700;
   position: absolute;
   display: inline-block;
   height: var(--uib-size);
@@ -388,7 +390,7 @@ mat-form-field.mat-form-field.mat-white {
 }
 //progressbar
 ::ng-deep .mdc-linear-progress__bar-inner {
-  border-color: #a141a2 !important;
+  border-color: #ffd700 !important;
 }
 
 // =======================loader======================
@@ -396,12 +398,14 @@ mat-form-field.mat-form-field.mat-white {
 .status-cell {
   display: flex;
   align-items: center;
+  
 }
 
 .loader {
   display: flex;
   align-items: center;
   margin-left: 6px;
+  
 }
 
 .bar {
@@ -416,11 +420,11 @@ mat-form-field.mat-form-field.mat-white {
 .bar:nth-child(2) {
   height: 15px;
   margin: 0 5px;
-  animation-delay: 0.25s;
+  animation-delay: .25s;
 }
 
 .bar:nth-child(3) {
-  animation-delay: 0.5s;
+  animation-delay: .5s;
 }
 
 @keyframes scale-up4 {

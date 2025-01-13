@@ -7,7 +7,7 @@
           <h5 class="card-title">Active Accounts</h5>
           <p class="card-text">{{ activeAccount }}</p>
         </div>
-        <div class="temp-scale" (click)="openActiveListDialog()">
+        <div class="temp-scale"(click)="openActiveListDialog()">
           <i class="fa-solid fa-arrow-right" style="color: #926108"></i>
         </div>
       </div>
@@ -18,7 +18,7 @@
           <h5 class="card-title">Freeze Account</h5>
           <p class="card-text">{{ freezeAccount }}</p>
         </div>
-        <div class="temp-scale" (click)="openFreezListDialog()">
+        <div class="temp-scale" (click)="openFreezListDialog()" >
           <i class="fa-solid fa-arrow-right" style="color: #926108"></i>
         </div>
       </div>
@@ -86,7 +86,7 @@
     matSort
   >
     <ng-container matColumnDef="position">
-      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
         No.
       </mat-header-cell>
       <mat-cell
@@ -98,7 +98,7 @@
     </ng-container>
 
     <ng-container matColumnDef="bankName">
-      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
         BankName
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -107,7 +107,7 @@
     </ng-container>
 
     <ng-container matColumnDef="accId">
-      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
         AccId
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -116,7 +116,7 @@
     </ng-container>
 
     <ng-container matColumnDef="ifscCode">
-      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
         IfscCode
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -125,7 +125,7 @@
     </ng-container>
 
     <ng-container matColumnDef="balance">
-      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
         Balance
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -134,7 +134,7 @@
     </ng-container>
 
     <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
         Status
       </mat-header-cell>
       <mat-cell *matCellDef="let element" style="color: white">
@@ -142,16 +142,16 @@
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="Operation" [sticky]="true">
-      <mat-header-cell *matHeaderCellDef style="color: #a141a2">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700">
         Operations
       </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <i
-          (click)="toggleStatus(element.id)"
-          class="fa-solid fa-exchange-alt userName"
-          [style.color]="element.freeze ? '#f90808' : '#00ff00'"
-          style="margin-left: 10px"
-        ></i>
+        (click)="toggleStatus(element.id)"
+        class="fa-solid fa-exchange-alt userName"
+        [style.color]="element.freeze ? '#f90808' : '#00ff00'"
+        style="margin-left: 10px"
+      ></i>
       </mat-cell>
     </ng-container>
 

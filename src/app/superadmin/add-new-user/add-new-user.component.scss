@@ -10,7 +10,7 @@
   box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37); /* Box shadow for depth */
 }
 .golden-progress-bar {
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   /* Other styles for the progress bar */
 }
 /* modal.component.css */
@@ -34,7 +34,7 @@
   padding: 20px;
   background-color: #000000;
   border-radius: 8px;
-  box-shadow: 0 0 10px #a141a2;
+  box-shadow: 0 0 10px #ffd9009a;
 }
 .Btn {
   width: 140px;
@@ -44,15 +44,15 @@
   background: linear-gradient(
     to right,
     #000000,
-    #a141a2,
+    #ffd700,
     #000000,
     #000000,
-    #a141a2,
+    #ffd700,
     #000000
   );
   background-size: 250%;
   background-position: left;
-  color: #a141a2;
+  color: #ffd700;
   position: relative;
   display: flex;
   align-items: center;
@@ -65,7 +65,7 @@
 .Btn::before {
   position: absolute;
   content: "Submit";
-  color: #a141a2;
+  color: #ffd277;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -256,7 +256,7 @@ mat-form-field.mat-form-field.mat-white {
 }
 
 .golden-progress-bar {
-  background-image: linear-gradient(to right, #a141a2, #a141a2);
+  background-image: linear-gradient(to right, #ffd700, #ffd700);
   /* Other styles for the progress bar */
 }
 /* modal.component.css */
@@ -280,7 +280,7 @@ mat-form-field.mat-form-field.mat-white {
   padding: 20px;
   background-color: #000000;
   border-radius: 8px;
-  box-shadow: 0 0 10px #a141a2;
+  box-shadow: 0 0 10px #ffd9009a;
 }
 .Btn {
   width: 140px;
@@ -290,15 +290,15 @@ mat-form-field.mat-form-field.mat-white {
   background: linear-gradient(
     to right,
     #000000,
-    #a141a2,
+    #ffd700,
     #000000,
     #000000,
-    #a141a2,
+    #ffd700,
     #000000
   );
   background-size: 250%;
   background-position: left;
-  color: #a141a2;
+  color: #ffd700;
   position: relative;
   display: flex;
   align-items: center;
@@ -311,7 +311,7 @@ mat-form-field.mat-form-field.mat-white {
 .Btn::before {
   position: absolute;
   content: "Add User";
-  color: #a141a2;
+  color: #ffd277;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -335,7 +335,7 @@ mat-form-field.mat-form-field.mat-white {
 .three-body {
   --uib-size: 30px;
   --uib-speed: 0.8s;
-  --uib-color: #a141a2;
+  --uib-color: #ffd700;
   position: absolute;
   display: inline-block;
   height: var(--uib-size);
@@ -437,5 +437,5 @@ mat-form-field.mat-form-field.mat-white {
 }
 //progressbar
 ::ng-deep .mdc-linear-progress__bar-inner {
-  border-color: #a141a2 !important;
+  border-color: #ffd700 !important;
 }

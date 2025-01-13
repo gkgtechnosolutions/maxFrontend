@@ -17,8 +17,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="t" [ngClass]="{ sidebarExpanded: isExpanded }">
-          <h3 style="color: #a141a2">
-            {{ userRole === "APPROVEDEPOSIT" ? "Approve" : userRole }} Panel
+          <h3 style="color: gold">
+            {{ userRole === 'APPROVEDEPOSIT' ? 'Approve' : userRole }} Panel
             <span style="color: rgb(246, 245, 241); font-weight: 300"
               >| {{ title }}</span
             >
@@ -79,16 +79,16 @@
     </div>
   </div>
   <div class="content">
-    <div class="link" *ngFor="let navDomain of navDomains">
+    <div class="link" *ngFor=" let navDomain of navDomains">
       <div
         class="content"
         [routerLink]="[navDomain.routerLink]"
         [routerLinkActive]="'active'"
       >
         <div class="icon">
-          <span class="material-symbols-outlined"> {{ navDomain.icon }} </span>
+          <span class="material-symbols-outlined"> {{navDomain.icon}} </span>
         </div>
-        <div class="title">{{ navDomain.title }}</div>
+        <div class="title">{{navDomain.title}}</div>
       </div>
     </div>
     <div class="link">

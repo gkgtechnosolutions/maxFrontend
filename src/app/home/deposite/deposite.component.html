@@ -35,9 +35,9 @@
                     formGroup.get('userId').touched)
                 "
               >
-                <span *ngIf="formGroup.get('userId').errors['required']"
-                  >User ID is required.</span
-                >
+              <span *ngIf="formGroup.get('userId').errors['required']"
+              >User ID is required.</span
+            >
                 <span *ngIf="formGroup.get('userId').errors['userExists']"
                   >User Not Found.</span
                 >
@@ -50,16 +50,8 @@
           <div class="col-md-6">
             <mat-form-field appearance="fill" class="w-100">
               <mat-label>Select Type</mat-label>
-              <mat-select
-                style="color: white"
-                formControlName="depositType"
-                (keydown.enter)="onSubmit($event)"
-              >
-                <mat-option
-                  *ngFor="let depositType of depositTypes"
-                  [value]="depositType"
-                  >{{ depositType }}</mat-option
-                >
+              <mat-select style="color: white;" formControlName="depositType" (keydown.enter)="onSubmit($event)">
+                <mat-option *ngFor="let depositType of depositTypes" [value]="depositType">{{ depositType }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -97,25 +89,20 @@
               </mat-error>
             </mat-form-field>
           </div>
-
+       
           <div class="col-md-6">
             <form [formGroup]="formGroup" class="example-form">
               <mat-form-field appearance="fill" class="w-100">
                 <mat-label>Select Bank</mat-label>
-                <input
-                  type="text"
-                  placeholder="Start typing to select a bank"
-                  aria-label="Bank"
-                  matInput
-                  [formControl]="bankIdControl"
-                  [matAutocomplete]="auto"
-                />
+                <input type="text"
+                       placeholder="Start typing to select a bank"
+                       aria-label="Bank"
+                       matInput
+                       [formControl]="bankIdControl"
+                       [matAutocomplete]="auto">
                 <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                  <mat-option
-                    *ngFor="let bank of filteredBanks | async"
-                    [value]="bank.accountHolder"
-                  >
-                    {{ bank.accountHolder }}
+                  <mat-option *ngFor="let bank of filteredBanks | async" [value]="bank.accountHolder">
+                    {{bank.accountHolder}}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
@@ -212,7 +199,7 @@
                   <!-- Position Column -->
                   <ng-container matColumnDef="userName" [sticky]="true">
                     <th
-                      style="color: #a141a2"
+                      style="color: #ffd700"
                       mat-header-cell
                       *matHeaderCellDef
                     >
@@ -229,7 +216,7 @@
                   </ng-container>
                   <ng-container matColumnDef="amount" [sticky]="true">
                     <th
-                      style="color: #a141a2"
+                      style="color: #ffd700"
                       mat-header-cell
                       *matHeaderCellDef
                     >
@@ -250,7 +237,7 @@
                   <!-- Name Column -->
                   <ng-container matColumnDef="status" [sticky]="true">
                     <th
-                      style="color: #a141a2"
+                      style="color: #ffd700"
                       mat-header-cell
                       *matHeaderCellDef
                     >
@@ -290,7 +277,7 @@
                   </ng-container>
                   <ng-container matColumnDef="retry" [sticky]="true">
                     <th
-                      style="color: #a141a2"
+                      style="color: #ffd700"
                       mat-header-cell
                       *matHeaderCellDef
                     >
