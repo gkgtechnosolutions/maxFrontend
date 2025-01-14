@@ -64,12 +64,12 @@ export class ApproveService {
 
 
 
-  retry(Id:number ,retry:boolean ){
+  retry(Id:number ,retry:boolean, obj:any) {
     const params =  new HttpParams()
     .set('approveId', Id)
     
     // .set('retry', retry)
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/approveRetry`, null, { params });
+    return this.http.put<any>(`${this.baseUrl}/approveOperation/approveRetry`, obj, { params });
 
   }
 

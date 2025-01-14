@@ -22,6 +22,7 @@ import { SnackbarService } from '../../services/snackbar.service';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { UtrService } from '../../services/utr.service';
 import { UTRDetailsPopupComponent } from '../utrdetails-popup/utrdetails-popup.component';
+import { AppvDeposit } from '../../domain/Deposite';
 
 @Component({
   selector: 'app-check-appv-dailog',
@@ -35,6 +36,7 @@ export class CheckAppvDailogComponent {
   filteredBanks: Observable<Bank[]>;
   userId: any;
   bankName;
+  retried: boolean;
   user;
   type;
   typingTimer: any;
@@ -44,6 +46,7 @@ export class CheckAppvDailogComponent {
   private subscription: Subscription;
   status: any;
   loader2: boolean;
+  obj: AppvDeposit;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CheckAppvDailogComponent>,
@@ -53,6 +56,7 @@ export class CheckAppvDailogComponent {
     public dialog: MatDialog,
     private snackbarService: SnackbarService,
      private utrservice: UtrService,
+     private apprvserv: ApproveService,
   ) {
     this.user = data.user;
     this.type = data.type;
@@ -83,6 +87,11 @@ export class CheckAppvDailogComponent {
     this.getwithdrawApproveStatus();
     this.subscription = interval(5000).subscribe(() => {
       this.getwithdrawApproveStatus();
+    });
+   }else if (this.type === 'Deposit') {
+    this.getDepositApproveStatus();
+    this.subscription = interval(5000).subscribe(() => {
+      this.getDepositApproveStatus();
     });
   }
     const utrNumberControl = this.formGroup.get('utrNumber');
@@ -241,6 +250,20 @@ export class CheckAppvDailogComponent {
       (data) => {
         this.status = data.approveWithdrawStatus;
         console.log(this.status);
+      },
+      (error) => {
+        console.error('Error fetching banks', error);
+      }
+    );
+  }
+  getDepositApproveStatus() {
+    this.apprvservice.getDepositObjById(this.user.id).subscribe(
+      (data) => {
+
+        this.obj = data
+        
+        this.status = data.approveStatus;
+        console.log('Status:', this.status);
       },
       (error) => {
         console.error('Error fetching banks', error);
@@ -425,5 +448,22 @@ export class CheckAppvDailogComponent {
   
       console.log('in dialog');
       const dialogRef = this.dialog.open(UTRDetailsPopupComponent, dialogConfig);
+    }
+    retry(Id: number , obj : AppvDeposit) {
+      this.loader = true;
+      this.retried=true;
+      obj.amount=this.formGroup.get('amount')?.value;
+      this.apprvserv.retry(Id,this.retried,obj).subscribe(
+        (data) => {
+         
+         
+          this.loader = false;
+          this.snackbarService.snackbar('Successful !!', 'success');
+        },
+        (error) => {
+          this.loader = false;
+          console.log(error);
+        }
+      );
     }
 }
