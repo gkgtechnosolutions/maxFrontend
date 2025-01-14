@@ -1,107 +1,118 @@
 <Div mat-dialog-title style="padding-bottom:0px">
-    <h2>Create and Approve</h2>
+    <h2 >Create and Approve</h2>
     <div>
       @if(type==="Deposit"){
       <span style="color: aliceblue;">userId : {{obj.userId}} ,   BankName : {{user.bank.bankName}}   </span>
       }@else {
         <span style="color: aliceblue;">userId : {{user.userId}}   </span>
       }
-      <form [formGroup]="formGroup" class="form-container">
-        @if(status === 'USER_CREATED'){
-          <span style="color: rgb(64, 228, 75);"> User created with userID : {{obj.userId}}  </span>
-        }@else {
-        <mat-form-field appearance="fill" class="form-field">
-          <mat-label>UserName</mat-label>
-          <input matInput formControlName="userId" />
-        </mat-form-field>
-      }
-        <div class="form-row">
-          <mat-form-field appearance="fill" class="form-field">
-            <mat-label>UTR Number</mat-label>
-            <input 
-             matInput 
-             formControlName="utrNumber" 
-             maxlength="12"
-            #UTRInput
-            (input)="onInput($event)"
-             />
-             <div class="three-body" *ngIf="loader2">
-              <div class="three-body__dot"></div>
-              <div class="three-body__dot"></div>
-              <div class="three-body__dot"></div>
-            </div>
-            <mat-error
-            *ngIf="utrNumber.errors?.['required'] || utrNumber.errors?.['utrExists']"
-          >
-            <span *ngIf="utrNumber.errors?.['utrExists']">
-              UTR Already used.
-            </span>
-
-            <span *ngIf="utrNumber.errors?.['required']">
-              UTR Number is required.
-            </span>
-          </mat-error>
-          </mat-form-field>
-          
-          <mat-form-field appearance="fill" class="form-field">
-            <mat-label>Amount</mat-label>
-            <input matInput formControlName="amount" />
-          </mat-form-field>
-          <button
-          *ngIf="utrNumber.errors?.['utrExists']"
-          style="color: #20d813"
-          mat-button
-          (click)="openUTRDetailsPopup()"
-        >
-          Check UTR Details
-        </button>
-
-          
-          <!-- <div *ngIf="formGroup.get('utrNumber').hasError('required') && formGroup.get('utrNumber').touched">
-            UTR Number is required for withdrawal.
-          </div> -->
-          <!-- <mat-form-field appearance="fill" class="form-field">
-            <mat-label>Select Bank</mat-label>
-            <input type="text"
-                   placeholder="Start typing to select a bank"
-                   aria-label="Bank"
-                   matInput
-                   [formControl]="bankIdControl"
-                   [matAutocomplete]="auto">
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-              <mat-option *ngFor="let bank of filteredBanks | async" [value]="bank.bankName">
-                {{ bank.bankName }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field> -->
-        </div>
-      </form>
+      
     </div>
   </Div>
+
+
   <mat-dialog-content>
+
     <app-loader *ngIf="loader"></app-loader>
-    @if(type==="Deposit"){
-    <div class="image-container">
-      
-      <div class="utr-image-container">
-        <div class="utr-image-container" (mousemove)="zoomImage($event)" (mouseleave)="hideZoom()">
-          <img [src]="user.bankUtrImageLink" alt="UTR Image" class="utr-image">
-          <div class="magnifier" #magnifier></div>
-          <img [src]="user.bankUtrImageLink" alt="Zoomed UTR Image" class="zoomed-image" #zoomedImage>
+
+    <div class="row" >
+        <div class="col-md-6">
+          <form [formGroup]="formGroup" class="form-container">
+            @if(status === 'USER_CREATED'){
+              <span style="color: rgb(64, 228, 75);"> User created with userID : {{obj.userId}}  </span>
+            }@else {
+            <mat-form-field appearance="fill" class="form-field">
+              <mat-label>UserName</mat-label>
+              <input matInput formControlName="userId" />
+            </mat-form-field>
+          }
+            <div class="form-row">
+              <mat-form-field appearance="fill" class="form-field">
+                <mat-label>UTR Number</mat-label>
+                <input 
+                 matInput 
+                 formControlName="utrNumber" 
+                 maxlength="12"
+                #UTRInput
+                (input)="onInput($event)"
+                 />
+                 <div class="three-body" *ngIf="loader2">
+                  <div class="three-body__dot"></div>
+                  <div class="three-body__dot"></div>
+                  <div class="three-body__dot"></div>
+                </div>
+                <mat-error
+                *ngIf="utrNumber.errors?.['required'] || utrNumber.errors?.['utrExists']"
+              >
+                <span *ngIf="utrNumber.errors?.['utrExists']">
+                  UTR Already used.
+                </span>
+    
+                <span *ngIf="utrNumber.errors?.['required']">
+                  UTR Number is required.
+                </span>
+              </mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="fill" class="form-field">
+                <mat-label>Amount</mat-label>
+                <input matInput formControlName="amount" />
+              </mat-form-field>
+              <button
+              *ngIf="utrNumber.errors?.['utrExists']"
+              style="color: #20d813"
+              mat-button
+              (click)="openUTRDetailsPopup()"
+            >
+              Check UTR Details
+            </button>
+    
+              
+              <!-- <div *ngIf="formGroup.get('utrNumber').hasError('required') && formGroup.get('utrNumber').touched">
+                UTR Number is required for withdrawal.
+              </div> -->
+              <!-- <mat-form-field appearance="fill" class="form-field">
+                <mat-label>Select Bank</mat-label>
+                <input type="text"
+                       placeholder="Start typing to select a bank"
+                       aria-label="Bank"
+                       matInput
+                       [formControl]="bankIdControl"
+                       [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let bank of filteredBanks | async" [value]="bank.bankName">
+                    {{ bank.bankName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field> -->
+            </div>
+          </form>
         </div>
-      </div>
-  
-  
-     
-    </div>}@else{
-         <div style="margin-top: 10px;">
-     <h4 class="mat-h4" style="color: gold;">Withdraw Message :</h4>
-     <mat-card class="scrollable-card" style="padding: 2px; margin-left: 20px;">
-      <span [innerHTML]="formatWithdrawMessage(user?.withdrawMessage)"></span>
-     </mat-card>
-     </div>
-   
-    }
+        <div class="col-md-6">
+          @if(type==="Deposit"){
+            <div class="image-container">
+              
+              <div class="utr-image-container">
+                <div class="utr-image-container" (mousemove)="zoomImage($event)" (mouseleave)="hideZoom()">
+                  <img [src]="user.bankUtrImageLink" alt="UTR Image" class="utr-image">
+                  <div class="magnifier" #magnifier></div>
+                  <img [src]="user.bankUtrImageLink" alt="Zoomed UTR Image" class="zoomed-image" #zoomedImage>
+                </div>
+              </div>
+          
+          
+             
+            </div>}@else{
+                 <div style="margin-top: 10px;">
+             <h4 class="mat-h4" style="color: gold;">Withdraw Message :</h4>
+             <mat-card class="scrollable-card" style="padding: 2px; margin-left: 20px;">
+              <span [innerHTML]="formatWithdrawMessage(user?.withdrawMessage)"></span>
+             </mat-card>
+             </div>
+           
+            }
+        </div>
+    </div>
     <button mat-icon-button mat-dialog-close class="close-button">
       <mat-icon style="color: gold">close</mat-icon>
     </button>
@@ -148,7 +159,7 @@
   </div>
   
   <button *ngIf="status === 'FAILED'" 
-    (click)="retry(obj.id)"
+    (click)="retry(obj.id,obj)"
     class="message-btn" 
     mat-raised-button 
     color="primary">

@@ -11,6 +11,7 @@ import { BankingService } from '../../services/banking.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { UtrService } from '../../services/utr.service';
 import { UTRDetailsPopupComponent } from '../utrdetails-popup/utrdetails-popup.component';
+import { AppvDeposit } from '../../domain/Deposite';
 
 @Component({
   selector: 'app-create-user-dailog',
@@ -33,7 +34,7 @@ export class CreateUserDailogComponent {
   private subscription: Subscription;
   status: any;
   loader2: boolean;
-  obj: any;
+  obj: AppvDeposit;
   retried: boolean;
   constructor(
     private fb: FormBuilder,
@@ -394,10 +395,14 @@ export class CreateUserDailogComponent {
         const dialogRef = this.dialog.open(UTRDetailsPopupComponent, dialogConfig);
       }
 
-      retry(Id: number ) {
+      retry(Id: number ,obj : any){
+
         this.loader = true;
+        this.obj.userId=this.formGroup.get('userId')?.value;
+        this.obj.utrNumber=this.formGroup.get('utrNumber')?.value;
+        this.obj.amount=this.formGroup.get('amount')?.value;
         this.retried=true;
-        this.apprvserv.retry(Id,this.retried).subscribe(
+        this.apprvserv.retry(Id,this.retried,obj).subscribe(
           (data) => {
            
            

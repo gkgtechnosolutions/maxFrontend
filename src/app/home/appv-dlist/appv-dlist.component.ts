@@ -214,10 +214,10 @@ throw new Error('Method not implemented.');
 });
   }
 
-  retry(Id: number ) {
+  retry(Id: number ,obj:any) {
     this.loader = true;
     this.retried=true;
-    this.apprvserv.retry(Id,this.retried).subscribe(
+    this.apprvserv.retry(Id,this.retried,obj).subscribe(
       (data) => {
         console.log('Approve', data);
         this.getDeposits();
@@ -455,7 +455,7 @@ throw new Error('Method not implemented.');
 
   checkNewUserApprove(user) {
     const dialogRef = this.dialog.open(CreateUserDailogComponent, {
-      width: '500px',
+      width: '800px',
       data: {
         user: user,
         type: "Deposit",

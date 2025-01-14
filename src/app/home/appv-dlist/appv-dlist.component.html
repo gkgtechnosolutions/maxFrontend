@@ -194,7 +194,7 @@
             @if(user.approveStatus.startsWith('F') ){
             <i
               matTooltip="Retry"
-              (click)="retry(user.id)"
+              (click)="retry(user.id, user)"
               class="fa-solid fa-arrows-rotate userName"
               style="color: #8cf584"
             ></i>

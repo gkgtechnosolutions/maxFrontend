@@ -100,6 +100,14 @@
 </mat-dialog-content>
 <mat-dialog-actions style="display: flex; justify-content: center;"> 
   @if(type==="Deposit"){
+    <button *ngIf="status === 'FAILED'" 
+    (click)="retry(obj.id,obj)"
+    class="message-btn" 
+    mat-raised-button 
+    color="primary">
+    Retry
+  </button>
+  @if(status === 'PENDING'){
   <button 
   mat-button
   (click)="user.approveStatus === 'PENDING' ? openRejectDialog(): null"
@@ -116,6 +124,7 @@
     mat-raised-button
     aria-label="Button that displays a tooltip when focused or hovered over">Approve
   </button>
+}
 }@else{
   <button 
   mat-button *ngIf="status === 'PENDING'"
