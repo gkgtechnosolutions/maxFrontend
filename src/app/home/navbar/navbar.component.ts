@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponettitleService } from '../../services/componenttitle.service';
-import { admin, APPROVEADMIN, APPROVEDEPOSIT, DEPOSIT, navDomain, USER } from './navDomain';
+import { admin, APPROVEADMIN, APPROVEDEPOSIT, APPROVEWITHDRAW, DEPOSIT, navDomain, USER } from './navDomain';
 
 @Component({
   selector: 'app-navbar',
@@ -78,6 +78,11 @@ export class NavbarComponent implements AfterViewInit ,OnInit {
         this.navDomains = APPROVEADMIN;
         console.log('Approve Admin role data set');
         break;
+       
+        case 'APPROVEWITHDRAW':
+          this.navDomains = APPROVEWITHDRAW;
+          console.log('Approve Admin role data set');
+          break;
   
       default:
         console.log('No matching role found, setting default role data');
