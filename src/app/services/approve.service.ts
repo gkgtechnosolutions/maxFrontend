@@ -194,9 +194,7 @@ updateApproveDeposit(id: number, data: { utrNumber: string; amount: string; bank
 
   // Append DTO fields to the FormData
   for (const key in dto) {
-    if (dto.hasOwnProperty(key)) {
-      formData.append(key, dto[key]);
-    }
+      formData.append(key, dto);
   }
   if (file) {
     formData.append('file', file);
