@@ -191,11 +191,12 @@ updateApproveDeposit(id: number, data: { utrNumber: string; amount: string; bank
  sendWithdrawMsg( id: number, dto: any, file?: File)
 {
   const formData = new FormData();
+console.log(dto);
+ if(dto != null){
+  formData.append('dto', dto);
+ }
+ 
 
-  // Append DTO fields to the FormData
-  for (const key in dto) {
-      formData.append(key, dto);
-  }
   if (file) {
     formData.append('file', file);
   }

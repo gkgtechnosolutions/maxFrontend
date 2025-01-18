@@ -423,13 +423,18 @@ export class CheckAppvDailogComponent {
   onSendMessage() {
     
     if (this.formGroup.valid) {
-      const formData = new FormData();
-      formData.append('utrNumber', this.formGroup.get('utrNumber')?.value);
-      formData.append('amount', this.formGroup.get('amount')?.value);
+      const data = {
+        utrNumber: this.formGroup.get('utrNumber')?.value,
+        amount: this.formGroup.get('amount')?.value
+      };
+      
+      // Convert the data object to a JSON string
+      const jsonData = JSON.stringify(data);
       // formData.append('utrImage', this.formGroup.get('utrImage')?.value);
       const fileData = this.formGroup.get('utrImage')?.value;
       this.loader = true;
-      this.apprvservice.sendWithdrawMsg(this.user.id, formData,fileData).subscribe(
+      console.log(fileData);
+      this.apprvservice.sendWithdrawMsg(this.user.id,jsonData,fileData).subscribe(
         (data) => {
           console.log(data);
           this.loader = false;
