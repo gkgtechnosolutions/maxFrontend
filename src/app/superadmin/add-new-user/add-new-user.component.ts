@@ -30,7 +30,7 @@ import { ComponettitleService } from '../../services/componenttitle.service';
 })
 export class AddNewUserComponent {
   formGroup: FormGroup;
-  roles: string[] = ['USER','ADMIN','SUPERADMIN','APPROVEADMIN', 'DEPOSIT','APPROVEDEPOSIT'];
+  roles: string[] = ['USER','ADMIN','SUPERADMIN','APPROVEADMIN', 'DEPOSIT','APPROVEDEPOSIT','APPROVEWITHDRAW'];
 
   ocrResult: string = '';
   imagePath: string = '';

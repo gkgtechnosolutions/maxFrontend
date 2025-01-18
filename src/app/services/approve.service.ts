@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService } from './app-config.service';
 import { appvWithdraw, DepositeWithdraw } from '../domain/Deposite';
@@ -188,9 +188,23 @@ export class ApproveService {
 updateApproveDeposit(id: number, data: { utrNumber: string; amount: string; bankId: number }) {
   return this.http.put<any>(`${this.baseUrl}/approveOperation/updateApproveDeposit/${id}`, data);
 }                                                                                                             
- sendWithdrawMsg(id: number, withdrawMsg: any){
-      console.log("Im in service");
-  return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/SendMessageApproveWithdraw/${id}`, withdrawMsg);
+ sendWithdrawMsg( id: number, dto: any, file?: File)
+{
+  const formData = new FormData();
+
+  // Append DTO fields to the FormData
+  for (const key in dto) {
+    if (dto.hasOwnProperty(key)) {
+      formData.append(key, dto[key]);
+    }
+  }
+  if (file) {
+    formData.append('file', file);
+  }
+
+  const headers = new HttpHeaders();
+
+  return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/SendMessageApproveWithdraw/${id}`,  formData, { headers });
 }
 
 

@@ -26,13 +26,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // this.tokenCheckService.startTokenCheck();
-    console.log(" in oninit");
+    // console.log(" in oninit");
     // this.statusMessage = "true";
     this.backendHealth.checkHealth().subscribe(
       (response) => {
-        console.log(" in response 2");
+        // console.log(" in response 2");
         this.statusMessage = response;
-        console.log(response);
+        // console.log(response);
       },
       (error) => {
         this.backendHealth.checkHealthSec().subscribe(
