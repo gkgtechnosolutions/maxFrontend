@@ -163,14 +163,10 @@ export class CheckAppvDailogComponent {
     } else {
       //need to check validtons
     //  debugger
-    const formData = new FormData();
-    formData.append('utrNumber', this.formGroup.get('utrNumber')?.value);
-    formData.append('amount', this.formGroup.get('amount')?.value);
-    // formData.append('utrImage', this.formGroup.get('utrImage')?.value);
-      const file = this.formGroup.get('utrImage')?.value;
+    const updatedData = this.formGroup.value;
       this.loader = true;
       this.apprvservice
-        .ApproveCheckWithdraw(this.user.id, this.userId, formData)
+        .ApproveCheckWithdraw(this.user.id, this.userId, updatedData)
         .subscribe({
           next: (response) => {
             console.log('Update successful', response);
