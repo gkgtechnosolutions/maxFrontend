@@ -23,6 +23,7 @@ import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { UtrService } from '../../services/utr.service';
 import { UTRDetailsPopupComponent } from '../utrdetails-popup/utrdetails-popup.component';
 import { AppvDeposit } from '../../domain/Deposite';
+import Tesseract from 'tesseract.js';
 
 @Component({
   selector: 'app-check-appv-dailog',
@@ -30,6 +31,8 @@ import { AppvDeposit } from '../../domain/Deposite';
   styleUrl: './check-appv-dailog.component.scss',
 })
 export class CheckAppvDailogComponent {
+
+
   formGroup: FormGroup;
   bankIdControl!: FormControl;
   banksList: Bank[];
@@ -47,6 +50,9 @@ export class CheckAppvDailogComponent {
   status: any;
   loader2: boolean;
   obj: AppvDeposit;
+  imageStatus: string = 'Select or drag UTR Image';
+  imagePreview: string | null = null;
+  selectedFile: File | null = null;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CheckAppvDailogComponent>,
@@ -70,6 +76,7 @@ export class CheckAppvDailogComponent {
       utrNumber: [data.user.utrNumber],
       amount: [data.user.amount],
       newId: [data.user.isNewId],
+      utrImage: [null ],
       // IbankId: [user.bank.bankName]
     });
 
@@ -129,6 +136,8 @@ export class CheckAppvDailogComponent {
     if (this.type === 'Deposit') {
       if (this.formGroup.valid) {
         const updatedData = this.formGroup.value;
+      
+      updatedData.append('utrImage', this.formGroup.get('utrImage')?.value);
         this.loader = true;
         this.apprvservice
           .Approvecheck(this.user.id, 0, this.userId, updatedData)
@@ -153,11 +162,15 @@ export class CheckAppvDailogComponent {
       }
     } else {
       //need to check validtons
-     debugger
-      const updatedData = this.formGroup.value;
+    //  debugger
+    const formData = new FormData();
+    formData.append('utrNumber', this.formGroup.get('utrNumber')?.value);
+    formData.append('amount', this.formGroup.get('amount')?.value);
+    // formData.append('utrImage', this.formGroup.get('utrImage')?.value);
+      const file = this.formGroup.get('utrImage')?.value;
       this.loader = true;
       this.apprvservice
-        .ApproveCheckWithdraw(this.user.id, this.userId, updatedData)
+        .ApproveCheckWithdraw(this.user.id, this.userId, formData)
         .subscribe({
           next: (response) => {
             console.log('Update successful', response);
@@ -194,13 +207,13 @@ export class CheckAppvDailogComponent {
     );
 
     // this.banksList = this.bank.banksList;
-    console.log(this.banksList);
+    // console.log(this.banksList);
   }
 
   onBankSelected(bankId: number) {
     // If needed, you can retrieve the selected bank's full details
     const selectedBank = this.banksList.find((bank) => bank.id === bankId);
-    console.log('Selected Bank:', selectedBank);
+    // console.log('Selected Bank:', selectedBank);
   }
 
   onCancel(): void {
@@ -223,7 +236,7 @@ export class CheckAppvDailogComponent {
   }
 
   private _filterBanks(value: string): any[] {
-    console.log(value, 'in filter');
+    // console.log(value, 'in filter');
     const filterValue = value.toLowerCase();
     return this.banksList.filter((bank) =>
       bank.bankName.toLowerCase().includes(filterValue)
@@ -248,14 +261,154 @@ export class CheckAppvDailogComponent {
   getwithdrawApproveStatus() {
     this.apprvservice.getWithdrawObjById(this.user.id).subscribe(
       (data) => {
+        this.obj = data;
         this.status = data.approveWithdrawStatus;
-        console.log(this.status);
+        // console.log(this.status);
       },
       (error) => {
         console.error('Error fetching banks', error);
       }
     );
   }
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter' && this.formGroup.value.amount > 0) {
+      this.onSave();
+    }
+  }
+
+  onFileSelected(event: any) {
+    this.loader = true;
+
+    const file: File = event.target.files[0];
+    console.log(file);
+   // Store the file in the form control
+
+   if (file) {
+    // console.log("file",file);
+      // this.formGroup.patchValue({utrImage: file});
+      this.formGroup.get('utrImage')?.setValue(file);
+     
+      // this.formGroup.get('utrImage')?.updateValueAndValidity();
+
+      // Generate a preview using FileReader
+      const reader = new FileReader();  
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    
+   }
+  //  if (file instanceof Blob) {
+  //   this.selectedFile = file;
+
+  //   // Update the form control with the file
+  //   this.formGroup.get('utrImage')?.setValue(file);
+
+  //   // Generate a preview using FileReader
+  //   const reader = new FileReader();
+  //   reader.onload = () => {
+  //     this.imagePreview = reader.result as string;
+  //   };
+  //   reader.readAsDataURL(file);
+  // } else {
+  //   console.error("Selected file is not a valid Blob.");
+  // }
+
+ 
+    
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      
+      this.recognizeText(imageUrl);
+      
+    } else {
+      this.loader = false;
+    }
+  }
+   async recognizeText(url: string) {
+      try {
+        let fetchingText = 'UTR Fetching';
+        const intervalId = setInterval(() => {
+          fetchingText += '.';
+          if (fetchingText.length > 15) {
+            fetchingText = 'UTR Fetching';
+          }
+          this.imageStatus = fetchingText;
+          console.log(fetchingText);
+        }, 500);
+  
+        const imageUrl = new URL(url);
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+        const result = await Tesseract.recognize(blob);
+        console.log(result.data.text);
+        const transactionID = this.extractTransactionID(result.data.text);
+        // Extracting the amount
+  
+        // let amountRegex = /(\d{1,3},)?\d{1,3},\d{3}/; // Regex to match numbers with commas (e.g., 4,000)
+        // let match = result.data.text.match()amountRegex;
+        // let amount = match ? parseFloat(match[0].replace(/,/g, '')) : null;
+  
+        // if (amount) {
+        //   this.formGroup.patchValue({
+        //     amount: amount,
+        //   });
+        // } else {
+        //   this.formGroup.patchValue({
+        //     amount: '',
+        //   });
+        // }
+        //========================================
+  
+        //===================================================================
+        const bankNameRegex = /To\s([a-zA-Z\s]+)\n/; // Regex to match text after "To" until the end of the line
+        const bankMatch = result.data.text.match(bankNameRegex);
+        const bankName = bankMatch ? bankMatch[1].trim() : null;
+  
+        console.log(bankName);
+  
+       
+  
+        clearInterval(intervalId); // Clear interval when operation completes
+  
+        if (transactionID) {
+          this.formGroup.patchValue({
+            utrNumber: transactionID,
+          });
+          this.onUTRInput(transactionID);
+  
+          this.imageStatus = 'UTR Fetched Successfully';
+        } else {
+          this.formGroup.patchValue({
+            utrNumber: ' ',
+          });
+          this.imageStatus = 'UTR Failed';
+        }
+  
+        this.loader = false;
+      } catch (error) {
+        console.error('Error recognizing text:', error);
+      }
+    }
+    extractTransactionID(details: string) {
+      // Try to match UPI transaction ID first
+      let idMatch = details.match(/UPI transaction ID\s+(\d+)/);
+      if (idMatch) {
+        return idMatch[1];
+      }
+      // Try to match a 12-digit number if UPI transaction ID was not found
+      else if ((idMatch = details.match(/\b\d{12}\b/))) {
+        return idMatch[0];
+      }
+      // Try to match two sets of six digits separated by a space
+      else if ((idMatch = details.match(/(\d{7})\s(\d{5})/))) {
+        return idMatch[1] + idMatch[2];
+      }
+  
+      // Return null if no patterns matched
+      return null;
+    } 
+
   getDepositApproveStatus() {
     this.apprvservice.getDepositObjById(this.user.id).subscribe(
       (data) => {
@@ -272,10 +425,15 @@ export class CheckAppvDailogComponent {
   }
 
   onSendMessage() {
-    const updatedData = this.formGroup.value;
+    
     if (this.formGroup.valid) {
+      const formData = new FormData();
+      formData.append('utrNumber', this.formGroup.get('utrNumber')?.value);
+      formData.append('amount', this.formGroup.get('amount')?.value);
+      // formData.append('utrImage', this.formGroup.get('utrImage')?.value);
+      const fileData = this.formGroup.get('utrImage')?.value;
       this.loader = true;
-      this.apprvservice.sendWithdrawMsg(this.user.id, updatedData).subscribe(
+      this.apprvservice.sendWithdrawMsg(this.user.id, formData,fileData).subscribe(
         (data) => {
           console.log(data);
           this.loader = false;

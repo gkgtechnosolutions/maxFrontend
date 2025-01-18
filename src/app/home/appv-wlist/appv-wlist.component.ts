@@ -56,7 +56,7 @@ constructor(
     //   this.pageNo = 0; // Reset to first page for a new search
     //   this.searchDeposits();
     // } else {
-    //   console.log('Search text is empty, no search will be performed.');
+    
    
       this.getWithdraws();
     // }
@@ -100,7 +100,7 @@ throw new Error('Method not implemented.');
 
 
    getWithdraws(): void {
-    console.log(this.selectedStatuses.value);
+   
     const statusesToSend =
       this.selectedStatuses.value.length > 0
         ? this.selectedStatuses.value
@@ -143,7 +143,7 @@ throw new Error('Method not implemented.');
 
  checkApprove(user) {
   const dialogRef = this.dialog.open(CheckAppvDailogComponent, {
-    width: '500px',
+    width: '800px',
     data: {
       user: user,
       type: "withdraw",
@@ -153,7 +153,7 @@ throw new Error('Method not implemented.');
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
       // Handle logic after the dialog is closed, if required (e.g., refreshing data)
-      console.log('Dialog result:', result);
+      // console.log('Dialog result:', result);
       this.getWithdraws();
     }
   });
@@ -180,7 +180,7 @@ deleteReport(Id: number) {
       this.loader = true;
   this.apprvserv.deleteWithdraw(Id, this.userId).subscribe({
     next: (response) => {
-      console.log('Delete successful', response);
+    
       this.snackbarService.snackbar('Deleted successful', 'success');
       this.getWithdraws();
       this.loader = false;
