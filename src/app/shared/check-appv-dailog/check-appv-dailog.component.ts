@@ -412,39 +412,37 @@ export class CheckAppvDailogComponent {
 
   onSendMessage() {
     if (this.formGroup.valid) {
-
-   
-
-      const  userId = this.user.userId;
+      const userId = this.user.userId;
       const amount = this.formGroup.get('amount')?.value;
       const id = this.user.id;
-      const chatId= this.user.chatID;
-    
-      
+      const chatId = this.user.chatID;
+      const utr = this.formGroup.get('utrNumber')?.value;
 
       // Convert the data object to a JSON string
-     
+
       // formData.append('utrImage', this.formGroup.get('utrImage')?.value);
       const fileData = this.formGroup.get('utrImage')?.value;
       this.loader = true;
       console.log(fileData);
 
-      this.apprvservice.sendWithdrawMsg(id,userId,amount,chatId,fileData).subscribe(
-        (data) => {
-          console.log(data);
-          this.loader = false;
-          this.snackbarService.snackbar(
-            'send message successfully!',
-            'success'
-          );
-          this.dialogRef.close();
-        },
-        (error) => {
-          console.error('Error fetching banks', error);
-          this.loader = false;
-        }
-      );
-    
+      this.apprvservice
+        .sendWithdrawMsg(id, userId, amount, chatId, utr, fileData)
+        .subscribe(
+          (data) => {
+            console.log(data);
+            this.loader = false;
+            this.snackbarService.snackbar(
+              'send message successfully!',
+              'success'
+            );
+            this.getwithdrawApproveStatus();
+            this.dialogRef.close();
+          },
+          (error) => {
+            console.error(error);
+            this.loader = false;
+          }
+        );
     }
   }
 
