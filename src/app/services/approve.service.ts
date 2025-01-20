@@ -188,22 +188,40 @@ export class ApproveService {
 updateApproveDeposit(id: number, data: { utrNumber: string; amount: string; bankId: number }) {
   return this.http.put<any>(`${this.baseUrl}/approveOperation/updateApproveDeposit/${id}`, data);
 }                                                                                                             
- sendWithdrawMsg( id: number, dto: any, file?: File)
-{
-  const formData = new FormData();
-console.log(dto);
- if(dto != null){
-  formData.append('dto', dto);
- }
+//  sendWithdrawMsg( id: number, dto: any, file?: File)
+// {
+//   const formData = new FormData();
+// console.log(dto);
+//  if(dto != null){
+//   formData.append('dto', dto);
+//  }
  
 
-  if (file) {
-    formData.append('file', file);
-  }
+//   if (file) {
+//     formData.append('file', file);
+//   }
 
-  const headers = new HttpHeaders();
+//   const headers = new HttpHeaders();
 
-  return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/SendMessageApproveWithdraw/${id}`,  formData, { headers });
+//   return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/SendMessageApproveWithdraw/${id}`,  formData, { headers });
+// }
+
+sendWithdrawMsg( id: number, userId :any, amount: number, chatid : number, file?: File)
+{
+  const params =  new HttpParams()
+    
+    .set('userId', userId.toString())
+    .set('amount', amount.toString());
+  
+ 
+    const formData = new FormData();
+    if (file) {
+      formData.append('file', file);
+    }
+  
+  
+
+  return this.http.put<any>(`${this.baseUrl}/sendMessage/withdrawDone/${chatid}/${id}`, formData , { params });
 }
 
 

@@ -218,27 +218,7 @@ export class CreateUserDailogComponent {
     );
   }
 
-  onSendMessage() {
-    const updatedData = this.formGroup.value;
-    if (this.formGroup.valid) {
-      this.loader = true;
-      this.apprvservice.sendWithdrawMsg(this.user.id, updatedData).subscribe(
-        (data) => {
-          console.log(data);
-          this.loader = false;
-          this.snackbarService.snackbar(
-            'send message successfully!',
-            'success'
-          );
-          this.dialogRef.close();
-        },
-        (error) => {
-          console.error('Error fetching banks', error);
-          this.loader = false;
-        }
-      );
-    }
-  }
+ 
 
   openImageDialog(imageUrl: string) {
     this.dialog.open(ImageDialogComponent, {
