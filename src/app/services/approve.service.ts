@@ -4,162 +4,209 @@ import { AppConfigService } from './app-config.service';
 import { appvWithdraw, DepositeWithdraw } from '../domain/Deposite';
 import { map, Observable } from 'rxjs';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApproveService {
- 
-
-
   constructor(public http: HttpClient, private config: AppConfigService) {
     // this.connection = Stomp.client('ws://localhost:8080/websocket');
     // this.connection.connect({}, () => {});
-
   }
   baseUrl: String = this.config.getBaseurl();
   // private connection: any;
   // private subscription: any;
 
-
   deposite(deposite: DepositeWithdraw): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/approveOperation/approveDeposit`, deposite);
+    return this.http.post<any>(
+      `${this.baseUrl}/approveOperation/approveDeposit`,
+      deposite
+    );
   }
 
   withdraw(withdraw: appvWithdraw): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/approveOperation/withdraw/approveWithdraw`, withdraw);
+    return this.http.post<any>(
+      `${this.baseUrl}/approveOperation/withdraw/approveWithdraw`,
+      withdraw
+    );
   }
 
   getAllApprvDepo(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/approveOperation/getAllApproveDeposits`);
+    return this.http.get<any>(
+      `${this.baseUrl}/approveOperation/getAllApproveDeposits`
+    );
   }
 
-  Approve(Id:number ,retry:number ,userId:number){
-    const params =  new HttpParams()
-    .set('id', Id.toString())
-    .set('retry', retry.toString())
-    .set('executedById', userId.toString())
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/approve`, null, { params });
-
+  Approve(Id: number, retry: number, userId: number) {
+    const params = new HttpParams()
+      .set('id', Id.toString())
+      .set('retry', retry.toString())
+      .set('executedById', userId.toString());
+    return this.http.put<any>(
+      `${this.baseUrl}/approveOperation/approve`,
+      null,
+      { params }
+    );
   }
 
-  Approvecheck(Id:number ,retry:number ,userId:number,approveDeposit:any) {
-    const params =  new HttpParams()
-    .set('id', Id.toString())
-    .set('retry', retry.toString())
-    .set('executedById', userId.toString())
+  Approvecheck(Id: number, retry: number, userId: number, approveDeposit: any) {
+    const params = new HttpParams()
+      .set('id', Id.toString())
+      .set('retry', retry.toString())
+      .set('executedById', userId.toString());
     console.log(approveDeposit);
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/approve`, approveDeposit, { params });
-
+    return this.http.put<any>(
+      `${this.baseUrl}/approveOperation/approve`,
+      approveDeposit,
+      { params }
+    );
   }
 
-  ApproveCheckWithdraw(Id:number,userId:number,approveWithdraw:any) {
-    const params =  new HttpParams()
-    .set('id', Id.toString())
-    .set('executedById', userId.toString())
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/approve`, approveWithdraw, { params });
-
+  ApproveCheckWithdraw(Id: number, userId: number, approveWithdraw: any) {
+    const params = new HttpParams()
+      .set('id', Id.toString())
+      .set('executedById', userId.toString());
+    return this.http.put<any>(
+      `${this.baseUrl}/approveOperation/withdraw/approve`,
+      approveWithdraw,
+      { params }
+    );
   }
 
+  retry(Id: number, retry: boolean, obj: any) {
+    const params = new HttpParams().set('approveId', Id);
 
-
-
-  retry(Id:number ,retry:boolean, obj:any) {
-    const params =  new HttpParams()
-    .set('approveId', Id)
-    
     // .set('retry', retry)
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/approveRetry`, obj, { params });
-
+    return this.http.put<any>(
+      `${this.baseUrl}/approveOperation/approveRetry`,
+      obj,
+      { params }
+    );
   }
 
-  retryWithdraw(id){
-    const params =  new HttpParams()
-    .set('approveId', id)
-    
+  retryWithdraw(id) {
+    const params = new HttpParams().set('approveId', id);
+
     // .set('retry', retry)
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/approveRetry`, null, { params });
-
+    return this.http.put<any>(
+      `${this.baseUrl}/approveOperation/withdraw/approveRetry`,
+      null,
+      { params }
+    );
   }
 
-  searchDeposits(statuses ,searchTerm: string, pageSize: number, pageNo: number) {
-    const params =  new HttpParams()
-    .set('status', statuses)
-    .set('searchTerm', searchTerm)
-    .set('page', pageNo.toString())
-    .set('size', pageSize.toString())
+  searchDeposits(
+    statuses,
+    searchTerm: string,
+    pageSize: number,
+    pageNo: number
+  ) {
+    const params = new HttpParams()
+      .set('status', statuses)
+      .set('searchTerm', searchTerm)
+      .set('page', pageNo.toString())
+      .set('size', pageSize.toString());
 
-
-    return this.http.get<any>(`${this.baseUrl}/approveOperation/approve-deposits/search`, { params });
+    return this.http.get<any>(
+      `${this.baseUrl}/approveOperation/approve-deposits/search`,
+      { params }
+    );
   }
 
-  Reject(Id:number,rejectReason:string ,userId:number): Observable<any> {
-    const params =  new HttpParams()
-    .set('id', Id.toString())
-   .set('rejectReason', rejectReason)
-   .set('executedById', userId.toString())
+  Reject(Id: number, rejectReason: string, userId: number): Observable<any> {
+    const params = new HttpParams()
+      .set('id', Id.toString())
+      .set('rejectReason', rejectReason)
+      .set('executedById', userId.toString());
 
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/reject`,null,{ params });
+    return this.http.put<any>(`${this.baseUrl}/approveOperation/reject`, null, {
+      params,
+    });
   }
 
-  RejectWithdraw(Id:number,rejectReason:string ,userId:number): Observable<any> {
-    const params =  new HttpParams()
-   .set('id', Id.toString())
-   .set('rejectReason', rejectReason)
-   .set('executedById', userId.toString())
+  RejectWithdraw(
+    Id: number,
+    rejectReason: string,
+    userId: number
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('id', Id.toString())
+      .set('rejectReason', rejectReason)
+      .set('executedById', userId.toString());
 
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/reject`,null,{ params });
+    return this.http.put<any>(
+      `${this.baseUrl}/approveOperation/withdraw/reject`,
+      null,
+      { params }
+    );
   }
 
-  manualApprove(utr:String): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/updateApproveStatus/${utr}`,null);
-   
+  manualApprove(utr: String): Observable<any> {
+    return this.http.put<any>(
+      `${this.baseUrl}/approveOperation/updateApproveStatus/${utr}`,
+      null
+    );
   }
 
-  getSelectiondata(statuses , pageSize:number, pageNo:number): Observable<any>{
-    const params =  new HttpParams()
-     .set('statuses', statuses)
-    .set('pageSize', pageSize.toString())
-    .set('pageNo', pageNo.toString());
+  getSelectiondata(
+    statuses,
+    pageSize: number,
+    pageNo: number
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('statuses', statuses)
+      .set('pageSize', pageSize.toString())
+      .set('pageNo', pageNo.toString());
 
-    return this.http.get<any>(`${this.baseUrl}/approveOperation/listByApproveStatus`,{params});
-
+    return this.http.get<any>(
+      `${this.baseUrl}/approveOperation/listByApproveStatus`,
+      { params }
+    );
   }
 
-  getSelectionWithdrawdata(statuses , pageSize:number, pageNo:number): Observable<any>{
-    const params =  new HttpParams()
-    .set('statuses', statuses)
-    .set('pageSize', pageSize.toString())
-    .set('pageNo', pageNo.toString());
+  getSelectionWithdrawdata(
+    statuses,
+    pageSize: number,
+    pageNo: number
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('statuses', statuses)
+      .set('pageSize', pageSize.toString())
+      .set('pageNo', pageNo.toString());
 
-    return this.http.get<any>(`${this.baseUrl}/approveOperation/withdraw/listByApproveStatus`,{params});
-
+    return this.http.get<any>(
+      `${this.baseUrl}/approveOperation/withdraw/listByApproveStatus`,
+      { params }
+    );
   }
 
-  getApprvReportdata(zuserId:number): Observable<any>{
-   
-
-    return this.http.get<any>(`${this.baseUrl}/approveOperation/getLatest200DepositsByZuserId/${zuserId}`);
-
+  getApprvReportdata(zuserId: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.baseUrl}/approveOperation/getLatest200DepositsByZuserId/${zuserId}`
+    );
   }
 
-  deleteReport(Id:number, Zuser:number){
-    const params =  new HttpParams()
-    
-    .set('id', Id.toString())
-    .set('executedById', Zuser.toString());
+  deleteReport(Id: number, Zuser: number) {
+    const params = new HttpParams()
 
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/delete`,null ,{params});
+      .set('id', Id.toString())
+      .set('executedById', Zuser.toString());
+
+    return this.http.put<any>(`${this.baseUrl}/approveOperation/delete`, null, {
+      params,
+    });
   }
 
+  deleteWithdraw(Id: number, Zuser: number) {
+    const params = new HttpParams()
 
-  deleteWithdraw(Id:number, Zuser:number){
-    const params =  new HttpParams()
-    
-    .set('id', Id.toString())
-    .set('executedById', Zuser.toString());
+      .set('id', Id.toString())
+      .set('executedById', Zuser.toString());
 
-    return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/delete` ,null,{params});
+    return this.http.put<any>(
+      `${this.baseUrl}/approveOperation/withdraw/delete`,
+      null,
+      { params }
+    );
   }
 
   //==================
@@ -176,63 +223,76 @@ export class ApproveService {
   //   }
   // }
 
-    // Combined method that listens to WebSocket and fetches data
-    // public listenAndFetchData(statuses: string[], pageSize: number, pageNo: number, callback: (data: any) => void): void {
-    //   this.listen((message) => {
-    //     this.getSelectiondata(statuses, pageSize, pageNo)
-    //       .pipe(map((response) => ({ message, response })))
-    //       .subscribe((data) => callback(data));
-    //   });
-    // }
-// weqrc  : string  
-updateApproveDeposit(id: number, data: { utrNumber: string; amount: string; bankId: number }) {
-  return this.http.put<any>(`${this.baseUrl}/approveOperation/updateApproveDeposit/${id}`, data);
-}                                                                                                             
-//  sendWithdrawMsg( id: number, dto: any, file?: File)
-// {
-//   const formData = new FormData();
-// console.log(dto);
-//  if(dto != null){
-//   formData.append('dto', dto);
-//  }
- 
+  // Combined method that listens to WebSocket and fetches data
+  // public listenAndFetchData(statuses: string[], pageSize: number, pageNo: number, callback: (data: any) => void): void {
+  //   this.listen((message) => {
+  //     this.getSelectiondata(statuses, pageSize, pageNo)
+  //       .pipe(map((response) => ({ message, response })))
+  //       .subscribe((data) => callback(data));
+  //   });
+  // }
+  // weqrc  : string
+  updateApproveDeposit(
+    id: number,
+    data: { utrNumber: string; amount: string; bankId: number }
+  ) {
+    return this.http.put<any>(
+      `${this.baseUrl}/approveOperation/updateApproveDeposit/${id}`,
+      data
+    );
+  }
+  //  sendWithdrawMsg( id: number, dto: any, file?: File)
+  // {
+  //   const formData = new FormData();
+  // console.log(dto);
+  //  if(dto != null){
+  //   formData.append('dto', dto);
+  //  }
 
-//   if (file) {
-//     formData.append('file', file);
-//   }
+  //   if (file) {
+  //     formData.append('file', file);
+  //   }
 
-//   const headers = new HttpHeaders();
+  //   const headers = new HttpHeaders();
 
-//   return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/SendMessageApproveWithdraw/${id}`,  formData, { headers });
-// }
+  //   return this.http.put<any>(`${this.baseUrl}/approveOperation/withdraw/SendMessageApproveWithdraw/${id}`,  formData, { headers });
+  // }
 
-sendWithdrawMsg( id: number, userId :any, amount: number, chatid : number, file?: File)
-{
-  const params =  new HttpParams()
-    
-    .set('userId', userId.toString())
-    .set('amount', amount.toString());
-  
- 
+  sendWithdrawMsg(
+    id: number,
+    userId: any,
+    amount: number,
+    chatid: number,
+    utr: string,
+    file?: File
+  ) {
+    const params = new HttpParams()
+
+      .set('userId', userId.toString())
+      .set('amount', amount.toString())
+      .set('utr', utr);
+
     const formData = new FormData();
     if (file) {
       formData.append('file', file);
     }
-  
-  
 
-  return this.http.put<any>(`${this.baseUrl}/sendMessage/withdrawDone/${chatid}/${id}`, formData , { params });
-}
+    return this.http.post<any>(
+      `${this.baseUrl}/UBotProject/sendMessage/withdrawDone/${chatid}/${id}`,
+      formData,
+      { params }
+    );
+  }
 
+  getWithdrawObjById(Id: Number) {
+    return this.http.get<any>(
+      `${this.baseUrl}/approveOperation/withdraw/findById/${Id}`
+    );
+  }
 
-getWithdrawObjById(Id:Number){
-     
-      return this.http.get<any>(`${this.baseUrl}/approveOperation/withdraw/findById/${Id}`);
-}
-
-getDepositObjById(Id:Number){
-     
-  return this.http.get<any>(`${this.baseUrl}/approveOperation/getApproveDepositById/${Id}`);
-}
-  
+  getDepositObjById(Id: Number) {
+    return this.http.get<any>(
+      `${this.baseUrl}/approveOperation/getApproveDepositById/${Id}`
+    );
+  }
 }
