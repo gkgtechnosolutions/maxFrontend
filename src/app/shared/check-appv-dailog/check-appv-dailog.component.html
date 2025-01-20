@@ -1,54 +1,54 @@
-<Div mat-dialog-title style="padding-bottom:0px">
+<Div mat-dialog-title style="padding-bottom: 0px">
   <h2>Check Approve</h2>
   <div>
     @if(type==="Deposit"){
-    <span style="color: aliceblue;">userId : {{user.userId}} ,   BankName : {{user.bank.bankName}}   </span>
+    <span style="color: aliceblue"
+      >userId : {{ user.userId }} , BankName : {{ user.bank.bankName }}
+    </span>
     }@else {
-      <span style="color: aliceblue;">userId : {{user.userId}}   </span>
+    <span style="color: aliceblue">userId : {{ user.userId }} </span>
     }
-    
   </div>
 </Div>
 <mat-dialog-content>
   <app-loader *ngIf="loader"></app-loader>
-  <div class="row" >
-    <div  class="col-md-6" >
+  <div class="row">
+    <div class="col-md-6">
       <form [formGroup]="formGroup" class="form-container">
         <div class="form-row">
           <mat-form-field appearance="fill" class="form-field">
             <mat-label>UTR Number</mat-label>
             <input
-             matInput
-              formControlName="utrNumber" 
+              matInput
+              formControlName="utrNumber"
               placeholder="Enter UTR Number"
               maxlength="12"
               #UTRInput
               (input)="onInput($event)"
-              />
-              <div class="three-body" *ngIf="loader2">
-                <div class="three-body__dot"></div>
-                <div class="three-body__dot"></div>
-                <div class="three-body__dot"></div>
-              </div>
-              <mat-error
+            />
+            <div class="three-body" *ngIf="loader2">
+              <div class="three-body__dot"></div>
+              <div class="three-body__dot"></div>
+              <div class="three-body__dot"></div>
+            </div>
+            <mat-error
               *ngIf="utrNumber.errors?.['required'] || utrNumber.errors?.['utrExists']"
             >
               <span *ngIf="utrNumber.errors?.['utrExists']">
                 UTR Already used.
               </span>
-  
+
               <span *ngIf="utrNumber.errors?.['required']">
                 UTR Number is required.
               </span>
             </mat-error>
-            
           </mat-form-field>
-          
+
           <mat-form-field appearance="fill" class="form-field">
             <mat-label>Amount</mat-label>
             <input matInput formControlName="amount" />
           </mat-form-field>
-  
+
           <button
             *ngIf="utrNumber.errors?.['utrExists']"
             style="color: #20d813"
@@ -62,12 +62,20 @@
         <div class="container">
           <div class="row">
             <div *ngIf="!imagePreview">
-              <label class="custum-file-upload" >
+              <label class="custum-file-upload">
                 <div>
                   <div class="icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="" viewBox="0 0 24 24">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill=""
+                      viewBox="0 0 24 24"
+                    >
                       <g stroke-width="0" id="SVGRepo_bgCarrier"></g>
-                      <g stroke-linejoin="round" stroke-linecap="round" id="SVGRepo_tracerCarrier"></g>
+                      <g
+                        stroke-linejoin="round"
+                        stroke-linecap="round"
+                        id="SVGRepo_tracerCarrier"
+                      ></g>
                       <g id="SVGRepo_iconCarrier">
                         <path
                           fill=""
@@ -84,7 +92,6 @@
                   <input
                     type="file"
                     id="file"
-                  
                     accept="image/*"
                     (change)="onFileSelected($event)"
                     (keydown)="onKeydown($event)"
@@ -92,108 +99,149 @@
                 </div>
               </label>
             </div>
-            
+
             <!-- Image Preview Section -->
-            <div *ngIf="imagePreview" class="image-preview">
+            <div
+              *ngIf="imagePreview"
+              class="image-preview"
+              (mousemove)="onMouseMove($event)"
+            >
               <img [src]="imagePreview" alt="UTR Image Preview" />
             </div>
-            
-           
           </div>
         </div>
-      }
+        }
       </form>
     </div>
-    <div  class="col-md-6" >
-  @if(type==="Deposit"){
-  <div class="image-container">
-    
-    <div class="utr-image-container">
-      <div class="utr-image-container" (mousemove)="zoomImage($event)" (mouseleave)="hideZoom()">
-        <img [src]="user.bankUtrImageLink" alt="UTR Image" class="utr-image">
-        <div class="magnifier" #magnifier></div>
-        <img [src]="user.bankUtrImageLink" alt="Zoomed UTR Image" class="zoomed-image" #zoomedImage>
+    <div class="col-md-6">
+      @if(type==="Deposit"){
+      <div class="image-container">
+        <div class="utr-image-container">
+          <div
+            class="utr-image-container"
+            (mousemove)="zoomImage($event)"
+            (mouseleave)="hideZoom()"
+          >
+            <img
+              [src]="user.bankUtrImageLink"
+              alt="UTR Image"
+              class="utr-image"
+            />
+            <div class="magnifier" #magnifier></div>
+            <img
+              [src]="user.bankUtrImageLink"
+              alt="Zoomed UTR Image"
+              class="zoomed-image"
+              #zoomedImage
+            />
+          </div>
+        </div>
       </div>
+      }@else{
+      <div style="margin-top: 10px">
+        <h4 class="mat-h4" style="color: gold">Withdraw Message :</h4>
+        <mat-card
+          class="scrollable-card"
+          style="padding: 2px; margin-left: 20px"
+        >
+          <span
+            [innerHTML]="formatWithdrawMessage(user?.withdrawMessage)"
+          ></span>
+        </mat-card>
+      </div>
+
+      }
     </div>
-
-
-   
-  </div>}@else{
-       <div style="margin-top: 10px;">
-   <h4 class="mat-h4" style="color: gold;">Withdraw Message :</h4>
-   <mat-card class="scrollable-card" style="padding: 2px; margin-left: 20px;">
-    <span [innerHTML]="formatWithdrawMessage(user?.withdrawMessage)"></span>
-   </mat-card>
-   </div>
- 
-  }
-</div>
-  <button mat-icon-button mat-dialog-close class="close-button">
-    <mat-icon style="color: gold">close</mat-icon>
-  </button>
+    <button mat-icon-button mat-dialog-close class="close-button">
+      <mat-icon style="color: gold">close</mat-icon>
+    </button>
   </div>
 </mat-dialog-content>
-<mat-dialog-actions style="display: flex; justify-content: center;"> 
+<mat-dialog-actions style="display: flex; justify-content: center">
   @if(type==="Deposit"){
-    <button *ngIf="status === 'FAILED'" 
-    (click)="retry(obj.id,obj)"
-    class="message-btn" 
-    mat-raised-button 
-    color="primary">
+  <button
+    *ngIf="status === 'FAILED'"
+    (click)="retry(obj.id, obj)"
+    class="message-btn"
+    mat-raised-button
+    color="primary"
+  >
     Retry
   </button>
   @if(status === 'PENDING'){
-  <button 
-  mat-button
-  (click)="user.approveStatus === 'PENDING' ? openRejectDialog(): null"
-  [ngStyle]="{color: user.approveStatus === 'PENDING' ? 'white' : 'gray'}"
-  [class.disabled]="user.approveStatus !== 'PENDING'"
-  style=" background-color: red"
-  >Reject</button>
-  <button  
-   class="approve-btn"
+  <button
+    mat-button
+    (click)="user.approveStatus === 'PENDING' ? openRejectDialog() : null"
+    [ngStyle]="{ color: user.approveStatus === 'PENDING' ? 'white' : 'gray' }"
+    [class.disabled]="user.approveStatus !== 'PENDING'"
+    style="background-color: red"
+  >
+    Reject
+  </button>
+  <button
+    class="approve-btn"
     (click)="user.approveStatus === 'PENDING' ? onSave() : null"
-    [ngStyle]="{color: user.approveStatus === 'PENDING' ? 'white' : 'gray'}"
+    [ngStyle]="{ color: user.approveStatus === 'PENDING' ? 'white' : 'gray' }"
     [class.disabled]="user.approveStatus !== 'PENDING'"
     [style.background-color]="'#20d813'"
     mat-raised-button
-    aria-label="Button that displays a tooltip when focused or hovered over">Approve
+    aria-label="Button that displays a tooltip when focused or hovered over"
+  >
+    Approve
   </button>
-}
-<span *ngIf="status === 'DONE' "style="color: rgb(64, 228, 75);">  Deposit Succesfull in "{{obj.userId}}" with amount {{obj.amount}} !!!</span>
-<span *ngIf="status === 'DELETED' "style="color: red;">  Deleted For some reason !!!</span>
-}@else{
-  <button 
-  mat-button *ngIf="status === 'PENDING'"
-  (click)="status === 'PENDING' ? openRejectDialog(): null"
-  [ngStyle]="{color: status === 'PENDING' ? 'white' : 'gray'}"
-  [class.disabled]="status !== 'PENDING'"
-  style=" background-color: red"
-  >Reject</button>
-  <button *ngIf="status === 'PENDING'"
-  class="approve-btn"
-  (click)="onSave()"
-  [ngStyle]="{color: 'white'}"
-  [style.background-color]="'#20d813'"
-  mat-raised-button
-  aria-label="Button that displays a tooltip when focused or hovered over">
-Approve
-</button>
-<div class="loader" *ngIf="status === 'IN_PROCESS'">
-  <span class="bar"></span>
-  <span class="bar"></span>
-  <span class="bar"></span>
-</div>
+  }
+  <span *ngIf="status === 'DONE'" style="color: rgb(64, 228, 75)">
+    Deposit Succesfull in "{{ obj.userId }}" with amount
+    {{ obj.amount }} !!!</span
+  >
+  <span *ngIf="status === 'DELETED'" style="color: red">
+    Deleted For some reason !!!</span
+  >
+  }@else{
+  <button
+    mat-button
+    *ngIf="status === 'PENDING'"
+    (click)="status === 'PENDING' ? openRejectDialog() : null"
+    [ngStyle]="{ color: status === 'PENDING' ? 'white' : 'gray' }"
+    [class.disabled]="status !== 'PENDING'"
+    style="background-color: red"
+  >
+    Reject
+  </button>
+  <button
+    *ngIf="status === 'PENDING'"
+    class="approve-btn"
+    (click)="onSave()"
+    [ngStyle]="{ color: 'white' }"
+    [style.background-color]="'#20d813'"
+    mat-raised-button
+    aria-label="Button that displays a tooltip when focused or hovered over"
+  >
+    Approve
+  </button>
+  <div class="loader" *ngIf="status === 'IN_PROCESS'">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </div>
 
-<button *ngIf="status === 'DONE'" 
-  (click)="onSendMessage()"
-  class="message-btn" 
-  mat-raised-button 
-  color="primary">
-Send Message
-</button>
-<span *ngIf="status === 'MESSAGE_SENT'" style="color: #00ccff">  Message sent succesfull !!!</span>
-<span *ngIf="status === 'DELETED' "style="color: red;">  Deleted For some reason !!!</span>
-<span *ngIf="status === 'INSUFFICIENT_BALANCE' "style="color: #ffcc00;">  Insufficient Balance !!!</span>
-}
+  <button
+    *ngIf="status === 'DONE'"
+    (click)="onSendMessage()"
+    class="message-btn"
+    mat-raised-button
+    color="primary"
+  >
+    Send Message
+  </button>
+  <span *ngIf="status === 'MESSAGE_SENT'" style="color: #00ccff">
+    Message sent succesfull !!!</span
+  >
+  <span *ngIf="status === 'DELETED'" style="color: red">
+    Deleted For some reason !!!</span
+  >
+  <span *ngIf="status === 'INSUFFICIENT_BALANCE'" style="color: #ffcc00">
+    Insufficient Balance !!!</span
+  >
+  }
 </mat-dialog-actions>
