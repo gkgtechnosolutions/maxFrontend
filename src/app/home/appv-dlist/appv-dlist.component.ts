@@ -28,10 +28,9 @@ import { CreateUserDailogComponent } from '../../shared/create-user-dailog/creat
   styleUrl: './appv-dlist.component.scss',
 })
 export class AppvDListComponent {
-
-editReport(arg0: number) {
-throw new Error('Method not implemented.');
-}
+  editReport(arg0: number) {
+    throw new Error('Method not implemented.');
+  }
 
   searchText: string = '';
   loader: boolean = false;
@@ -69,7 +68,7 @@ throw new Error('Method not implemented.');
   pageNo: number = 0;
   pageSize: number = 8;
   user: any;
-  userId:number ;
+  userId: number;
   isButtonClicked: { [key: number]: boolean } = {};
   retried: boolean = false;
   // selectedStatus: string = '';
@@ -83,10 +82,8 @@ throw new Error('Method not implemented.');
     private operation: OperationsService,
     public dialog: MatDialog,
     private apprvserv: ApproveService,
-    private snackbarService: SnackbarService,
-  ) // private webSocketService: WebsocketService
-
-  {
+    private snackbarService: SnackbarService // private webSocketService: WebsocketService
+  ) {
     this.titleService.changeTitle('Approve List');
     this.dateRange = { start: null, end: null };
   }
@@ -97,7 +94,7 @@ throw new Error('Method not implemented.');
       this.onStatusChange(selectedStatuses);
     });
 
-    this.getUserId()
+    this.getUserId();
     this.getDeposits();
 
     this.subscription = interval(10000).subscribe(() => {
@@ -140,16 +137,19 @@ throw new Error('Method not implemented.');
     }
   }
 
-
   searchDeposits(): void {
-
     const statusesToSend =
-    this.selectedStatuses.value.length > 0
-      ? this.selectedStatuses.value
-      : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED','USER_CREATED'];
+      this.selectedStatuses.value.length > 0
+        ? this.selectedStatuses.value
+        : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED', 'USER_CREATED'];
     // this.loader = true;
     this.apprvserv
-      .searchDeposits(statusesToSend,this.searchText, this.pageSize, this.pageNo)
+      .searchDeposits(
+        statusesToSend,
+        this.searchText,
+        this.pageSize,
+        this.pageNo
+      )
       .subscribe(
         (data) => {
           this.deposits = data.content;
@@ -164,60 +164,55 @@ throw new Error('Method not implemented.');
   }
 
   refresh() {
-    this.searchText="";
-    this.getDeposits()
+    this.searchText = '';
+    this.getDeposits();
   }
 
-
-
-  
   //==============================================================
 
-  Avp(Id: number, retry: number ,) {
-   
+  Avp(Id: number, retry: number) {
     const updatedData = {};
     const userData = localStorage.getItem('user');
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '300px',
-      data: {amount:"CheckAppv"},
+      data: { amount: 'CheckAppv' },
     });
     dialogRef.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
-
-    if (userData) {
-      this.user = JSON.parse(userData);
-    } else {
-      // Handle the case when user data is not available
-      console.error('User data not found in localStorage');
-      return;
-    }
-    const userId = this.user.user_id;
-    if (!this.isActionTaken) {
-      this.isActionTaken = true;
-      // Your logic to approve the deposit
-      console.log(`Approved user with ID: ${Id}`);
-    }
-     this.loader = true;
-    this.apprvserv.Approvecheck(Id, retry, userId,updatedData).subscribe(
-      (data) => {
-        console.log('Approve', data);
-        this.getDeposits();
-        this.loader = false;
-        this.snackbarService.snackbar('Successful !!', 'success');
-      },
-      (error) => {
-        this.loader = false;
-        console.log(error);
+        if (userData) {
+          this.user = JSON.parse(userData);
+        } else {
+          // Handle the case when user data is not available
+          console.error('User data not found in localStorage');
+          return;
+        }
+        const userId = this.user.user_id;
+        if (!this.isActionTaken) {
+          this.isActionTaken = true;
+          // Your logic to approve the deposit
+          console.log(`Approved user with ID: ${Id}`);
+        }
+        this.loader = true;
+        this.apprvserv.Approvecheck(Id, retry, userId, updatedData).subscribe(
+          (data) => {
+            console.log('Approve', data);
+            this.getDeposits();
+            this.loader = false;
+            this.snackbarService.snackbar('Successful !!', 'success');
+          },
+          (error) => {
+            this.loader = false;
+            console.log(error);
+          }
+        );
       }
-    );
-  }
-});
+    });
   }
 
-  retry(Id: number ,obj:any) {
+  retry(Id: number, obj: any) {
     this.loader = true;
-    this.retried=true;
-    this.apprvserv.retry(Id,this.retried,obj).subscribe(
+    this.retried = true;
+    this.apprvserv.retry(Id, this.retried, obj).subscribe(
       (data) => {
         console.log('Approve', data);
         this.getDeposits();
@@ -232,13 +227,12 @@ throw new Error('Method not implemented.');
   }
   Reject(Id: number) {
     this.openRejectDialog(Id);
- 
+
     this.getDeposits();
-   
   }
 
   manulAvp(utr: String) {
-     this.loader = true;
+    this.loader = true;
     this.apprvserv.manualApprove(utr).subscribe(
       (data) => {
         // console.log('manual', data);
@@ -252,15 +246,10 @@ throw new Error('Method not implemented.');
       }
     );
   }
-  disableButton(userId ): void {
+  disableButton(userId): void {
     // Set the clicked state for the corresponding user.id to true
     this.isButtonClicked[userId] = true;
   }
-
-  
-
-
-
 
   getSerialNumber(index: number): number {
     // Return the cumulative count plus the index within the current page
@@ -279,7 +268,6 @@ throw new Error('Method not implemented.');
     };
     return new Intl.DateTimeFormat(undefined, options).format(date);
   }
- 
 
   approve(deposits) {
     const newDeposits = {
@@ -301,7 +289,6 @@ throw new Error('Method not implemented.');
     console.log('inside approval');
   }
 
-  
   getDeposits(): void {
     console.log(this.selectedStatuses.value);
     const statusesToSend =
@@ -360,20 +347,15 @@ throw new Error('Method not implemented.');
     }
   }
 
-
-
   openRejectDialog(id: number) {
     const dialogRef = this.dialog.open(RejectconfirmationComponent, {
-      data: { id: id,
-             type:"Deposit"        
-       },
+      data: { id: id, type: 'Deposit' },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('Rejection Reason:', result);
       }
-    
     });
 
     this.getDeposits();
@@ -387,33 +369,31 @@ throw new Error('Method not implemented.');
     dialogRef.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
         this.loader = true;
-    this.apprvserv.deleteReport(Id, this.userId).subscribe({
-      next: (response) => {
-        console.log('Delete successful', response);
-        this.getDeposits();
-        this.snackbarService.snackbar('Deleted successful', 'success');
-        this.loader = false;
-        
-        // Handle success logic, e.g., showing a notification or refreshing the list
-      },
-      error: (error) => {
-        console.error('Delete failed', error);
-        this.loader = false;
-        // Handle error logic, e.g., showing an error message
+        this.apprvserv.deleteReport(Id, this.userId).subscribe({
+          next: (response) => {
+            console.log('Delete successful', response);
+            this.getDeposits();
+            this.snackbarService.snackbar('Deleted successful', 'success');
+            this.loader = false;
+
+            // Handle success logic, e.g., showing a notification or refreshing the list
+          },
+          error: (error) => {
+            console.error('Delete failed', error);
+            this.loader = false;
+            // Handle error logic, e.g., showing an error message
+          },
+        });
       }
-    })
-  }
-});
+    });
   }
 
-
-  getUserId(){
+  getUserId() {
     const userData = localStorage.getItem('user');
- 
 
     if (userData) {
       this.user = JSON.parse(userData);
-      this.userId = this.user.user_id;  // Get the user ID from localStorage
+      this.userId = this.user.user_id; // Get the user ID from localStorage
     } else {
       // Handle the case when user data is not available
       console.error('User data not found in localStorage');
@@ -424,10 +404,10 @@ throw new Error('Method not implemented.');
   openEditDialog(user: any): void {
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '400px',
-      data: user  // Pass the user object to the dialog
+      data: user, // Pass the user object to the dialog
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // Handle logic after the dialog is closed, if required (e.g., refreshing data)
         console.log('Dialog result:', result);
@@ -437,14 +417,14 @@ throw new Error('Method not implemented.');
 
   checkApprove(user) {
     const dialogRef = this.dialog.open(CheckAppvDailogComponent, {
-      width: '500px',
+      width: '700px',
       data: {
         user: user,
-        type: "Deposit",
-      }    // Pass the user object to the dialog
+        type: 'Deposit',
+      }, // Pass the user object to the dialog
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // Handle logic after the dialog is closed, if required (e.g., refreshing data)
         console.log('Dialog result:', result);
@@ -458,11 +438,9 @@ throw new Error('Method not implemented.');
       width: '800px',
       data: {
         user: user,
-        type: "Deposit",
-      }    // Pass the user object to the dialog
+        type: 'Deposit',
+      }, // Pass the user object to the dialog
     });
-
- 
   }
 
   onClick(user: any): void {
@@ -472,6 +450,4 @@ throw new Error('Method not implemented.');
       this.checkApprove(user);
     }
   }
-  
-  
 }

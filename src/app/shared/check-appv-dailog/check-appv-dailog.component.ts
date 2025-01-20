@@ -131,11 +131,12 @@ export class CheckAppvDailogComponent {
   }
 
   onSave(): void {
+    debugger;
     if (this.type === 'Deposit') {
       if (this.formGroup.valid) {
         const updatedData = this.formGroup.value;
 
-        updatedData.append('utrImage', this.formGroup.get('utrImage')?.value);
+        // updatedData.append('utrImage', this.formGroup.get('utrImage')?.value);
         this.loader = true;
         this.apprvservice
           .Approvecheck(this.user.id, 0, this.userId, updatedData)
