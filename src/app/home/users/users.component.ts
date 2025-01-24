@@ -21,7 +21,7 @@ export class UsersComponent {
   dataSource = new MatTableDataSource();
   typingTimer: any;
   doneTypingInterval = 800;
-  loader1 = false;
+  loader1: boolean;
   loader2: boolean;
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -35,6 +35,7 @@ export class UsersComponent {
     this.titleService.changeTitle('User panel');
     this.dataSource.sort = this.sort;
   }
+  
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);

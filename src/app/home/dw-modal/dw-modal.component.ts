@@ -76,6 +76,9 @@ export class DWModalComponent {
     });
    
   }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
   getReport(){
     if(this.buttonName == 'Deposit'){

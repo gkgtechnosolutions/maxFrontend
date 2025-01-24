@@ -54,6 +54,7 @@ export class DepositeComponent implements OnInit {
     this.getTodayDeposit()
     this.getDepositeTabledata();
   }
+  
 
 
   openDialog() {

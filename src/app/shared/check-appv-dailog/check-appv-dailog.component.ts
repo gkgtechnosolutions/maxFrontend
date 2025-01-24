@@ -617,6 +617,24 @@ export class CheckAppvDailogComponent {
       }
     );
   }
+  retryW(Id: number  ) {
+    this.loader = true;
+    this.retried=true;
+
+    this.apprvserv.retryWithdraw(Id).subscribe(
+      (data) => {
+       
+       
+        this.loader = false;
+        this.snackbarService.snackbar('Successful !!', 'success');
+      },
+      (error) => {
+        this.loader = false;
+        console.log(error);
+      }
+    );
+  }
+  
   onMouseMove(event: MouseEvent): void {
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();

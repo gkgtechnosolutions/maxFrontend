@@ -18,6 +18,9 @@
   font-size: 170%;
   font-weight: 5;
   }
+  ::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled+.mdc-label {
+    color:wheat !important;
+  }
   
   
   

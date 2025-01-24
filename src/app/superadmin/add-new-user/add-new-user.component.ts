@@ -75,6 +75,8 @@ export class AddNewUserComponent {
     // this.formGroup.get('date').setValue(currentDate);
    
   }
+  
+  
 
   openFileInput(): void {
     this.fileInput.nativeElement.click();

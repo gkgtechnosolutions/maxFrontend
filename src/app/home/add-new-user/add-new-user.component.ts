@@ -87,11 +87,8 @@ export class AddNewUserComponent {
     const currentDate = new Date();
     this.formGroup.get('date').setValue(currentDate);
     this.getuserID();
-
     this.getAddUser();
-
     this.subscribeToSiteSelection();
-
     this.subscription = interval(5000).subscribe(() => {
       this.getAddUser();
     });
@@ -156,10 +153,8 @@ export class AddNewUserComponent {
       } else {
       }
       const id = this.user.user_id;
-
       this.prograsbar = true;
       this.formGroup.patchValue({ zuserId: id });
-
       this.increaseProgressBar();
 
       this.operation.addUser(this.formGroup.value).subscribe(
@@ -210,7 +205,6 @@ export class AddNewUserComponent {
   resetForm() {
     // Reset form controls
     this.formGroup.reset();
-
     // Mark the form as pristine and untouched
     this.formGroup.markAsPristine();
     this.formGroup.markAsUntouched();
@@ -283,8 +277,7 @@ export class AddNewUserComponent {
     const userIdControl = this.formGroup.get('userId');
     let currentUserId = userIdControl.value;
     if (!currentUserId.startsWith(this.userIdPrefix)) {
-      currentUserId =
-        this.userIdPrefix + currentUserId.substring(this.userIdPrefix.length);
+      currentUserId = this.userIdPrefix + currentUserId.substring(this.userIdPrefix.length);
       userIdControl.setValue(currentUserId);
     } else if (currentUserId.length > this.userIdPrefix.length) {
       const charactersAfterPrefix = currentUserId.substring(

@@ -60,6 +60,7 @@ export class SupAdepositComponent {
     this.getTodayDeposit()
     this.getDepositeTabledata();
   }
+  
 
 
   openDialog() {

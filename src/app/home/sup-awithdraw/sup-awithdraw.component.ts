@@ -55,6 +55,7 @@ export class SupAWithdrawComponent {
     this.getWithDrawTabledata();
     
   }
+  
 
 
   openDialog() {

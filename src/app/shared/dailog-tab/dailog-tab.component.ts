@@ -49,6 +49,7 @@ export class DailogTABComponent {
       amount: ['', [Validators.required, Validators.min(0)]]
     });
     }
+    
    
 
 

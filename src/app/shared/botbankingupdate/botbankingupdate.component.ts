@@ -38,6 +38,7 @@ export class BotbankingupdateComponent {
    
     });
   }
+  
 
   getAllBankAccounts() {
     this.loader = true;

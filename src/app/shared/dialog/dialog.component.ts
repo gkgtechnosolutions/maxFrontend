@@ -65,6 +65,7 @@ export class DialogComponent {
       ];
     }
   }
+  
 
   retry(op: Operation) {
     this.prograsbar = true;

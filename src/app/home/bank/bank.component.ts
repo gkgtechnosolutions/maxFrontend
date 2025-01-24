@@ -39,6 +39,7 @@ export class BankComponent implements OnInit {
       branchName: [''],
     });
   }
+  
 
   onBankSubmit(event: Event): void {
    

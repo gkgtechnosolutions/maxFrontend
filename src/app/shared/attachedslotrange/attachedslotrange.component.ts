@@ -36,6 +36,7 @@ export class AttachedslotrangeComponent {
     this.selectedAmountRange = this.data.amountRange.id;
     
   }
+  
 
   onAddOrUpdate(): void {
     // Handle the add or update logic here

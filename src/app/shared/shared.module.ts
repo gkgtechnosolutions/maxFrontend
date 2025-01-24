@@ -43,6 +43,7 @@ import { ClietUserListComponent } from './cliet-user-list/cliet-user-list.compon
 import { SendmsgdailogComponent } from './sendmsgdailog/sendmsgdailog.component';
 import { AddAppUserComponent } from './add-app-user/add-app-user.component';
 import { CreateUserDailogComponent } from './create-user-dailog/create-user-dailog.component';
+import { UpAppvlistComponent } from './up-appvlist/up-appvlist.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { CreateUserDailogComponent } from './create-user-dailog/create-user-dail
     ClietUserListComponent,
     SendmsgdailogComponent,
     AddAppUserComponent,
-    CreateUserDailogComponent
+    CreateUserDailogComponent,
+    UpAppvlistComponent
   ],
   imports: [
     CommonModule,

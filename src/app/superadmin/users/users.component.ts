@@ -39,6 +39,7 @@ export class UsersComponent {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+  
   getUser(username: string) {
     this.loader1 = true;
     this.operation.findUser(username).subscribe(

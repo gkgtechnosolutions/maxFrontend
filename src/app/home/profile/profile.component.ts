@@ -46,6 +46,8 @@ export class ProfileComponent {
     const user = JSON.parse(storedUser);
     this.Username = user ? user.user_email : null;
   }
+
+  
   onSubmit() {
     this.loader = true;
   

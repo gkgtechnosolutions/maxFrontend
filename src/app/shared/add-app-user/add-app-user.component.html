@@ -10,7 +10,11 @@
           <div class="col-md-6">
             <mat-form-field appearance="fill" class="w-100">
               <mat-label>Role</mat-label>
-              <input matInput value="APPROVEADMIN" disabled>
+              <mat-select  formControlName="role">
+                <mat-option *ngFor="let role of roles" [value]="role.value">
+                  {{ role.viewValue }}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
           </div>
         </div>
