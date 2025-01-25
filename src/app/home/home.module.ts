@@ -53,6 +53,7 @@ import { AppvHomeComponent } from './appv-home/appv-home.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UserPanelComponent } from './user-panel/user-panel.component';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
 
 
 @NgModule({
@@ -85,6 +86,7 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
     AppvDListComponent,
     AppvHomeComponent,
     UserPanelComponent,
+    LanguageDashboardComponent
     
   ],
   imports: [

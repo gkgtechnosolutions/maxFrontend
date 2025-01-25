@@ -44,6 +44,7 @@ import { SendmsgdailogComponent } from './sendmsgdailog/sendmsgdailog.component'
 import { AddAppUserComponent } from './add-app-user/add-app-user.component';
 import { CreateUserDailogComponent } from './create-user-dailog/create-user-dailog.component';
 import { UpAppvlistComponent } from './up-appvlist/up-appvlist.component';
+import { LanguageDailogComponent } from './language-dailog/language-dailog.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { UpAppvlistComponent } from './up-appvlist/up-appvlist.component';
     SendmsgdailogComponent,
     AddAppUserComponent,
     CreateUserDailogComponent,
-    UpAppvlistComponent
+    UpAppvlistComponent,
+    LanguageDailogComponent
   ],
   imports: [
     CommonModule,

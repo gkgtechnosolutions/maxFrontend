@@ -24,6 +24,7 @@ import { SupAdepositComponent } from './sup-adeposit/sup-adeposit.component';
 import { SupAWithdrawComponent } from './sup-awithdraw/sup-awithdraw.component';
 import { AppvHomeComponent } from './appv-home/appv-home.component';
 import { UserPanelComponent } from './user-panel/user-panel.component';
+import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
 
 
 // Components
@@ -130,6 +131,10 @@ const routes: Routes = [
         path:'user-panel',
         component: UserPanelComponent,
       },
+      {
+        path:'language-dashboard',
+        component: LanguageDashboardComponent,
+      }
     
       
 

@@ -7,6 +7,7 @@ var appConfig = {
   // mainbackendUrl: "http://agserver-61043.portmap.host:61043",
 
   // mainbackendUrl: "http://13.200.63.62:8080",
+  
 
   mainbackendUrl:"http://vinayahire-23413.portmap.host:23413",
 

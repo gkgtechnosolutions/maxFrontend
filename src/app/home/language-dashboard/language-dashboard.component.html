@@ -1,0 +1,107 @@
+<app-loader *ngIf="loader"></app-loader>
+<div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="newcard">
+        <div class="card-body">
+          <h5 class="card-title">Language</h5>
+        
+        </div>
+        <div class="temp-scale">
+          <i class="fa-solid fa-arrow-right" style="color: #926108" (click)="openlanguageDailog()"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <!-- <div class="newcard">
+        <div class="card-body">
+          <h5 class="card-title">Update language</h5>
+        </div>
+        <div class="temp-scale">
+          <i class="fa-solid fa-arrow-right" style="color: #926108" (click)="openlanguageDailogUpdate()"></i>
+        </div>
+      </div> -->
+    </div>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4">
+    <input class=" inp " matInput placeholder="Username" #input (input)="filterData(input.value)" />
+  </div>
+  <div class="col-sm-4">
+    <button class="inp" id="s1"
+      style="background: linear-gradient(to right, #74480f,#442504); color: #fffbfb; font-size: 500"
+      (click)="filterData(input.value)">
+      Search
+    </button>
+  </div>
+  <div class="col-sm-4">
+    <mat-form-field appearance="fill" style="width: 100%; height: 80px;">
+      <mat-label>Select Language</mat-label>
+      <mat-select (selectionChange)="onLanguageChange($event.value)">
+        <mat-option *ngFor="let lang of languages" [value]="lang.id">
+          {{ lang.languageName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  
+</div>
+
+<div class="example-container mat-elevation-z8 tbl" [hidden]="false">
+  <mat-table style="background-color: rgb(5, 5, 5);" #table [dataSource]="dataSource.data" matSort>
+    <!-- Language Dropdown Column -->
+    <ng-container matColumnDef="language">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700;">
+       Sr No
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element  let i = index" style="color: #e8e7e5;">
+        {{ i + 1 }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="Name">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700;">
+        Name
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="color: white">
+        {{ element.name }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Messages Column -->
+    <ng-container matColumnDef="Messages">
+      <mat-header-cell *matHeaderCellDef style="color: #ffd700;">
+        Messages
+      </mat-header-cell>
+      <mat-cell *matCellDef="let element" style="color: white;">
+        <ng-container *ngIf="editingElementId !== element.id; else editMode">
+          <span (click)="enableEdit(element)" style="cursor: pointer;">
+            {{ element.message || 'Click to Add' }}
+          </span>
+        </ng-container>
+      
+        <ng-template #editMode>
+          <textarea
+            type="text"
+            [value]="editedMessage"
+            (input)="onInputChange($event)"
+            (keydown.enter)="saveMessage(element)"
+            (blur)="cancelEdit()"
+            style="color: black; width: 100%; overflow: hidden;"
+            autofocus
+          ></textarea>
+        </ng-template>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Table Rows -->
+    <mat-header-row class="rowheader" *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row class="rowheader" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>
+
+

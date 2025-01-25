@@ -73,4 +73,6 @@ export interface navDomain {
     { routerLink: 'SupADeposit', icon: "download", title: "Sup ADeposit" },
     { routerLink: 'SupAWithdraw', icon: "upload", title: "Sup AWithdraw" },
     { routerLink: 'user-panel', icon: "group", title: "User panel" },
+    { routerLink: 'language-dashboard', icon: "group", title: "Language Dashboard" },
+
   ]
