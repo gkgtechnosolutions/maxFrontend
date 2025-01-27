@@ -103,6 +103,9 @@ export class AppvWlistComponent {
     this.getWithdraws();
     this.getUserId();
   }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
   getWithdraws(): void {
     const statusesToSend =

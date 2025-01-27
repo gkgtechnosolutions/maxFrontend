@@ -63,6 +63,7 @@ export class AddBankingDialogComponent {
       branchName: [''],
     });
   }
+  
 
   onBankSubmit(): void {
    

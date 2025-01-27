@@ -92,6 +92,9 @@ export class AddOldUserComponent {
       this.getAddUser();
     });
   }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
   openFileInput(): void {
     this.fileInput.nativeElement.click();

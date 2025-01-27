@@ -51,6 +51,7 @@ export class LandingpageComponent implements OnInit {
     this.titleService.changeTitle('Dashboard panel');
     this.fetchData();
   }
+  
 
   fetchData() {
     this.getUser();

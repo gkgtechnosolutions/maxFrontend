@@ -1,0 +1,49 @@
+.demo-table {
+    width: 100%;
+  }
+  
+  .mat-column-demo-position {
+    width: 32px;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+  }
+  
+  .mat-column-demo-name {
+    padding-left: 16px;
+    font-size: 20px;
+  }
+  
+  .mat-column-demo-weight {
+    font-style: italic;
+  }
+  
+  .mat-column-demo-symbol {
+    width: 32px;
+    text-align: center;
+    font-weight: bold;
+  }
+  ::ng-deep .mat-mdc-dialog-container .mdc-dialog__title {
+    background-color:   rgb(35, 30, 9) !important;
+    color: #f7f7f7;
+    
+    
+  
+  }
+  ::ng-deep .mdc-data-table__row:last-child .mat-mdc-cell {
+    background-color: rgb(35, 30, 9) !important;
+    color: #f7f7f7;
+  }
+  ::ng-deep .mat-mdc-header-cell {
+    background-color: rgb(35, 30, 9) !important;
+    color: #f7f7f7;
+  }
+
+  ::ng-deep .mat-column-demo-position[_ngcontent-ng-c4052164641]{
+    background-color:   rgb(35, 30, 9) !important;
+    color: #f7f7f7;
+  }
+
+  ::ng-deep .mat-mdc-dialog-container .mdc-dialog__content{
+    background-color:   rgb(35, 30, 9) !important;
+  }

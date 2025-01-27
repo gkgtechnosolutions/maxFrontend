@@ -56,6 +56,7 @@ export class SupDtableComponent {
     this.getRangedata();
     this.inputPage = 1;
   }
+  
 
   getdata(): void {
     if(this.dataSource ==="Deposit"){

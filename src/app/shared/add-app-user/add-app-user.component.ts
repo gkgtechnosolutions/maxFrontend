@@ -19,8 +19,12 @@ import { SiteMaster } from '../../domain/SiteMaster';
 })
 export class AddAppUserComponent {
   formGroup: FormGroup;
-  roles: string[] = ['USER','ADMIN','SUPERADMIN','APPROVEADMIN', 'DEPOSIT','APPROVEDEPOSIT'];
-
+  roles = [
+    { value: 'APPROVEDEPOSIT', viewValue: 'ApproveDeposit' },
+    { value: 'APPROVEWITHDRAW', viewValue: 'ApproveWithdraw' },
+    
+  ];
+  
   ocrResult: string = '';
   imagePath: string = '';
   imageStatus: string = 'Select or drag UTR Image';
@@ -58,25 +62,26 @@ export class AddAppUserComponent {
 
  
   ngOnInit(): void {
-    this.titleService.changeTitle('Add user panel');
+   
     this.myFormValues();
     const currentDate = new Date();
     // this.formGroup.get('date').setValue(currentDate);
    
   }
+  
 
   openFileInput(): void {
     this.fileInput.nativeElement.click();
   }
   myFormValues(): void {
     this.formGroup = this.fb.group({
-      role: [{ value: 'APPROVEADMIN', disabled: true }, Validators.required],
+      role: ['', Validators.required],
       username: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, this.passwordValidator]],
       // name: ['', Validators.required],
       // site_id: ['', Validators.required],
        id: ['0'],
-      // zuserId: [''],
+      zuserId: [''],
       // date: [new Date()],
     });
   }
@@ -93,7 +98,8 @@ export class AddAppUserComponent {
     } else {
     }
     const id = this.user.user_id;
-
+    console.log('form is valid');
+    console.log(this.formGroup.value);
 
     if (this.formGroup.valid) {
       

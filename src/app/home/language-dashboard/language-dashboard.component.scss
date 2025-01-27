@@ -22,8 +22,16 @@
     color:wheat !important;
   }
   
+  ::ng-deep .mat-mdc-form-field:not(.mat-form-field-disabled) .mat-mdc-floating-label.mdc-floating-label {
+    color : #ffd700;
+  }
   
-  
+  ::ng-deep .mat-mdc-select-arrow svg {
+    color: #ffd700;
+  }
+  ::ng-deep .mat-mdc-select-value {
+    color: #ffd700;
+  }
   
   h1 {
     font-size: 2rem;
@@ -81,7 +89,7 @@
 //========================================================new card =================================
 .newcard {
   width: auto;
-  height: 180px;
+
   position: relative;
   padding: 25px;
   background: radial-gradient(78.94% 270.41% at 26.42% 160.41%, rgba(179, 155, 51, 0.962) 12%,rgb(146, 97, 8) 80.88%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
@@ -127,7 +135,7 @@
 .inp{
   width: 100%;
   margin-bottom: 1px;
-  height: 40px;
+  height: 58px;
   color: #fffbfb; 
   border: solid #DDDDDD 1px;
   border-radius: 10px ;

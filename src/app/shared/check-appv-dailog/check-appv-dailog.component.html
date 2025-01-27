@@ -240,6 +240,13 @@
   <span *ngIf="status === 'DELETED'" style="color: red">
     Deleted For some reason !!!</span
   >
+  <button *ngIf="status === 'FAILED'" 
+  (click)="retryW(obj.id)"
+  class="message-btn" 
+  mat-raised-button 
+  color="primary">
+  Retry 
+ </button>
   <span *ngIf="status === 'INSUFFICIENT_BALANCE'" style="color: #ffcc00">
     Insufficient Balance !!!</span
   >

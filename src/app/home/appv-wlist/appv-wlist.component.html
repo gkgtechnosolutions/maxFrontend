@@ -188,8 +188,8 @@
           @if(user.approveWithdrawStatus.startsWith('F') ){
           <i
             matTooltip="Retry"
-            (click)="retry(user.id)"
-            class="fa-solid fa-arrows-rotate userName icon"
+            (click)="checkApprove(user)"
+            class="fa-solid fa-eye userName icon"
             style="color: #59e94e"
           ></i>
           }@else{

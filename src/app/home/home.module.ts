@@ -52,6 +52,8 @@ import { SupAWithdrawComponent } from './sup-awithdraw/sup-awithdraw.component';
 import { AppvHomeComponent } from './appv-home/appv-home.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UserPanelComponent } from './user-panel/user-panel.component';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
 
 
 @NgModule({
@@ -84,6 +86,7 @@ import { UserPanelComponent } from './user-panel/user-panel.component';
     AppvDListComponent,
     AppvHomeComponent,
     UserPanelComponent,
+    LanguageDashboardComponent
     
   ],
   imports: [
@@ -112,6 +115,7 @@ import { UserPanelComponent } from './user-panel/user-panel.component';
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
+    MatSlideToggle
   ],
 })
 export class HomeModule {}
