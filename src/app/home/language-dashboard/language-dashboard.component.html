@@ -7,8 +7,8 @@
           <h5 class="card-title">Language</h5>
         
         </div>
-        <div class="temp-scale">
-          <i class="fa-solid fa-arrow-right" style="color: #926108" (click)="openlanguageDailog()"></i>
+        <div class="temp-scale" (click)="openlanguageDailog()">
+          <i class="fa-solid fa-arrow-right" style="color: #926108" ></i>
         </div>
       </div>
     </div>
@@ -26,10 +26,10 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-4">
-    <input class=" inp " matInput placeholder="Username" #input (input)="filterData(input.value)" />
+  <div class="col-sm-6">
+    <input class=" inp " matInput placeholder="keyword" #input (input)="filterData(input.value)" />
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-2">
     <button class="inp" id="s1"
       style="background: linear-gradient(to right, #74480f,#442504); color: #fffbfb; font-size: 500"
       (click)="filterData(input.value)">

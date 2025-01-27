@@ -31,5 +31,8 @@ export class LanguageService {
       
       return this.http.patch(url, message);
     } 
+    searchReply(search: string): Observable<any> {
+      return this.http.get<any>(`${this.baseUrl}/UBotProject/replies/search`, { params: { searchText: search } });
+    }
 
 }
