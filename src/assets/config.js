@@ -9,7 +9,7 @@ var appConfig = {
   // mainbackendUrl: "http://13.200.63.62:8080",
   
 
-  mainbackendUrl:"http://vinayahire-23413.portmap.host:23413",
+  mainbackendUrl:"http://localhost:8080",
 
   // mainbackendUrl:"https://hungry-carrots-act.loca.lt",
 };
