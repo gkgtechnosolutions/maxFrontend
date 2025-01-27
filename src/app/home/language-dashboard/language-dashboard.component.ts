@@ -117,10 +117,17 @@ export class LanguageDashboardComponent {
    
   
     filterData(searchTerm: string) {
+      this.loader = true;
+       this.langservice.searchReply(searchTerm).subscribe(data => {
+        this.dataSource.data = data;
+        this.loader = false;
+      },error=>{
+        console.log(error);
+        this.loader = false;
+      });
+
   
-      this.dataSource = new MatTableDataSource(this.dataSource.data.filter(item =>
-        item.userId.toLowerCase().includes(searchTerm.toLowerCase())
-      ));
+      
     }
   
   
