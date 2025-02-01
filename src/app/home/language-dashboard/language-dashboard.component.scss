@@ -1,21 +1,56 @@
-.card{
-    width: 200px;
-    background-color: #000000;
-    border-radius: 8px;
-    box-shadow: 0 0 10px #ffd9009a;
-    // align-items: center;
-    
-  }
-  .card-text{
-    color: rgb(255, 240, 240);
-    font-size: 300%;
-    font-weight: 700;
-  }
+.icon{
+  cursor: pointer;
+ }
+ .bn{
+  margin-top: -500px;
+  margin-left: 4px;
+  height: auto;
+ }
+  .search-container {
+    border: 2px solid #929292;
+    margin-left: 10px;
+    width: 98%;
+    display: flex;
+    align-items: center;
+    background-color: rgb(35, 30, 9);
+    padding: 10px;
+    margin-bottom: 5px;
+    height: 55px;
+    border-radius: 10px;
+}
+
+.search-input {
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.search-input::placeholder {
+    color: #888;
+}
+
+.search-button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.search-button svg {
+    width: 20px;
+    height: 20px;
+}
+//===============================================================
   
   
   .card-title{
   color: #fcf9f9;
-  font-size: 170%;
+  font-size: 140%;
   font-weight: 5;
   }
   ::ng-deep .mat-mdc-slide-toggle .mdc-switch:enabled+.mdc-label {
@@ -33,16 +68,7 @@
     color: #ffd700;
   }
   
-  h1 {
-    font-size: 2rem;
-    color: transparent;
-    background-image: linear-gradient(to right, #ffd700, #ffd700);
-    -webkit-background-clip: text;
-    background-clip: text;
-    padding-left: 15px;
-    padding-right: 0;
-    -webkit-text-fill-color: transparent;
-  }
+  
 
 
 
@@ -89,9 +115,9 @@
 //========================================================new card =================================
 .newcard {
   width: auto;
-
+ padding-top: 12px;
   position: relative;
-  padding: 25px;
+  height: 61px;
   background: radial-gradient(78.94% 270.41% at 26.42% 160.41%, rgba(179, 155, 51, 0.962) 12%,rgb(146, 97, 8) 80.88%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, #FFFFFF;
   border-radius: 23px;
   transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
@@ -103,24 +129,13 @@
   transform: scale(1.25);
 }
 
-.con {
-  width: 250px;
-  height: 250px;
-  position: absolute;
-  right: -35px;
-  top: -50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform: scale(0.7);
-  
-}
+
 .temp-scale {
-  width: 40px;
-  height: 38px;
+  width: 34px;
+  height: 32px;
   position: absolute;
   right: 25px;
-  bottom: 25px;
+  bottom: 18px;
   display: flex;
   align-items: center;
   justify-content: center;

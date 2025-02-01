@@ -99,10 +99,14 @@ export class LanguageDashboardComponent {
     this.loader=true;
     this.langservice.updateReplyMessage(element.id, this.langId, this.editedMessage).subscribe(data=> {
       this.snackbarService.snackbar(`Message updated successfully `, 'success');
-      this.onLanguageChange(this.langId);
+      const targetElement = this.dataSource.data.find((obj: any) => obj.id === element.id);
+      if (targetElement) {
+        targetElement.message = this.editedMessage;
+      }
       this.loader=false;
     },error=>{
       console.log(error);
+      this.snackbarService.snackbar('failed!', 'error');
       this.loader=false;
     })
   }

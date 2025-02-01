@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from '../../services/snackbar.service';
+import { ApproveService } from '../../services/approve.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private _snackBar: MatSnackBar,
     private snackbarService: SnackbarService,
+    private appvService: ApproveService,
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +47,9 @@ export class LoginComponent implements OnInit {
           const userRole = userData.role_user || '';
           if(localStorage.getItem('token') != null){
           if (userRole != 'SUPERADMIN') {
+            if (userRole === 'approvedeposit' || userRole === 'approvewithdraw') {
+              this.fetchPendingTransactions(userRole);
+            }
             this.router.navigate(['/home']);
           }
           if (userRole === 'SUPERADMIN') {
@@ -59,6 +64,20 @@ export class LoginComponent implements OnInit {
     } else {
       // Handle form validation errors if needed
     }
+  }
+  fetchPendingTransactions(userRole: any) {
+    // Fetch pending transactions based on the user role
+    // Example:
+    // if (userRole === 'approvedeposit') {
+    //   this.appvService.g.subscribe((deposits) => {
+    //     this.pendingDeposits = deposits;
+    //   });
+    // } else if (userRole === 'approvewithdraw') {
+    //   this.appvWithdrawService.fetchPendingWithdrawals().subscribe((withdrawals) => {
+    //     this.pendingWithdrawals = withdrawals;
+    //   });
+    // }
+    //...
   }
   
   decryptJwtToken(token: string) {

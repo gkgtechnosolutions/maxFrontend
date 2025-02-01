@@ -1,22 +1,27 @@
 <div mat-dialog-title>
-    <h2 style="color: gold;">Manage Languages</h2>
-    <form [formGroup]="languageForm" (ngSubmit)="onSubmit()" class="row">
-      <mat-grid-list cols="2" rowHeight="100px" gutterSize="16px">
-        <mat-grid-tile colspan="1">
-          <mat-form-field appearance="fill">
-            <mat-label>Language Name</mat-label>
-            <input matInput formControlName="languageName" type="text">
-          </mat-form-field>
-        </mat-grid-tile>
-        
-        <mat-grid-tile colspan="1">
-          <button mat-raised-button color="primary" type="submit" style="width: 50%;">
-            Add Language
-          </button>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </form>
+  <div class="row">
+      <h2 class="col-sm-6" style="color: gold;">Manage Languages :-</h2>
+    <div class="col-sm-6">
+      <form [formGroup]="languageForm" (ngSubmit)="onSubmit()" class="row">
+        <mat-grid-list cols="2" rowHeight="60px" gutterSize="16px">
+          <mat-grid-tile colspan="1">
+            <mat-form-field appearance="fill">
+              <mat-label>Language Name</mat-label>
+              <input matInput formControlName="languageName" type="text">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile colspan="1">
+            <button mat-raised-button color="primary" type="submit" style="width: auto;">
+              Add Language
+            </button>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+    </div>    
   </div>
+   
+   
+ 
   
   <mat-dialog-content>
     <app-loader *ngIf="loader"></app-loader>
