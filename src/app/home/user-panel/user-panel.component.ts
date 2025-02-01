@@ -30,12 +30,16 @@ export class UserPanelComponent {
   }
   isApproveDeposit = true; // Default role
 
-  onToggleRole(event: any): void {
-    this.isApproveDeposit = event.checked;
+  onToggleRole(event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked; // Cast to HTMLInputElement
+    console.log(this.isApproveDeposit + "1");
+    this.isApproveDeposit = isChecked;
+    console.log(this.isApproveDeposit + "2" + isChecked);
     this.role = this.isApproveDeposit ? 'APPROVEDEPOSIT' : 'APPROVEWITHDRAW';
-    // Call your method with the selected role
+    console.log(this.role + "3");
     this.fetchUserAsRole(this.role);
-  }
+}
+
 
   filterData2(role: string): void {
     console.log('Selected Role:', role);

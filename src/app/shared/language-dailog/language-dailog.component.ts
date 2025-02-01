@@ -34,6 +34,7 @@ export class LanguageDailogComponent {
         this.loadLanguages();
         this.loader = false; 
       },error=>{
+        this.snackbarService.snackbar('failed!', 'error');
         this.loader = false; 
         console.log(error);
       });
@@ -60,6 +61,7 @@ export class LanguageDailogComponent {
       this.loadLanguages();
       this.loader = false;
     }, error => {
+      this.snackbarService.snackbar('Language updated failed!', 'error');
       console.error('Error updating language', error);
       this.loader = false;
     });

@@ -28,7 +28,20 @@
         Add user
       </button>
       <button class="col-sm-4 mb-3 b1" id="b3" style="background: linear-gradient(to right, #cb9900,#ab7702);"  >
-        -
+        <div class="checkbox-wrapper-8">
+          <input 
+            type="checkbox" 
+            id="cb3-8" 
+            class="tgl tgl-skewed" 
+            [checked]="isApproveDeposit" 
+            (change)="onToggleRole($event)">
+          <label 
+            for="cb3-8" 
+            [attr.data-tg-on]="'Showing Approve Deposit'" 
+            [attr.data-tg-off]="'Showing Approve Withdraw'" 
+            class="tgl-btn">
+          </label>
+        </div>
       </button>
       <button class="col-sm-4 b1" id="b4" style="background: linear-gradient(to right, #a67102,#89580a);">
         -
@@ -37,24 +50,31 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-sm-4">
-    <input class=" inp " matInput placeholder="Username" #input (input)="filterData(input.value)" />
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="search-container col-sm-12">
+        <input
+        matInput
+        
+        placeholder="keyword"
+        class="search-input"
+        #input
+         (input)="filterData(input.value)"
+      />
+        <button class="search-button" (click)="filterData(input.value)">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" class="feather feather-search">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+      </div>
+      
+    
+    
+    </div>
   </div>
-  <div class="col-sm-4">
-    <button class="inp" id="s1"
-      style="background: linear-gradient(to right, #74480f,#442504); color: #fffbfb; font-size: 500"
-      (click)="filterData(input.value)">
-      Search
-    </button>
-  </div>
-  <div class="col-sm-4">
-    <mat-slide-toggle
-      color="white"
-      [checked]="isApproveDeposit"
-      (change)="onToggleRole($event)">
-      {{ isApproveDeposit ? ' Showing Approve Deposit' : ' Showing Approve Withdraw' }}
-    </mat-slide-toggle>
-  </div>
+  
   
 </div>
 
