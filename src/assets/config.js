@@ -6,7 +6,7 @@ var appConfig = {
 
   // mainbackendUrl: "http://agserver-61043.portmap.host:61043",
 
-  mainbackendUrl: "http://13.200.63.62:8080",
+  // mainbackendUrl: "http://13.200.63.62:8080",
 
   // mainbackendUrl:"http://0djs0mh1-8080.inc1.devtunnels.ms",
 
