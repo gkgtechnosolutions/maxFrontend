@@ -15,10 +15,10 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(HttpClientModule),
     { provide: LocationStrategy, useClass: HashLocationStrategy }, 
     provideNativeDateAdapter(),
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: TokenInterceptor,
-    //   multi: true,
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
   ],
 };

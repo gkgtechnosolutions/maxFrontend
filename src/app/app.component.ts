@@ -31,16 +31,17 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sseService
-      .getServerSentEvent(
-        'http://localhost:8080/approveOperation/sse/subscribe'
-      )
-      .subscribe({
-        next: (message) => {
-          console.log('Received:', message);
-        },
-        error: (err) => console.error('Error:', err),
-      });
+    // this.sseService
+    //   .getServerSentEvent(
+    //     'http://localhost:8080/approveOperation/sse/subscribe'
+    //   )
+    //   .subscribe({
+    //     next: (message) => {
+    //       console.log('Received:', message);
+    //       this.showNotification(message);
+    //     },
+    //     error: (err) => console.error('Error:', err),
+    //   });
 
     //==============================================
     // this.tokenCheckService.startTokenCheck();
@@ -68,9 +69,33 @@ export class AppComponent implements OnInit {
   // ngOnDestroy(): void {
   //   this.tokenCheckService.stopTokenCheck();
   // }
-  fetchData() {
-    this.http
-      .get('https://0djs0mh1-8080.inc1.devtunnels.ms/api/data')
-      .subscribe((response) => (this.data = response));
-  }
+  // fetchData() {
+  //   this.http
+  //     .get('https://0djs0mh1-8080.inc1.devtunnels.ms/api/data')
+  //     .subscribe((response) => (this.data = response));
+  // }
+
+  // showNotification(message: string) {
+  //   if (!('Notification' in window)) {
+  //     console.error('This browser does not support desktop notifications.');
+  //     return;
+  //   }
+  
+  //   // Request permission if not already granted
+  //   if (Notification.permission === 'granted') {
+  //     new Notification('New Message Received', {
+  //       body: message,
+  //       icon: 'assets/notification-icon.png', // Optional: Add an icon
+  //     });
+  //   } else if (Notification.permission !== 'denied') {
+  //     Notification.requestPermission().then((permission) => {
+  //       if (permission === 'granted') {
+  //         new Notification('New Message Received', {
+  //           body: message,
+  //           icon: 'assets/notification-icon.png',
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 }
