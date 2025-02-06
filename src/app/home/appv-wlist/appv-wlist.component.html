@@ -1,4 +1,5 @@
 <app-loader *ngIf="loader"></app-loader>
+<button (click)="showNotification('i love me')"> notify</button>
 <div class="row">
   <div class="search-container col-lg-6">
     <input
@@ -50,7 +51,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-lg-8">
+      <div class="col-lg-2">
         <button
           mat-flat-button
           (click)="refresh()"
@@ -58,6 +59,14 @@
         >
           <mat-icon>refresh</mat-icon>
         </button>
+      </div>
+      <div class="col-lg-6">
+        <button 
+      (click)="toggleNotifications()" 
+     [ngClass]="notificationsEnabled ? 'on' : 'off'">
+      {{ notificationsEnabled ? 'Turn Off Notifications' : 'Turn On Notifications' }}
+      </button>
+
       </div>
     </div>
   </div>

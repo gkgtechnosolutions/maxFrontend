@@ -10,7 +10,7 @@ var appConfig = {
 
   // mainbackendUrl:"http://0djs0mh1-8080.inc1.devtunnels.ms",
 
-  // mainbackendUrl:"http://vinayahire-23413.portmap.host:23413",
+  mainbackendUrl:"http://vinayahire-23413.portmap.host:23413",
 
-  // mainbackendUrl:"https://hungry-carrots-act.loca.lt",
+  // mainbackendUrl:"https://kind-lanka-calendar-babe.trycloudflare.com",
 };
