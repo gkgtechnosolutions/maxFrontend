@@ -3,26 +3,36 @@ import { Observable } from 'rxjs';
 import { AppConfigService } from './app-config.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SseServiceService {
   baseUrl: String = this.config.getBaseurl();
 
-  constructor(private zone: NgZone, private config :AppConfigService) {}
+  constructor(private zone: NgZone, private config: AppConfigService) {}
 
   getServerSentEvent(): Observable<string> {
-
-    return new Observable(observer => {
+    return new Observable((observer) => {
       console.log('SSE Subscription start');
       const eventSource = new EventSource(`${this.baseUrl}/notify/subscribe`);
 
+      // Default message handler (only works for unnamed events)
       eventSource.onmessage = (event) => {
-
-        console.log('Received Message:');
+        console.log('Received Default Message:', event.data);
         this.zone.run(() => observer.next(event.data));
       };
 
+      // Listen for "new_approve_request" events
+      eventSource.addEventListener(
+        'new_approve_request',
+        (event: MessageEvent) => {
+          console.log('Received Approve Request:', event.data);
+          this.zone.run(() => observer.next(event.data));
+        }
+      );
+
+      // Error handling
       eventSource.onerror = (error) => {
+        console.error('SSE Error:', error);
         this.zone.run(() => observer.error(error));
         eventSource.close();
       };
