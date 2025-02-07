@@ -21,7 +21,7 @@ export class AppvWlistComponent {
   searchText: boolean;
   userId: any;
   user: any;
-  notificationCount: any =0;
+  notificationCount: any = 0;
 
   openEditDialog(arg0: any) {
     throw new Error('Method not implemented.');
@@ -38,10 +38,10 @@ export class AppvWlistComponent {
   private subscription: Subscription;
   notificationsEnabled = false;
   private sseSubscription?: Subscription;
-  
+
   constructor(
     private searchService: SearchsuperadminService,
-   private sseService: SseServiceService,
+    private sseService: SseServiceService,
     private lastweekdata: LastweekdataService,
     private titleService: ComponettitleService,
 
@@ -228,85 +228,73 @@ export class AppvWlistComponent {
       return;
     }
   }
-//--------------------------------------------------
-showNotification(message: string) {
-  if (!('Notification' in window)) {
-    console.error('This browser does not support desktop notifications.');
-    return;
+  //--------------------------------------------------
+  showNotification(message: string) {
+    if (!('Notification' in window)) {
+      console.error('This browser does not support desktop notifications.');
+      return;
+    }
+
+    // Request permission if not already granted
+    if (Notification.permission === 'granted') {
+      this.playNotificationSound();
+      this.incrementNotificationCount();
+      new Notification('New Message Received', {
+        body: message,
+        icon: 'assets/notification-icon.png', // Optional: Add an icon
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          new Notification('New Message Received', {
+            body: message,
+            icon: 'assets/notification-icon.png',
+          });
+        }
+      });
+    }
+  }
+  playNotificationSound() {
+    const audio = new Audio('assets/542043_6856600-lq.mp3'); // Path to the sound file
+
+    audio.volume = 1.0; // Set volume (0.0 to 1.0), 0.3 is ~30% of full volume
+
+    audio.play().catch((err) => console.error('Error playing sound:', err));
+  }
+  incrementNotificationCount() {
+    this.notificationCount++;
+    document.title = `(${this.notificationCount}) New Notifications`; // Update title bar
+  }
+  clearNotificationCount() {
+    this.notificationCount = 0;
+    document.title = 'My Website'; // Reset to default title
   }
 
-  // Request permission if not already granted
-  if (Notification.permission === 'granted') {
-    this.playNotificationSound();
-    this.incrementNotificationCount();
-    new Notification('New Message Received', {
-      body: message,
-      icon: 'assets/notification-icon.png', // Optional: Add an icon
-    });
-  } else if (Notification.permission !== 'denied') {
-    Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        new Notification('New Message Received', {
-          body: message,
-          icon: 'assets/notification-icon.png',
-        });
-      }
-    });
+  toggleNotifications() {
+    if (this.notificationsEnabled) {
+      this.stopNotifications();
+    } else {
+      this.startNotifications();
+    }
+    this.notificationsEnabled = !this.notificationsEnabled;
   }
-}
-playNotificationSound() {
-  const audio = new Audio('assets/542043_6856600-lq.mp3'); // Path to the sound file
- 
-  audio.volume = 0.01; // Set volume (0.0 to 1.0), 0.3 is ~30% of full volume
 
-  audio.play().catch((err) => console.error('Error playing sound:', err));
-}
-incrementNotificationCount() {
-  this.notificationCount++;
-  document.title = `(${this.notificationCount}) New Notifications`; // Update title bar
-}
-clearNotificationCount() {
-  this.notificationCount = 0;
-  document.title = 'My Website'; // Reset to default title
-}
-
-toggleNotifications() {
-  if (this.notificationsEnabled) {
-    this.stopNotifications();
-  } else {
-    this.startNotifications();
-  }
-  this.notificationsEnabled = !this.notificationsEnabled;
-}
-
-startNotifications() {
-
-  this.sseSubscription = this.sseService
-    .getServerSentEvent()
-    .subscribe({
-  
+  startNotifications() {
+    this.sseSubscription = this.sseService.getServerSentEvent().subscribe({
       next: (message) => {
-        console.log('SSE Subscription start');
-        console.log('Received:', );
         console.log('Received:', message);
         this.showNotification(message);
-     
       },
       error: (err) => console.error('Error:', err),
     });
-}
-
-stopNotifications() {
-  if (this.sseSubscription) {
-    this.sseSubscription.unsubscribe();
-    console.log('SSE Subscription stopped');
   }
-}
 
-
-
-
-
+  stopNotifications() {
+    if (this.sseSubscription) {
+      this.sseSubscription.unsubscribe();
+      console.log('SSE Subscription stopped');
+    }
+  }
 }
 
 // Sample data (replace this with your actual data)
