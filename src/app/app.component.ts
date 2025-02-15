@@ -8,6 +8,7 @@ import { AppConfigService } from './services/app-config.service';
 import { TokenCheckService } from './services/token-check-service.service';
 import { SseServiceService } from './services/sse-service.service';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -20,28 +21,19 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
   title = 'adminpanel';
   data: any;
-
+ 
   statusMessage: boolean = true;
+  
   constructor(
     private backendHealth: BackendhealthService,
     private configService: AppConfigService,
     private tokenCheckService: TokenCheckService,
-    private sseService: SseServiceService,
+  
     private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    // this.sseService
-    //   .getServerSentEvent(
-    //     'http://localhost:8080/approveOperation/sse/subscribe'
-    //   )
-    //   .subscribe({
-    //     next: (message) => {
-    //       console.log('Received:', message);
-    //       this.showNotification(message);
-    //     },
-    //     error: (err) => console.error('Error:', err),
-    //   });
+    
 
     //==============================================
     // this.tokenCheckService.startTokenCheck();
@@ -75,27 +67,5 @@ export class AppComponent implements OnInit {
   //     .subscribe((response) => (this.data = response));
   // }
 
-  // showNotification(message: string) {
-  //   if (!('Notification' in window)) {
-  //     console.error('This browser does not support desktop notifications.');
-  //     return;
-  //   }
-  
-  //   // Request permission if not already granted
-  //   if (Notification.permission === 'granted') {
-  //     new Notification('New Message Received', {
-  //       body: message,
-  //       icon: 'assets/notification-icon.png', // Optional: Add an icon
-  //     });
-  //   } else if (Notification.permission !== 'denied') {
-  //     Notification.requestPermission().then((permission) => {
-  //       if (permission === 'granted') {
-  //         new Notification('New Message Received', {
-  //           body: message,
-  //           icon: 'assets/notification-icon.png',
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
+
 }

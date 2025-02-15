@@ -1,5 +1,5 @@
 <app-loader *ngIf="loader"></app-loader>
-<button (click)="showNotification('i love me')"> notify</button>
+
 <div class="row">
   <div class="search-container col-lg-6">
     <input
@@ -61,12 +61,11 @@
         </button>
       </div>
       <div class="col-lg-6">
-        <button 
-      (click)="toggleNotifications()" 
-     [ngClass]="notificationsEnabled ? 'on' : 'off'">
-      {{ notificationsEnabled ? 'Turn Off Notifications' : 'Turn On Notifications' }}
+        <button mat-button 
+        (click)="toggleNotifications()" 
+        [ngClass]="notificationsEnabled ? 'on' : 'off'">
+        <mat-icon>{{ notificationsEnabled ? 'notifications_active' : 'notifications_off' }}</mat-icon>
       </button>
-
       </div>
     </div>
   </div>

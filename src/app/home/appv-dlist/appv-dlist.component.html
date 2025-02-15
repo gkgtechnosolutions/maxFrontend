@@ -51,7 +51,7 @@
         </mat-form-field>
       </div>
 
-      <div class="col-lg-8">
+      <div class="col-lg-2">
         <button
           mat-flat-button
           (click)="refresh()"
@@ -59,6 +59,13 @@
         >
           <mat-icon>refresh</mat-icon>
         </button>
+      </div>
+      <div class="col-lg-6">
+        <button mat-button 
+        (click)="toggleNotifications()" 
+        [ngClass]="notificationsEnabled ? 'on' : 'off'">
+        <mat-icon>{{ notificationsEnabled ? 'notifications_active' : 'notifications_off' }}</mat-icon>
+      </button>
       </div>
     </div>
   </div>
