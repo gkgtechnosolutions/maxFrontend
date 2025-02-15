@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { SearchsuperadminService } from '../../services/searchsuperadmin.service';
@@ -17,7 +17,7 @@ import { SseServiceService } from '../../services/sse-service.service';
   templateUrl: './appv-wlist.component.html',
   styleUrl: './appv-wlist.component.scss',
 })
-export class AppvWlistComponent {
+export class AppvWlistComponent implements OnInit , OnDestroy { 
   searchText: boolean;
   userId: any;
   user: any;
@@ -38,33 +38,35 @@ export class AppvWlistComponent {
   private subscription: Subscription;
   notificationsEnabled = false;
   private sseSubscription?: Subscription;
+  private sseSubscription2?: Subscription;
 
   constructor(
     private searchService: SearchsuperadminService,
     private sseService: SseServiceService,
     private lastweekdata: LastweekdataService,
     private titleService: ComponettitleService,
-
+    
     public dialog: MatDialog,
     private apprvserv: ApproveService,
     private snackbarService: SnackbarService // private webSocketService: WebsocketService
   ) {
     this.titleService.changeTitle('Approve Withdraw List');
-    // this.dateRange = { start: null, end: null };
+
+   
 
     this.subscription = interval(10000).subscribe(() => {
-      // if (this.searchText && this.searchText.trim() !== '') {
-      //   this.pageNo = 0; // Reset to first page for a new search
-      //   this.searchDeposits();
-      // } else {
+     
 
       this.getWithdraws();
-      // }
+     
     });
   }
   ngonInit() {
     window.addEventListener('focus', () => this.clearNotificationCount());
+
+   
   }
+
   refresh() {
     this.getWithdraws();
   }
@@ -107,13 +109,24 @@ export class AppvWlistComponent {
     this.selectedStatuses.valueChanges.subscribe((selectedStatuses) => {
       this.onStatusChange(selectedStatuses);
     });
+    this.sseSubscription2 = this.sseService.getServerSentEvent2withdraw().subscribe({
+      next: (message) => {
+        console.log('Received:', message);
+        this.showNotification(message);
+      },
+      error: (err) => console.error('Error:', err),
+    });
     this.getWithdraws();
     this.getUserId();
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.stopNotifications();
+   
+      this.sseSubscription2.unsubscribe();
+   
   }
+  
 
   getWithdraws(): void {
     const statusesToSend =
@@ -239,6 +252,7 @@ export class AppvWlistComponent {
     if (Notification.permission === 'granted') {
       this.playNotificationSound();
       this.incrementNotificationCount();
+      this.snackbarService.snackbar('New Notification !!', 'success');
       new Notification('New Message Received', {
         body: message,
         icon: 'assets/notification-icon.png', // Optional: Add an icon
@@ -248,7 +262,7 @@ export class AppvWlistComponent {
         if (permission === 'granted') {
           new Notification('New Message Received', {
             body: message,
-            icon: 'assets/notification-icon.png',
+           
           });
         }
       });

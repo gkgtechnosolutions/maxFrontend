@@ -1,5 +1,5 @@
 import { DatePipe, formatDate } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SearchsuperadminService } from '../../services/searchsuperadmin.service';
 import { DepositSuperadminService } from '../../services/deposit-superadmin.service';
@@ -20,6 +20,7 @@ import { EditDialogComponent } from '../../shared/edit-dialog/edit-dialog.compon
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { CheckAppvDailogComponent } from '../../shared/check-appv-dailog/check-appv-dailog.component';
 import { CreateUserDailogComponent } from '../../shared/create-user-dailog/create-user-dailog.component';
+import { SseServiceService } from '../../services/sse-service.service';
 // import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
@@ -27,11 +28,14 @@ import { CreateUserDailogComponent } from '../../shared/create-user-dailog/creat
   templateUrl: './appv-dlist.component.html',
   styleUrl: './appv-dlist.component.scss',
 })
-export class AppvDListComponent {
+export class AppvDListComponent implements OnInit , OnDestroy {
   editReport(arg0: number) {
     throw new Error('Method not implemented.');
   }
 
+  private sseSubscription?: Subscription;
+  private sseSubscription2?: Subscription;
+  notificationCount: any;
   searchText: string = '';
   loader: boolean = false;
   deposit: any;
@@ -71,6 +75,7 @@ export class AppvDListComponent {
   userId: number;
   isButtonClicked: { [key: number]: boolean } = {};
   retried: boolean = false;
+  notificationsEnabled = false;
   // selectedStatus: string = '';
 
   constructor(
@@ -80,6 +85,7 @@ export class AppvDListComponent {
     private titleService: ComponettitleService,
     private excelService: ExcelService,
     private operation: OperationsService,
+    private sseService: SseServiceService,
     public dialog: MatDialog,
     private apprvserv: ApproveService,
     private snackbarService: SnackbarService // private webSocketService: WebsocketService
@@ -93,6 +99,14 @@ export class AppvDListComponent {
     this.selectedStatuses.valueChanges.subscribe((selectedStatuses) => {
       this.onStatusChange(selectedStatuses);
     });
+    this.sseSubscription2 = this.sseService.getServerSentEvent2().subscribe({
+        next: (message) => {
+          console.log('Received:', message);
+          this.showNotification(message);
+        },
+        error: (err) => console.error('Error:', err),
+      });
+   
 
     this.getUserId();
     this.getDeposits();
@@ -117,8 +131,83 @@ export class AppvDListComponent {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+
+      this.sseSubscription2.unsubscribe();
+   
+  }
+  //===============================On / off NOtification============================
+
+
+  toggleNotifications() {
+    if (this.notificationsEnabled) {
+      this.stopNotifications();
+    } else {
+      this.startNotifications();
+    }
+    this.notificationsEnabled = !this.notificationsEnabled;
   }
 
+  startNotifications() {
+    this.sseSubscription = this.sseService.getServerSentEvent().subscribe({
+      next: (message) => {
+        console.log('Received:', message);
+        this.showNotification(message);
+      },
+      error: (err) => console.error('Error:', err),
+    });
+  }
+  
+
+
+  stopNotifications() {
+    if (this.sseSubscription) {
+      this.sseSubscription.unsubscribe();
+      console.log('SSE Subscription stopped');
+    }
+  }
+  
+  //===============================Notify============================
+  showNotification(message: string) {
+    if (!('Notification' in window)) {
+      console.error('This browser does not support desktop notifications.');
+      return;
+    }
+
+    // Request permission if not already granted
+    if (Notification.permission === 'granted') {
+      this.playNotificationSound();
+      this.incrementNotificationCount();
+      this.snackbarService.snackbar('New Notification !!', 'success');
+      new Notification('New Message Received', {
+        body: message,
+        // icon: 'assets/notification-icon.png', // Optional: Add an icon
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          new Notification('New Message Received', {
+            body: message,
+            icon: 'assets/notification-icon.png',
+          });
+        }
+      });
+    }
+  }
+  playNotificationSound() {
+    const audio = new Audio('assets/542043_6856600-lq.mp3'); // Path to the sound file
+
+    audio.volume = 1.0; // Set volume (0.0 to 1.0), 0.3 is ~30% of full volume
+
+    audio.play().catch((err) => console.error('Error playing sound:', err));
+  }
+  incrementNotificationCount() {
+    this.notificationCount++;
+    document.title = `(${this.notificationCount}) New Notifications`; // Update title bar
+  }
+  clearNotificationCount() {
+    this.notificationCount = 0;
+    document.title = 'My Website'; // Reset to default title
+  }
   //===============================search============================
   updateSearchText(event: Event): void {
     const target = event.target as HTMLInputElement;

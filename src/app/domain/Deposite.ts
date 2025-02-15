@@ -16,6 +16,7 @@ export interface AppvDeposit{
   reportID: number,
   bankDetails: BankAccount,
   approveStatus: string,
+  rejectReason: string,
 }
 
 export interface appvWithdraw {
