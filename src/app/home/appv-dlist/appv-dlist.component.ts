@@ -21,6 +21,7 @@ import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/co
 import { CheckAppvDailogComponent } from '../../shared/check-appv-dailog/check-appv-dailog.component';
 import { CreateUserDailogComponent } from '../../shared/create-user-dailog/create-user-dailog.component';
 import { SseServiceService } from '../../services/sse-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 // import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
@@ -88,7 +89,8 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     private sseService: SseServiceService,
     public dialog: MatDialog,
     private apprvserv: ApproveService,
-    private snackbarService: SnackbarService // private webSocketService: WebsocketService
+    private snackbarService: SnackbarService ,// private webSocketService: WebsocketService
+    private snackBar: MatSnackBar,  
   ) {
     this.titleService.changeTitle('Approve List');
     this.dateRange = { start: null, end: null };
@@ -165,9 +167,20 @@ export class AppvDListComponent implements OnInit , OnDestroy {
       console.log('SSE Subscription stopped');
     }
   }
+
+  showSnackbar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 0, 
+      horizontalPosition: 'center', // 'start', 'center', 'end', 'left', 'right'
+      verticalPosition: 'bottom', // 'top', 'bottom'
+    });
+  }
   
   //===============================Notify============================
   showNotification(message: string) {
+    this.playNotificationSound();
+    this.showSnackbar(message, 'New Notifiation');
+    console.log(' in Showing notification:');
     if (!('Notification' in window)) {
       console.error('This browser does not support desktop notifications.');
       return;
@@ -175,14 +188,16 @@ export class AppvDListComponent implements OnInit , OnDestroy {
 
     // Request permission if not already granted
     if (Notification.permission === 'granted') {
-      this.playNotificationSound();
+      console.log(' in Notification.permission === granted:');
+     
       this.incrementNotificationCount();
-      this.snackbarService.snackbar('New Notification !!', 'success');
+     
       new Notification('New Message Received', {
         body: message,
         // icon: 'assets/notification-icon.png', // Optional: Add an icon
       });
     } else if (Notification.permission !== 'denied') {
+      console.log(' inNotification.permission !== denied');
       Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
           new Notification('New Message Received', {

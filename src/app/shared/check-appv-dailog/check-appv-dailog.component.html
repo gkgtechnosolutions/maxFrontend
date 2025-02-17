@@ -14,7 +14,7 @@
   <app-loader *ngIf="loader"></app-loader>
   <div class="row">
     <div class="col-md-6">
-      @if(status === 'PENDING'||status === 'FAILED'){
+     
       <form [formGroup]="formGroup" class="form-container">
         <div class="form-row">
           <mat-form-field appearance="fill" class="form-field">
@@ -113,7 +113,7 @@
         </div>
         }
       </form>
-      }@else {
+     
         @if(type==="Deposit"){
         <div class="transaction-card">
           
@@ -166,7 +166,7 @@
         </div>
 
       }
-      }
+     
     </div>
     <div class="col-md-6">
       @if(type==="Deposit"){
