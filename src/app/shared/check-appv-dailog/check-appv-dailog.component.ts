@@ -51,6 +51,7 @@ export class CheckAppvDailogComponent {
   imageStatus: string = 'Select or drag UTR Image';
   imagePreview: string | null = null;
   selectedFile: File | null = null;
+  
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CheckAppvDailogComponent>,

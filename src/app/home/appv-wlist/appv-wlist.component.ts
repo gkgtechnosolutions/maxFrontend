@@ -11,6 +11,7 @@ import { CheckAppvDailogComponent } from '../../shared/check-appv-dailog/check-a
 import { interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { SseServiceService } from '../../services/sse-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-appv-wlist',
@@ -45,7 +46,7 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
     private sseService: SseServiceService,
     private lastweekdata: LastweekdataService,
     private titleService: ComponettitleService,
-    
+    private snackBar: MatSnackBar,
     public dialog: MatDialog,
     private apprvserv: ApproveService,
     private snackbarService: SnackbarService // private webSocketService: WebsocketService
@@ -241,8 +242,18 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
       return;
     }
   }
+
   //--------------------------------------------------
+  showSnackbar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 0, 
+      horizontalPosition: 'center', // 'start', 'center', 'end', 'left', 'right'
+      verticalPosition: 'bottom', // 'top', 'bottom'
+    });
+  }
   showNotification(message: string) {
+    this.playNotificationSound();
+    this.showSnackbar(message, 'New Notifiation');
     if (!('Notification' in window)) {
       console.error('This browser does not support desktop notifications.');
       return;
@@ -250,7 +261,7 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
 
     // Request permission if not already granted
     if (Notification.permission === 'granted') {
-      this.playNotificationSound();
+    
       this.incrementNotificationCount();
       this.snackbarService.snackbar('New Notification !!', 'success');
       new Notification('New Message Received', {
