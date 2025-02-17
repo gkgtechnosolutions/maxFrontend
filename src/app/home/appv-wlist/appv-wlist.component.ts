@@ -54,7 +54,7 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
     this.titleService.changeTitle('Approve Withdraw List');
 
    
-
+    this.getWithdraws();
     this.subscription = interval(10000).subscribe(() => {
      
 
@@ -307,6 +307,7 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
   startNotifications() {
     this.sseSubscription = this.sseService.getServerSentEvent().subscribe({
       next: (message) => {
+        this.getWithdraws();
         console.log('Received:', message);
         this.showNotification(message);
       },

@@ -152,6 +152,7 @@ export class AppvDListComponent implements OnInit , OnDestroy {
   startNotifications() {
     this.sseSubscription = this.sseService.getServerSentEvent().subscribe({
       next: (message) => {
+        this.getDeposits();
         console.log('Received:', message);
         this.showNotification(message);
       },
