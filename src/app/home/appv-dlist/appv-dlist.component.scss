@@ -174,7 +174,7 @@ i{
       }
 
 ::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-  background-color:#2e2e2e!important;
+  background-color:#2e2e2e !important;
 }
 
  
@@ -217,4 +217,14 @@ i{
 .off {
   color: white;
   background-color: rgb(78, 79, 78);
+}
+.chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+//=============================================
+::ng-deep .mat-mdc-dialog-container {
+  border-radius: 12px !important;
+  overflow: hidden !important;
 }

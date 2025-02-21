@@ -146,7 +146,8 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
           }
           this.loader = false; // Update the paginator length with total elements
         },
-        (error) => {
+        (
+          error) => {
           console.log(error);
           this.loader = false;
         }
@@ -254,6 +255,7 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
   showNotification(message: string) {
     this.playNotificationSound();
     this.showSnackbar(message, 'New Notifiation');
+    
     if (!('Notification' in window)) {
       console.error('This browser does not support desktop notifications.');
       return;

@@ -1,5 +1,9 @@
 <Div mat-dialog-title style="padding-bottom: 0px">
-  <h2>Check Approve</h2>
+  @if(type==="Deposit"){
+  <h2>Add Deposit</h2>
+  }@else if(type==="withdraw"){
+  <h2>Withdraw</h2>
+  }
   <!-- <div>
     @if(type==="Deposit"){
     <span style="color: aliceblue"
@@ -13,8 +17,86 @@
 <mat-dialog-content>
   <app-loader *ngIf="loader"></app-loader>
   <div class="row">
-    <div class="col-md-6">
-     
+    @if (type==="Deposit") {
+      <div class="col-md-6">
+        @if(status === 'PENDING'||status === 'FAILED') {
+        <form [formGroup]="formGroup" class="form-container">
+          <div class="form-row">
+            <mat-form-field appearance="fill" class="form-field">
+              <mat-label>UTR Number</mat-label>
+              <input
+                matInput
+                formControlName="utrNumber"
+                placeholder="Enter UTR Number"
+                maxlength="12"
+                #UTRInput
+                (input)="onInput($event)"
+              />
+              <div class="three-body" *ngIf="loader2">
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+                <div class="three-body__dot"></div>
+              </div>
+              <mat-error
+                *ngIf="utrNumber.errors?.['required'] || utrNumber.errors?.['utrExists']"
+              >
+                <span *ngIf="utrNumber.errors?.['utrExists']">
+                  UTR Already used.
+                </span>
+  
+                <span *ngIf="utrNumber.errors?.['required']">
+                  UTR Number is required.
+                </span>
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="fill" class="form-field">
+              <mat-label>Amount</mat-label>
+              <input matInput formControlName="amount" />
+            </mat-form-field>
+  
+            <button
+              *ngIf="utrNumber.errors?.['utrExists']"
+              style="color: #20d813"
+              mat-button
+              (click)="openUTRDetailsPopup()"
+            >
+              Check UTR Details
+            </button>
+          </div>
+         
+        </form>
+      } 
+          <div class="transaction-card">
+            
+            <h3>💰 Deposit Details</h3>
+            
+            <p><strong>🆔 User ID:</strong> {{ user.userId }}</p>
+            <p><strong>💸 Amount:</strong> ₹{{ user.amount }}</p>
+            <p><strong>🔢 UTR Number:</strong> {{ user.utrNumber }}</p>
+            
+            <p><strong>🏦 Bank:</strong> {{ user.bank.bankName }} ({{ user.bank.bankHolderName }})</p>
+            <p><strong>💳 Account No:</strong> {{ user.bank.accountNumber }}</p>
+            <p><strong>📅 Entry Time:</strong> {{ user.entryTime | date:'dd MMM yyyy, h:mm a' }}</p>
+          
+            <p><strong>🖥️ Site:</strong> 
+              <a [href]="user.site.url" target="_blank">{{ user.site.name }}</a>
+            </p>
+            
+            <p><strong>📷 UTR Image:</strong> 
+              <a [href]="user.bankUtrImageLink" target="_blank">Download Image</a>
+            </p>
+          
+            <div class="status" [ngClass]="user.approveStatus.toLowerCase()">
+              <strong>Status:</strong> {{status}}
+            </div>
+          </div>
+       
+       
+      </div>
+    }@else if(type==="withdraw"){
+      <div class="col-md-6">
+      @if(status === 'PENDING'||status === 'FAILED'|| status === 'DONE') {
       <form [formGroup]="formGroup" class="form-container">
         <div class="form-row">
           <mat-form-field appearance="fill" class="form-field">
@@ -27,11 +109,12 @@
               #UTRInput
               (input)="onInput($event)"
             />
+            @if (type==="Deposit"){
             <div class="three-body" *ngIf="loader2">
               <div class="three-body__dot"></div>
               <div class="three-body__dot"></div>
               <div class="three-body__dot"></div>
-            </div>
+            </div>}
             <mat-error
               *ngIf="utrNumber.errors?.['required'] || utrNumber.errors?.['utrExists']"
             >
@@ -49,7 +132,7 @@
             <mat-label>Amount</mat-label>
             <input matInput formControlName="amount" />
           </mat-form-field>
-
+          @if (type==="Deposit"){
           <button
             *ngIf="utrNumber.errors?.['utrExists']"
             style="color: #20d813"
@@ -57,9 +140,9 @@
             (click)="openUTRDetailsPopup()"
           >
             Check UTR Details
-          </button>
+          </button>}
         </div>
-        @if(type!=="Deposit"){
+        
         <div class="container">
           <div class="row">
             <div *ngIf="!imagePreview">
@@ -111,63 +194,34 @@
             </div>
           </div>
         </div>
-        }
+        <div *ngIf="formGroup.get('utrImage')?.errors?.['required'] && formGroup.get('utrImage')?.touched" style="color: red;">
+          UTR Image is required.
+        </div>
+      
       </form>
+    }@else {
      
-        @if(type==="Deposit"){
+       
         <div class="transaction-card">
-          
-          <h3>💰 Deposit Details</h3>
-          
-          <p><strong>🆔 User ID:</strong> {{ user.userId }}</p>
-          <p><strong>💸 Amount:</strong> ₹{{ user.amount }}</p>
-          <p><strong>🔢 UTR Number:</strong> {{ user.utrNumber }}</p>
-          
-          <p><strong>🏦 Bank:</strong> {{ user.bank.bankName }} ({{ user.bank.bankHolderName }})</p>
-          <p><strong>💳 Account No:</strong> {{ user.bank.accountNumber }}</p>
-          <p><strong>📅 Entry Time:</strong> {{ user.entryTime | date:'dd MMM yyyy, h:mm a' }}</p>
-        
-          <p><strong>🖥️ Site:</strong> 
-            <a [href]="user.site.url" target="_blank">{{ user.site.name }}</a>
-          </p>
-          
-          <p><strong>📷 UTR Image:</strong> 
-            <a [href]="user.bankUtrImageLink" target="_blank">Download Image</a>
-          </p>
-        
-          <div class="status" [ngClass]="user.approveStatus.toLowerCase()">
-            <strong>Status:</strong> {{ user.approveStatus }}
-          </div>
-        </div>
-      }@else {
-        <div class="transaction-card">
-          
           <h3>💰 Withdraw Details</h3>
-          
           <p><strong>🆔 User ID:</strong> {{ user.userId }}</p>
           <p><strong>💸 Amount:</strong> ₹{{ user.amount }}</p>
           <p><strong>📅 Entry Time:</strong> {{ user.entryTime | date:'dd MMM yyyy, h:mm a' }}</p>
-          
-          <!-- <p><strong>🏦 Bank:</strong> {{ user.bank.bankName }} ({{ user.bank.bankHolderName }})</p> -->
-          <!-- <p><strong>💳 Account No:</strong> {{ user.bank.accountNumber }}</p> -->
-        
-        
           <p><strong>🖥️ Site:</strong> 
             <a [href]="user.site.url" target="_blank">{{ user.site.name }}</a>
           </p>
-          
-          <!-- <p><strong>📷 UTR Image:</strong> 
-            <a [href]="user.bankUtrImageLink" target="_blank">View Image</a>
-          </p> -->
-        
-          <div class="status" [ngClass]="user.approveWithdrawStatus.toLowerCase()">
-            <strong>Status:</strong> {{ user.approveWithdrawStatus }}
+           <div class="status" [ngClass]="user.approveWithdrawStatus.toLowerCase()">
+            <strong>Status:</strong> {{ status}}
           </div>
         </div>
-
       }
+  
      
     </div>
+  }
+    
+
+
     <div class="col-md-6">
       @if(type==="Deposit"){
       <div class="image-container">
@@ -294,6 +348,7 @@
     class="message-btn"
     mat-raised-button
     color="primary"
+    [disabled]="formGroup.invalid"
   >
     Send Message
   </button>

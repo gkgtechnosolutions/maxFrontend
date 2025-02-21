@@ -19,9 +19,7 @@ export class LandingpageComponent implements OnInit , OnDestroy {
     private titleService: ComponettitleService,
     private sseService: SseServiceService,
   ) {}
-  ngOnDestroy(): void {
-    this.sseSubscription.unsubscribe();
-  }
+
 
   Operator: string;
 
@@ -38,6 +36,10 @@ export class LandingpageComponent implements OnInit , OnDestroy {
   }
     this.titleService.changeTitle('Dashboard');
    
+  }
+  ngOnDestroy(): void {
+    if(this.Operator==="APPROVEDEPOSIT"){
+    this.sseSubscription.unsubscribe();}
   }
  
   navigateToPage(component: String): void {

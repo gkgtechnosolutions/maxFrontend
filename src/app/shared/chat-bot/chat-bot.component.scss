@@ -1,0 +1,64 @@
+.chat-popup {
+    width: 400px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    background: rgb(46, 46, 46);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .chat-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: #ffc600;
+    color: rgb(255, 255, 255);
+    // border-top-left-radius: 12px;
+    // border-top-right-radius: 12px;
+  }
+  
+  .chat-container {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-msg {
+    align-self: flex-start;
+    background: #e0e0e0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin: 5px 0;
+    max-width: 70%;
+  }
+  
+  .bot-msg {
+    align-self: flex-end;
+    background: gold;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin: 5px 0;
+    max-width: 70%;
+  }
+  
+  .chat-footer {
+    display: flex;
+    padding: 10px;
+    background: #f1f1f1;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  
+  .message-input {
+    height: auto;
+    color: white;
+    flex-grow: 1;
+  }
+
+  ::ng-deep .message-input .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color:#d8d8d8 !important;
+  }
