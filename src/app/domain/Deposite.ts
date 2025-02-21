@@ -1,6 +1,7 @@
 import { Bank, BankAccount } from "./Bank";
 
 export interface AppvDeposit{
+chatID: string;
  isNewId: any;
  requestBy: requestBy;
   bankUtrImageLink: any;

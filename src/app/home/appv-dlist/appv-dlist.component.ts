@@ -22,6 +22,9 @@ import { CheckAppvDailogComponent } from '../../shared/check-appv-dailog/check-a
 import { CreateUserDailogComponent } from '../../shared/create-user-dailog/create-user-dailog.component';
 import { SseServiceService } from '../../services/sse-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ChatBotComponent } from '../../shared/chat-bot/chat-bot.component';
+import { ChatBotService } from '../../services/chat-bot.service';
+import { TeleMessage } from '../../domain/chatbot';
 // import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
@@ -30,6 +33,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './appv-dlist.component.scss',
 })
 export class AppvDListComponent implements OnInit , OnDestroy {
+  messages: any ;
+  teleUser: any;
   editReport(arg0: number) {
     throw new Error('Method not implemented.');
   }
@@ -90,7 +95,8 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     public dialog: MatDialog,
     private apprvserv: ApproveService,
     private snackbarService: SnackbarService ,// private webSocketService: WebsocketService
-    private snackBar: MatSnackBar,  
+    private snackBar: MatSnackBar, 
+    private messageService: ChatBotService ,
   ) {
     this.titleService.changeTitle('Approve List');
     this.dateRange = { start: null, end: null };
@@ -555,4 +561,34 @@ export class AppvDListComponent implements OnInit , OnDestroy {
       this.checkApprove(user);
     }
   }
+
+  openChat(chatID: string): void {
+    this.loadMessages(0,10,chatID);
+     // Load the initial messages for the chat session
+   
+  }
+  loadMessages(page: number = 0, size: number = 10,chatId): void {
+    this.loader = true;
+    this.messageService.getLastMessages(chatId, page).subscribe(
+      (response) => {
+        this.messages = response;
+        // console.log(this.messages.content.teleUser);
+        this.dialog.open(ChatBotComponent, {
+          width: '400px',
+          panelClass: 'chat-dialog',
+          data: {
+            messages: this.messages.reverse(),
+            teleUser : this.messages[0].teleUser,
+          }
+        }); 
+        this.loader = false;
+        console.log(this.messages)// Adjust based on the actual API response format
+      },
+      (error) => {
+        console.error('Error fetching messages:', error);
+        this.loader = false;
+      }
+    );
+  }
+
 }

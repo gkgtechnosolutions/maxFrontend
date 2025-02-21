@@ -71,6 +71,15 @@ export class CheckAppvDailogComponent {
       this.bankName = data.user.bank.bankName;
     }
     // Create form and prefill it with user data
+    if (this.type === 'withdraw') {
+    this.formGroup = this.fb.group({
+      utrNumber: [data.user.utrNumber],
+      amount: [data.user.amount],
+      newId: [data.user.isNewId],
+      utrImage: [null, Validators.required ],
+      // IbankId: [user.bank.bankName]
+    });
+  }else if (this.type === 'Deposit') {
     this.formGroup = this.fb.group({
       utrNumber: [data.user.utrNumber],
       amount: [data.user.amount],
@@ -78,6 +87,7 @@ export class CheckAppvDailogComponent {
       utrImage: [null],
       // IbankId: [user.bank.bankName]
     });
+  }
 
     // this.bankIdControl = this.formGroup.get('bankId') as FormControl;
 

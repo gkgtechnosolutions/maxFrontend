@@ -45,6 +45,8 @@ import { AddAppUserComponent } from './add-app-user/add-app-user.component';
 import { CreateUserDailogComponent } from './create-user-dailog/create-user-dailog.component';
 import { UpAppvlistComponent } from './up-appvlist/up-appvlist.component';
 import { LanguageDailogComponent } from './language-dailog/language-dailog.component';
+import { ChatBotComponent } from './chat-bot/chat-bot.component';
+
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { LanguageDailogComponent } from './language-dailog/language-dailog.compo
     AddAppUserComponent,
     CreateUserDailogComponent,
     UpAppvlistComponent,
-    LanguageDailogComponent
+    LanguageDailogComponent,
+    CreateUserDailogComponent,
+    ChatBotComponent
   ],
   imports: [
     CommonModule,
