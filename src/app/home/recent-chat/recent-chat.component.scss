@@ -1,0 +1,155 @@
+.whatsapp-container {
+  background-color: #111111;
+  height: 90vh;
+  display: flex;
+  border: solid 1px #e9ecef;
+}
+
+.sidebar {
+  width: 30%;
+  background-color: #111111;
+  border-right: 1px solid #e9ecef;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-header {
+  padding: 10px 15px;
+  font-size: 25px;
+  color: #fed700;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.chat-list {  
+ 
+  list-style: none;
+  padding: 0;
+
+}
+
+.chat-item {
+  border-bottom: 1px solid #e9ecef;
+
+  transition: background-color 0.3s;
+}
+
+.chat-item:hover {
+  background-color: #000000;
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.text-dark {
+  color: #fed700 !important;
+  font-size: 18px;
+}
+
+.text-muted {
+  color: #edf3f9 !important;
+  font-size:12px;
+}
+
+small {
+  font-size: 12px;
+}
+
+p.small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+}
+
+// .chat-item .d-flex {
+//   padding: 10px;
+// }
+
+/* Chat Panel Styles */
+.chat-panel {
+  background-color: #111111;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  border-bottom: 1px solid #e9ecef;
+}
+
+.chat-messages {
+  background-color: #111111;
+  padding: 10px;
+}
+
+.message {
+  max-width: 70%;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+.received {
+  background-color: #111111;
+  align-self: flex-start;
+  border: 1px solid #e9ecef;
+}
+
+.sent {
+  background-color: #dcf8c6;
+  align-self: flex-end;
+}
+
+.chat-input {
+  background-color: #111111;
+  border-top: 1px solid #e9ecef;
+}
+
+.chat-input .form-control {
+  border: none;
+  box-shadow: none;
+}
+
+.chat-input .btn-primary {
+  color: #000;
+  background-color: #fed700;
+  border: none;
+}
+
+.chat-input .btn-primary:hover {
+  background-color: #171716;
+  color: #ffffff;
+}
+//===========================================
+.chat-container2 {
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.user-msg {
+  align-self: flex-start;
+  background: #2b2b2b;
+  padding: 8px 12px;
+  border-radius: 10px;
+  margin: 5px 0;
+  max-width: 70%;
+  color: white;
+}
+
+.bot-msg {
+  align-self: flex-end;
+  background: rgb(35, 31, 6);
+  color: #111111;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 12px;
+  margin: 5px 0;
+  max-width: 70%;
+}

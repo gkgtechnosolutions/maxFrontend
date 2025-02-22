@@ -25,6 +25,7 @@ import { SupAWithdrawComponent } from './sup-awithdraw/sup-awithdraw.component';
 import { AppvHomeComponent } from './appv-home/appv-home.component';
 import { UserPanelComponent } from './user-panel/user-panel.component';
 import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
+import { RecentChatComponent } from './recent-chat/recent-chat.component';
 
 
 // Components
@@ -134,6 +135,10 @@ const routes: Routes = [
       {
         path:'language-dashboard',
         component: LanguageDashboardComponent,
+      },
+      {
+        path:'Recent-Chat',
+        component: RecentChatComponent,
       }
     
       

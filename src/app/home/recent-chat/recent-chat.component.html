@@ -1,0 +1,56 @@
+<div class="whatsapp-container d-flex">
+  <!-- Sidebar for Recent Chats -->
+  <div class="sidebar flex-shrink-0" style="width: 30%;">
+    <h2 class="sidebar-header">Chats</h2>
+    <div class="chat-list">
+      <div class="chat-item" *ngFor="let chat of recentChats" (click)="selectChat(chat)">
+        <div class="d-flex align-items-center p-3">
+          <!-- <img src="https://via.placeholder.com/40" alt="{{ chat.name }}" class="profile-pic rounded-circle me-3"> -->
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-0 text-dark">{{ chat.name }}</h6>
+              <small class="text-muted">{{ chat.time }}</small>
+            </div>
+            <p class="mb-0 text-muted small" [innerHTML]="chat.message | slice:0:50">{{ chat.message }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Detail Panel -->
+  <div class="chat-panel  flex-grow-1" *ngIf="!selectedChat">
+    <div class="chat-header d-flex align-items-center p-3 border-bottom">
+      <!-- <img src="https://via.placeholder.com/40" alt="{{ selectedChat.name }}" class="profile-pic rounded-circle me-3"> -->
+      <h5 class="mb-0 text-dark">Please select chat</h5>
+    </div>
+  </div>
+  <div class="chat-panel  flex-grow-1" *ngIf="selectedChat">
+    <div class="chat-header d-flex align-items-center p-3 border-bottom">
+      <!-- <img src="https://via.placeholder.com/40" alt="{{ selectedChat.name }}" class="profile-pic rounded-circle me-3"> -->
+      <h5 class="mb-0 text-dark">{{ selectedChat.name }}</h5>
+    </div>
+    <div class="chat-messages p-3 chat-container" style="height: calc(100vh - 120px); overflow-y: auto;" #chatContainer>
+      <div class="chat-container2">
+        <div *ngFor="let msg of messages" [ngClass]="{
+          'user-msg': msg.sender === 'USER',
+          'bot-msg': msg.sender !== 'USER'
+        }">
+          <span>{{ msg.message }}</span>
+        </div>
+      </div>
+
+      <!-- <div class="message received mb-2" *ngFor="let msg of selectedChat.messages">
+      <p class="mb-0 text-muted small">{{ msg.text }}</p>
+      <small class="text-muted">{{ msg.time }}</small>
+    </div> -->
+    </div>
+    <div class="chat-input p-3 border-top">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Type a message..." [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()">
+        <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>

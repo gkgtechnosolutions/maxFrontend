@@ -45,6 +45,7 @@ export interface navDomain {
   export const APPROVEDEPOSIT : navDomain[] = [
     { routerLink: 'AppvDList', icon: "List", title: "A-DList" },
     // { routerLink: 'AppvWlist', icon: "List", title: "A-WList" },
+    { routerLink: 'Recent-Chat', icon: "chat", title: "Chat" },
     { routerLink: 'users', icon: "group", title: "Users" },
    
   ]
@@ -53,6 +54,7 @@ export interface navDomain {
     // { routerLink: 'AppvDList', icon: "List", title: "A-DList" },
     { routerLink: 'AppvWlist', icon: "List", title: "A-WList" },
     { routerLink: 'users', icon: "group", title: "Users" },
+    { routerLink: 'Recent-Chat', icon: "chat", title: "Chat" },
    
   ]
 
