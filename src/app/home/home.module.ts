@@ -54,6 +54,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { UserPanelComponent } from './user-panel/user-panel.component';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
+import { RecentChatComponent } from './recent-chat/recent-chat.component';
 
 
 @NgModule({
@@ -86,7 +87,8 @@ import { LanguageDashboardComponent } from './language-dashboard/language-dashbo
     AppvDListComponent,
     AppvHomeComponent,
     UserPanelComponent,
-    LanguageDashboardComponent
+    LanguageDashboardComponent,
+    RecentChatComponent,
     
   ],
   imports: [
