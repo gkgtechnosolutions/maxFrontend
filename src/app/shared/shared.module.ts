@@ -46,7 +46,7 @@ import { CreateUserDailogComponent } from './create-user-dailog/create-user-dail
 import { UpAppvlistComponent } from './up-appvlist/up-appvlist.component';
 import { LanguageDailogComponent } from './language-dailog/language-dailog.component';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -105,6 +105,7 @@ import { ChatBotComponent } from './chat-bot/chat-bot.component';
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
   ],exports:[LoaderComponent,DialogComponent]
 })
 export class SharedModule { }

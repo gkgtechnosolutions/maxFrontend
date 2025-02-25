@@ -1,15 +1,14 @@
 <div class="whatsapp-container d-flex">
-  <!-- Sidebar for Recent Chats -->
+  <!-- Sidebar for Recent Chats (unchanged) -->
   <div class="sidebar flex-shrink-0" style="width: 30%;">
     <h2 class="sidebar-header">Chats</h2>
     <div class="chat-list">
       <div class="chat-item" *ngFor="let chat of recentChats" (click)="selectChat(chat)">
         <div class="d-flex align-items-center p-3">
-          <!-- <img src="https://via.placeholder.com/40" alt="{{ chat.name }}" class="profile-pic rounded-circle me-3"> -->
           <div class="flex-grow-1">
             <div class="d-flex justify-content-between">
-              <h6 class="mb-0 text-dark">{{ chat.name }}</h6>
-              <small class="text-muted">{{ chat.time }}</small>
+              <h6 class="mb-0 text-light">{{ chat.name }}</h6>
+              <small class="text-muted">{{ chat.time | utcToLocal }}</small>
             </div>
             <p class="mb-0 text-muted small" [innerHTML]="chat.message | slice:0:50">{{ chat.message }}</p>
           </div>
@@ -18,17 +17,17 @@
     </div>
   </div>
 
-  <!-- Chat Detail Panel -->
-  <div class="chat-panel  flex-grow-1" *ngIf="!selectedChat">
+  <!-- Chat Detail Panel (No Chat Selected) -->
+  <div class="chat-panel flex-grow-1" *ngIf="!selectedChat">
     <div class="chat-header d-flex align-items-center p-3 border-bottom">
-      <!-- <img src="https://via.placeholder.com/40" alt="{{ selectedChat.name }}" class="profile-pic rounded-circle me-3"> -->
-      <h5 class="mb-0 text-dark">Please select chat</h5>
+      <h5 class="mb-0 text-light">Please select chat</h5>
     </div>
   </div>
-  <div class="chat-panel  flex-grow-1" *ngIf="selectedChat">
+
+  <!-- Chat Detail Panel (Chat Selected) -->
+  <div class="chat-panel flex-grow-1" *ngIf="selectedChat">
     <div class="chat-header d-flex align-items-center p-3 border-bottom">
-      <!-- <img src="https://via.placeholder.com/40" alt="{{ selectedChat.name }}" class="profile-pic rounded-circle me-3"> -->
-      <h5 class="mb-0 text-dark">{{ selectedChat.name }}</h5>
+      <h5 class="mb-0 text-light">{{ selectedChat.name }}</h5>
     </div>
     <div class="chat-messages p-3 chat-container" style="height: calc(100vh - 120px); overflow-y: auto;" #chatContainer>
       <div class="chat-container2">
@@ -36,20 +35,67 @@
           'user-msg': msg.sender === 'USER',
           'bot-msg': msg.sender !== 'USER'
         }">
-          <span>{{ msg.message }}</span>
+          <div *ngIf="isImageMessage(msg.message); else fileMessage">
+            <img [src]="getImageUrl(msg.message)" class="img-fluid rounded" style="max-width: 200px;">
+            <small class="text-muted">{{ msg.time  }}</small>
+          </div>
+          <ng-template #fileMessage>
+            <div *ngIf="isDocumentMessage(msg.message); else textMessage">
+              <a [href]="getFileUrl(msg.message)" target="_blank" class="text-decoration-none text-light">
+                <i class="bi bi-file-earmark"></i> {{ getFileName(msg.message) }}
+              </a>
+              <small class="text-muted">{{ msg.time  }}</small>
+            </div>
+            <ng-template #textMessage>
+              <span class="text-light">{{ msg.message }}</span>
+              <small class="text-muted">{{ msg.time  }}</small>
+            </ng-template>
+          </ng-template>
         </div>
       </div>
-
-      <!-- <div class="message received mb-2" *ngFor="let msg of selectedChat.messages">
-      <p class="mb-0 text-muted small">{{ msg.text }}</p>
-      <small class="text-muted">{{ msg.time }}</small>
-    </div> -->
+    
     </div>
     <div class="chat-input p-3 border-top">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Type a message..." [(ngModel)]="newMessage"
-          (keyup.enter)="sendMessage()">
+        <div class="dropdown">
+          <button class="btn btn-outline-light dropdown-toggle" type="button" id="attachmentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-paperclip"></i> <!-- Attachment icon -->
+          </button>
+          <ul class="dropdown-menu whatsapp-attachment-menu" aria-labelledby="attachmentDropdown">
+            <li><button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('image')">
+              <mat-icon aria-label="Photo" class="me-2" style="color: #fed700;">photo_camera</mat-icon> Photos & Videos</button></li>
+            <li><button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('document')">
+              <mat-icon aria-label="Document" class="me-2" style="color: #fed700;">insert_drive_file</mat-icon> Document</button></li>
+            <!-- <li><button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('audio')" disabled>
+              <mat-icon aria-label="Audio" class="me-2" style="color: #00a884;">mic</mat-icon> Audio (Coming Soon)</button></li>
+            <li><button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('video')" disabled>
+              <mat-icon aria-label="Video" class="me-2" style="color: #00a884;">videocam</mat-icon> Video (Coming Soon)</button></li>
+            <li><button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('contact')" disabled>
+              <mat-icon aria-label="Contact" class="me-2" style="color: #00a884;">person</mat-icon> Contact (Coming Soon)</button></li>
+            <li><button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('poll')" disabled>
+              <mat-icon aria-label="Poll" class="me-2" style="color: #00a884;">bar_chart</mat-icon> Poll (Coming Soon)</button></li>
+            <li><button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('sticker')" disabled>
+              <mat-icon aria-label="Sticker" class="me-2" style="color: #00a884;">mood</mat-icon> New Sticker (Coming Soon)</button></li>
+            <li><button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('catalog')" disabled>
+              <mat-icon aria-label="Catalog" class="me-2" style="color: #00a884;">storefront</mat-icon> Catalog (Coming Soon)</button></li>
+            <li><button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('quickReplies')" disabled>
+              <mat-icon aria-label="Quick Replies" class="me-2" style="color: #00a884;">flash_on</mat-icon> Quick Replies (Coming Soon)</button></li> -->
+          </ul>
+        </div>
+        <input type="text" class="form-control" placeholder="Type a message..." [(ngModel)]="newMessage" (keyup.enter)="sendMessage()">
+        <input type="file" class="form-control d-none" id="fileUpload" (change)="onFileSelected($event)" #fileInput
+          [accept]="fileAcceptType">
         <button class="btn btn-primary" (click)="sendMessage()">Send</button>
+      </div>
+      <div *ngIf="selectedFile" class="mt-2">
+        <div *ngIf="selectedFile.type === 'image'" class="d-flex align-items-center">
+          <img [src]="selectedFile.preview" class="img-thumbnail" style="max-width: 100px;">
+          <button class="btn btn-danger btn-sm ms-2" (click)="clearFile()">Cancel</button>
+        </div>
+        <div *ngIf="selectedFile.type === 'document'" class="d-flex align-items-center">
+          <span class="me-2 text-light"><i class="bi bi-file-earmark"></i> {{ selectedFile.name }}</span>
+          <button class="btn btn-danger btn-sm ms-2" (click)="clearFile()">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
