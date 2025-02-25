@@ -13,13 +13,14 @@
   </div>
 
   <div class="chat-container" #chatContainer (scroll)="onScroll()">
-    <div
-      *ngFor="let msg of messages"
-      [ngClass]="{
+
+    <div class="loader-container" *ngIf="isLoading">
+      <mat-spinner diameter="20"></mat-spinner>
+    </div>
+    <div *ngFor="let msg of messages" [ngClass]="{
         'user-msg': msg.sender === 'USER',
         'bot-msg': msg.sender !== 'USER'
-      }"
-    >
+      }">
       <span>{{ msg.message }}</span>
     </div>
   </div>
@@ -33,14 +34,8 @@
       (keyup.enter)="sendMessage()"
     /> -->
     <div class="input-container">
-      <input
-        placeholder="Enter text"
-        class="input-field"
-        type="text"
-        placeholder="Type a message..."
-        [(ngModel)]="newMessage"
-        (keyup.enter)="sendMessage()"
-      />
+      <input placeholder="Enter text" class="input-field" type="text" placeholder="Type a message..."
+        [(ngModel)]="newMessage" (keyup.enter)="sendMessage()" />
       <label for="input-field" class="input-label">Enter text</label>
       <span class="input-highlight"></span>
     </div>

@@ -80,6 +80,7 @@ export class LandingpageComponent implements OnInit , OnDestroy {
       });
     }
   }
+  
   playNotificationSound() {
     const audio = new Audio('assets/542043_6856600-lq.mp3'); // Path to the sound file
 

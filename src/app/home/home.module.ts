@@ -55,7 +55,7 @@ import { UserPanelComponent } from './user-panel/user-panel.component';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
 import { RecentChatComponent } from './recent-chat/recent-chat.component';
-
+import { UtcToLocalPipe } from '../services/utc-to-local.pipe';
 
 @NgModule({
   declarations: [
@@ -89,6 +89,7 @@ import { RecentChatComponent } from './recent-chat/recent-chat.component';
     UserPanelComponent,
     LanguageDashboardComponent,
     RecentChatComponent,
+    UtcToLocalPipe
     
   ],
   imports: [

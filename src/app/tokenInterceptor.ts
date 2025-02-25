@@ -41,7 +41,7 @@ export class TokenInterceptor implements HttpInterceptor {
     // console.log('Excluded URL:', request);
     return next.handle(request);
   }else{
-      console.log("intercepted request ... ", request.url);
+      // console.log("intercepted request ... ", request.url);
         return next.handle(this.addTokenToRequest(request, this.token))
           .pipe(
             catchError(err => {

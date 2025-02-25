@@ -37,20 +37,20 @@ export class ChatBotService {
         return chats.map(chat => ({
           name: chat.firstName, // Use firstName as the name
           message: chat.lastMessage, // Use lastMessage as the chat message
-          time: this.formatTime(chat.lastMessageTime),
+          time: chat.lastMessageTime,
           chatId:chat.chatId
         }));
       })
     );
   }
 
-  private formatTime(timestamp: string): string {
-    const date = new Date(timestamp);
-    return date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
-  }
+  // private formatTime(timestamp: string): string {
+  //   const date = new Date(timestamp);
+  //   return date.toLocaleTimeString('en-US', {
+  //     hour: 'numeric',
+  //     minute: '2-digit',
+  //     hour12: true
+  //   });
+  // }
 
 }
