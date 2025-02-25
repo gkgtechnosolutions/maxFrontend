@@ -56,6 +56,7 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
 import { RecentChatComponent } from './recent-chat/recent-chat.component';
 import { UtcToLocalPipe } from '../services/utc-to-local.pipe';
+import { LineBreaksPipe } from '../services/line-breaks.pipe';
 
 @NgModule({
   declarations: [
@@ -89,8 +90,8 @@ import { UtcToLocalPipe } from '../services/utc-to-local.pipe';
     UserPanelComponent,
     LanguageDashboardComponent,
     RecentChatComponent,
-    UtcToLocalPipe
-    
+    UtcToLocalPipe,
+    LineBreaksPipe,
   ],
   imports: [
     CommonModule,
@@ -118,7 +119,7 @@ import { UtcToLocalPipe } from '../services/utc-to-local.pipe';
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
-    MatSlideToggle
+    MatSlideToggle,
   ],
 })
 export class HomeModule {}
