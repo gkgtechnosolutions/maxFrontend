@@ -9,6 +9,7 @@ import {
 import { ComponettitleService } from '../../services/componenttitle.service';
 import { ChatBotService } from '../../services/chat-bot.service';
 import { AdminMessageRequest } from '../../domain/chatbot';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recent-chat',
@@ -29,40 +30,38 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     private messageService: ChatBotService,
     private cdRef: ChangeDetectorRef
   ) {}
+  private messageSubscription: Subscription;
   messages: any[] = [];
-  selectedImage: string | ArrayBuffer | null = null;
+  selectedImage: string | null = null;
   recentChats: any[] = [];
   selectedChat: any = null;
   newMessage: string = '';
   mockMessages: any[] = [];
+  private refreshSubscription: Subscription;
   @ViewChild('chatContainer', { static: false }) chatContainer!: ElementRef;
   private refreshInterval: any;
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
-  ngOnInit(): void {
+  // @ViewChild('chatContainer') chatContainer!: ElementRef<HTMLDivElement>;
+
+  ngOnInit(): void { 
     this.titleService.changeTitle('Recent Chat');
-
+    
     this.getUserId();
-    this.getRecentChat();
-    this.refreshInterval = setInterval(() => {
-      this.refresh();
-      this.getRecentChat();
-    }, 1000);
+    this.messageSubscription = this.chatService.messages$.subscribe(
+      (data) => {
+        this.recentChats = data;
+      }
+    );
+  
   }
 
-  getRecentChat() {
-    this.chatService.getRecentChats().subscribe({
-      next: (chats) => {
-        this.recentChats = chats;
-      },
-      error: (error) => {
-        console.error('Error fetching recent chats:', error);
-      },
-    });
-  }
+
   //   ngAfterViewInit(): void {
 
   ngOnDestroy(): void {
+    this.messageSubscription.unsubscribe();
+    this.chatService.disconnect();
     // Clean up the interval to prevent memory leaks when the component is destroyed
     if (this.refreshInterval) {
       clearInterval(this.refreshInterval);
@@ -140,17 +139,27 @@ export class RecentChatComponent implements OnInit, OnDestroy {
   }
 
   sendMessage() {
-    if (!this.newMessage.trim()) return;
-
-    const request: AdminMessageRequest = {
+    // if (!this.newMessage.trim()) return;
+    let request: AdminMessageRequest ;
+    // console.log(this.selectedFile);
+    // if (this.selectedFile) {
+    //    request = {
+    //     chatId: this.chatID,
+    //     text: this.newMessage,
+    //     adminId: this.userId,
+    //     mediaUrl :this.selectedFile.preview,  
+    //     mediaType:"photo",
+    //   };
+    // }else {
+     request= {
       chatId: this.chatID,
       text: this.newMessage,
-      // Change dynamically if needed
       adminId: this.userId,
-      // mediaUrl:"",    // URL of media file (optional)
+      // mediaUrl:"",  
       // mediaType:"",
     };
-
+    
+   
     this.messageService.sendMessage(request).subscribe(
       (response) => {
         this.refresh();

@@ -86,15 +86,13 @@ export class AddOldUserComponent {
     const currentDate = new Date();
     this.formGroup.get('date').setValue(currentDate);
     this.getuserID();
-    this.getAddUser();
-  
-    this.subscription = interval(5000).subscribe(() => {
-      this.getAddUser();
-    });
+   
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+  
 
   openFileInput(): void {
     this.fileInput.nativeElement.click();
@@ -440,18 +438,18 @@ export class AddOldUserComponent {
       
     }
   }
-  getAddUser() {
-    this.report.getAddNewReport(this.Operator).subscribe(
-      (data) => {
-        // this.dataSource=this.operations;
-        this.dataSource = data;
-        this.operations = data;
-      },
-      (error) => {
-        this.snackbarService.snackbar('failed!', 'error');
-      }
-    );
-  }
+  // getAddUser() {
+  //   this.report.getAddNewReport(this.Operator).subscribe(
+  //     (data) => {
+  //       // this.dataSource=this.operations;
+  //       this.dataSource = data;
+  //       this.operations = data;
+  //     },
+  //     (error) => {
+  //       this.snackbarService.snackbar('failed!', 'error');
+  //     }
+  //   );
+  // }
   getuserID() {
     const userString = localStorage.getItem('user');
     if (userString) {

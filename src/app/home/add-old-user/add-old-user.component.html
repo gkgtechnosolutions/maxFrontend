@@ -51,6 +51,8 @@
                 formControlName="userId"
                 placeholder="Enter User ID"
                 tabindex="3"
+                (input)="onUserInput($event)"
+                
               />
               <div class="three-body" *ngIf="loader1">
                 <div class="three-body__dot"></div>
