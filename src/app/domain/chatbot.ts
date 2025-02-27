@@ -8,7 +8,7 @@ export interface AdminMessageRequest {
     adminId: number;      // ID of the admin sending the message
     chatId: string;       // Telegram Chat ID of the recipient
     text: string;        // Message text (optional)
-    mediaUrl?: string;    // URL of media file (optional)
+    mediaUrl?: any;    // URL of media file (optional)
     mediaType?: string;   // Type of media (photo/document)
 }
 
