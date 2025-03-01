@@ -18,11 +18,12 @@ import { Subscription } from 'rxjs';
 })
 export class RecentChatComponent implements OnInit, OnDestroy {
   isLoading: boolean;
-  chatID: any;
+  chatID: string = '';
   user: any;
   userId: any;
   selectedFile: any = null; // Store selected file data (type, preview, name, file object)
   fileAcceptType: string = '';
+loader: any;
 
   constructor(
     private titleService: ComponettitleService,
@@ -92,12 +93,25 @@ export class RecentChatComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(file); // Convert image to base64 for preview
     }
   }
+  isVideoMessage(message: string): boolean {
+    // Adjust this logic based on how video URLs are identified in your app
+    return message.includes('.mp4') || message.includes('.webm') || message.includes('.ogg');
+  }
 
   triggerImageUpload(): void {
     document.getElementById('imageUpload')?.click();
   }
+
+  triggerFileUpload(type: string) {
+    this.fileAcceptType = type === 'image' ? 'image/*,video/*' : '*/*';
+    this.fileInput.nativeElement.click();
+  }
   getImageUrl(message: string): string {
     const urlMatch = message.match(/Photo : (https?:\/\/[^\s]+)/);
+    return urlMatch ? urlMatch[1] : '';
+  }
+  getVideoUrl(message: string): string {
+    const urlMatch = message.match(/Video : (https?:\/\/[^\s]+)/);
     return urlMatch ? urlMatch[1] : '';
   }
   selectChat(chat: any): void {
@@ -139,39 +153,35 @@ export class RecentChatComponent implements OnInit, OnDestroy {
   }
 
   sendMessage() {
-    // if (!this.newMessage.trim()) return;
-    let request: AdminMessageRequest ;
-    // console.log(this.selectedFile);
-    // if (this.selectedFile) {
-    //    request = {
-    //     chatId: this.chatID,
-    //     text: this.newMessage,
-    //     adminId: this.userId,
-    //     mediaUrl :this.selectedFile.preview,  
-    //     mediaType:"photo",
-    //   };
-    // }else {
-     request= {
-      chatId: this.chatID,
-      text: this.newMessage,
-      adminId: this.userId,
-      // mediaUrl:"",  
-      // mediaType:"",
-    };
+   this.loader = true;
     
    
-    this.messageService.sendMessage(request).subscribe(
-      (response) => {
+    this.messageService.sendMessage(
+      this.userId,
+      this.chatID,
+      this.newMessage.trim() || undefined,
+      this.selectedFile?.file
+    ).subscribe({
+      next: (response) => {
         this.refresh();
-        // this.messages.push(this.newMessage);
-        // console.table(this.messages);// Add response message to chat
-        this.newMessage = '';
-        setTimeout(() => this.scrollToBottom(), 100);
+        // console.log('Message sent successfully:', response);
+        this.clearInput();
+        this.loader = false;
       },
-      (error) => {
-        console.error('Error sending message:', error);
+      error: (error) =>{ console.error('Error sending message:', error)
+      this.loader = false;
       }
-    );
+    });
+  }
+
+  clearFile() {
+    this.selectedFile = null;
+    this.fileInput.nativeElement.value = '';
+  }
+
+  clearInput() {
+    this.newMessage = '';
+    this.clearFile();
   }
 
   refresh() {
@@ -185,37 +195,55 @@ export class RecentChatComponent implements OnInit, OnDestroy {
       });
   }
 
-  triggerFileUpload(type: string): void {
-    this.fileAcceptType = type === 'image' ? 'image/*' : '.pdf,.doc,.docx,.txt'; // Adjust accepted file types
-    this.fileInput.nativeElement.click();
-  }
-
-  onFileSelected(event: Event): void {
+  // triggerFileUpload(type: string): void {
+  //   this.fileAcceptType = type === 'image' ? 'image/*' : '.pdf,.doc,.docx,.txt'; // Adjust accepted file types
+  //   this.fileInput.nativeElement.click();
+  // }
+  onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
+    if (input.files?.length) {
       const file = input.files[0];
-      const type = this.fileAcceptType.includes('image') ? 'image' : 'document';
-      let preview: string | null = null;
+      const fileType = file.type.startsWith('image/') ? 'image' :
+      file.type.startsWith('video/') ? 'video' :
+      'document';
+      
+      this.selectedFile = { file, type: fileType, name: file.name };
 
-      if (type === 'image') {
+      if (fileType === 'image') {
         const reader = new FileReader();
-        reader.onload = (e) => {
-          preview = e.target?.result as string;
-          this.selectedFile = { type, preview, name: file.name, file };
-        };
-        reader.readAsDataURL(file); // Convert image to base64 for preview
-      } else {
-        // For documents, just store the file name and type (no preview needed)
-        this.selectedFile = { type, preview: null, name: file.name, file };
+        reader.onload = (e: any) => this.selectedFile!.preview = e.target.result;
+        reader.readAsDataURL(file);
       }
+      input.value = '';
     }
   }
 
-  clearFile(): void {
-    this.selectedFile = null;
-    this.fileInput.nativeElement.value = ''; // Clear file input
-    this.fileAcceptType = ''; // Reset accepted file types
-  }
+  // onFileSelected(event: Event): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files && input.files.length > 0) {
+  //     const file = input.files[0];
+  //     const type = this.fileAcceptType.includes('image') ? 'image' : 'document';
+  //     let preview: string | null = null;
+
+  //     if (type === 'image') {
+  //       const reader = new FileReader();
+  //       reader.onload = (e) => {
+  //         preview = e.target?.result as string;
+  //         this.selectedFile = { type, preview, name: file.name, file };
+  //       };
+  //       reader.readAsDataURL(file); // Convert image to base64 for preview
+  //     } else {
+  //       // For documents, just store the file name and type (no preview needed)
+  //       this.selectedFile = { type, preview: null, name: file.name, file };
+  //     }
+  //   }
+  // }
+
+  // clearFile(): void {
+  //   this.selectedFile = null;
+  //   this.fileInput.nativeElement.value = ''; // Clear file input
+  //   this.fileAcceptType = ''; // Reset accepted file types
+  // }
 
   // Method to check if the message contains an image URL
   // isImageMessage(message: string): boolean {

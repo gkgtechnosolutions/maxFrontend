@@ -48,8 +48,31 @@ export class ChatBotService {
        )
   }
  
-  sendMessage(request: AdminMessageRequest): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/UBotProject/messages/send`, request);
+  // sendMessage(request: AdminMessageRequest): Observable<any> {
+  //   return this.http.post<any>(`${this.baseUrl}/UBotProject/messages/send`, request);
+  // }
+
+  sendMessage(
+    adminId: number,
+    chatId: string,
+    text?: string,
+    file?: File
+  ): Observable<any> {
+    // Create FormData for multipart request
+    const formData = new FormData();
+    
+    // Add required parameter
+    formData.append('chatId', chatId);
+
+    // Add optional parameters if they exist
+    if (text) formData.append('text', text);
+    if (file) formData.append('file', file);
+
+    // Make the POST request
+    return this.http.post<Map<string, string>>(
+      `${this.baseUrl}/UBotProject/messages/send/${adminId}`,
+      formData
+    );
   }
 
   // getRecentChats(): Observable<any[]> {
@@ -67,8 +90,9 @@ export class ChatBotService {
   // }
   connect() {
     this.stompClient = new Client({
-      brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL
-      reconnectDelay: 5000, // Auto-reconnect after 5 seconds
+      brokerURL : this.baseUrl.replace('http://', 'ws://') + '/ws',
+      // brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL #Important chanegs
+      reconnectDelay: 5000, // Auto-reconnect after 5 seconds 
     });
 
     this.stompClient.onConnect = () => {

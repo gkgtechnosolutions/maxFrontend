@@ -3,6 +3,7 @@
   height: 90vh;
   display: flex;
   border: solid 1px #e9ecef;
+  overflow-x: hidden;
 }
 
 .sidebar {
@@ -154,6 +155,9 @@ p.small {
   max-width: 70%;
 }
 //======================================================
+.dropdown-toggle::after {
+  display: none;
+}
 
 .img-thumbnail {
   
@@ -233,11 +237,13 @@ p.small {
 }
 .dropdown{
  margin-right: 8px; 
+ 
 }
 
 .dropdown-item {
-  padding: 8px 12px;
+  padding: 8px 8px;
   font-size: 14px;
+  background-color: #2A3942;
   color: #FFFFFF;
   transition: background-color 0.3s;
 }
@@ -266,4 +272,8 @@ mat-icon {
 
 mat-icon[style*="color: #00a884"] {
   color: #00A884; /* WhatsApp green for icons */
+}
+
+.dropdown-menu.show{
+  background-color: #2A3942;
 }
