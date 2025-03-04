@@ -183,7 +183,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     this.loader = true;
   
     // Prepare texts as an array (even if single message)
-    const texts = this.newMessage.trim() ? [this.newMessage.trim()] : undefined;
+    // const texts = this.newMessage.trim() ? [this.newMessage.trim()] : undefined;
   
     // Extract files from selectedFiles array
     const files = this.selectedFiles && this.selectedFiles.length > 0 
@@ -193,7 +193,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     this.messageService.sendMessage(
       this.userId,           // Assuming userId is your adminId
       this.chatID,
-      texts,                // Array of texts
+    this.newMessage.trim() || undefined,             // Array of texts
       files                 // Array of files
     ).subscribe({
       next: (response) => {

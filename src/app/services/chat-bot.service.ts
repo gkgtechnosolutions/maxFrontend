@@ -78,7 +78,7 @@ export class ChatBotService {
   sendMessage(
     adminId: number,
     chatId: string,
-    texts?: string[],  // Changed to string[] to match backend List<String>
+    texts?: string,  // Changed to string[] to match backend List<String>
     files?: File[]     // File[] to match backend MultipartFile[]
   ): Observable<Map<string, string>> {
     // Create FormData for multipart/form-data request
@@ -87,12 +87,13 @@ export class ChatBotService {
     // Add required parameters
     formData.append('chatId', chatId);
 
+    formData.append('text', texts);
     // Add optional texts if provided
-    if (texts && texts.length > 0) {
-      texts.forEach((text, index) => {
-        formData.append(`texts[${index}]`, text); // Match backend List<String>
-      });
-    }
+    // if (texts && texts.length > 0) {
+    //   texts.forEach((text, index) => {
+    //     formData.append(`texts[${index}]`, text); // Match backend List<String>
+    //   });
+    // }
 
     // Add optional files if provided
     if (files && files.length > 0) {
