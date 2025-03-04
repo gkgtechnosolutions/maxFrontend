@@ -154,7 +154,9 @@
       </div>
     </div> -->
     <div class="chat-input p-3 border-top">
-      <div *ngIf="selectedFile" class="mb-4 d-flex align-items-center">
+
+      <!-- old code -->
+      <!-- <div *ngIf="selectedFile" class="mb-4 d-flex align-items-center">
         <ng-container [ngSwitch]="selectedFile.type">
           <ng-container *ngSwitchCase="'image'">
             <img [src]="selectedFile.preview" class="img-thumbnail me-2" alt="Preview"
@@ -172,14 +174,71 @@
           </ng-container>
         </ng-container>
         <button class="btn btn-danger btn-sm" (click)="clearFile()">Cancel</button>
+      </div> -->
+
+
+      <!-- new code with close style  -->
+
+      <!-- <div *ngIf="selectedFile" class="mb-4 position-relative d-flex align-items-center">
+        <ng-container [ngSwitch]="selectedFile.type">
+          <ng-container *ngSwitchCase="'image'">
+            <div class="preview-container">
+              <img [src]="selectedFile.preview" class="img-thumbnail" alt="Preview"
+                style="max-width: 100px; max-height: 100px" />
+              <button class="btn cancel-btn" (click)="clearFile()">×</button>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'video'">
+            <div class="preview-container">
+              <video [src]="selectedFile.preview" class="img-thumbnail" controls
+                style="max-width: 50px; max-height: 50px"></video>
+              <h6 style="color: aliceblue;">{{ selectedFile.name }}</h6>
+              <button class="btn cancel-btn" (click)="clearFile()">×</button>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'document'">
+            <div class="preview-container">
+              <span class="text-light">
+                <i class="bi bi-file-earmark me-1"></i>{{ selectedFile.name }}
+              </span>
+              <button class="btn cancel-btn" (click)="clearFile()">×</button>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div> -->
+
+       <!-- new code with multi select  -->
+       <div *ngIf="selectedFiles.length > 0" class="mb-4">
+        <div class="d-flex flex-wrap">
+          <div *ngFor="let file of selectedFiles" class="preview-container me-2 mb-2 position-relative">
+            <ng-container [ngSwitch]="file.type">
+              <ng-container *ngSwitchCase="'image'">
+                <img [src]="file.preview" class="img-thumbnail" alt="Preview"
+                  style="max-width: 100px; max-height: 100px" />
+              </ng-container>
+              <ng-container *ngSwitchCase="'video'">
+                <video [src]="file.preview" class="img-thumbnail" controls
+                  style="max-width: 50px; max-height: 50px"></video>
+                <h6 style="color: aliceblue;">{{ file.name }}</h6>
+              </ng-container>
+              <ng-container *ngSwitchCase="'document'">
+                <span class="text-light">
+                  <i class="bi bi-file-earmark me-1"></i>{{ file.name }}
+                </span>
+              </ng-container>
+            </ng-container>
+            <button class="btn cancel-btn" (click)="removeFile(file)">×</button>
+          </div>
+        </div>
       </div>
+
       <div class="input-group">
         <!-- Attachment Dropdown -->
         <div class="dropdown me-2">
-          <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <i class="material-icons">attach_file</i>
-          </button>
+          <!-- <button class="btn btn-light dropdown-toggle" type="button" 
+            aria-expanded="false"> -->
+            <i class="material-icons" data-bs-toggle="dropdown"  style="color: aliceblue;">attach_file</i>
+          <!-- </button> -->
           <ul class="dropdown-menu ">
             <li>
               <button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('image')">
@@ -201,10 +260,12 @@
           (keyup.enter)="sendMessage()" />
 
         <!-- Hidden File Input -->
-        <input #fileInput type="file" class="d-none" (change)="onFileSelected($event)" [accept]="fileAcceptType" />
+        <!-- <input #fileInput type="file" class="d-none" (change)="onFileSelected($event)" [accept]="fileAcceptType" /> -->
+        <!-- Hidden file input for multi -->
+          <input #fileInput type="file" hidden [accept]="fileAcceptType" multiple (change)="onFileSelected($event)"> 
 
         <!-- Send Button -->
-        <button class="btn btn-primary ms-2" (click)="sendMessage()" [disabled]="!newMessage.trim() && !selectedFile">
+        <button class="btn btn-primary ms-2" (click)="sendMessage()" [disabled]="!newMessage.trim() && !selectedFiles">
           Send
         </button>
       </div>

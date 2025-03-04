@@ -9,7 +9,7 @@ import {
 import { ComponettitleService } from '../../services/componenttitle.service';
 import { ChatBotService } from '../../services/chat-bot.service';
 import { AdminMessageRequest } from '../../domain/chatbot';
-import { Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recent-chat',
@@ -22,14 +22,16 @@ export class RecentChatComponent implements OnInit, OnDestroy {
   user: any;
   userId: any;
   selectedFile: any = null; // Store selected file data (type, preview, name, file object)
+  selectedFiles: { file: File; type: string; name: string; preview?: string }[] = [];
   fileAcceptType: string = '';
-loader: any;
+  loader: any;
+  subscription: any;
 
   constructor(
     private titleService: ComponettitleService,
     private chatService: ChatBotService,
     private messageService: ChatBotService,
-    private cdRef: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {}
   private messageSubscription: Subscription;
   messages: any[] = [];
@@ -54,6 +56,9 @@ loader: any;
         this.recentChats = data;
       }
     );
+     this.subscription = interval(10000).subscribe(() => {
+      this.refresh();
+     });
   
   }
 
@@ -152,30 +157,61 @@ loader: any;
     if (input) input.value = ''; // Clear file input
   }
 
-  sendMessage() {
-   this.loader = true;
+  // sendMessage() {
+  //  this.loader = true;
     
    
+  //   this.messageService.sendMessage(
+  //     this.userId,
+  //     this.chatID,
+  //     this.newMessage.trim() || undefined,
+  //     this.selectedFile?.file
+  //   ).subscribe({
+  //     next: (response) => {
+  //       this.refresh();
+  //       // console.log('Message sent successfully:', response);
+  //       this.clearInput();
+  //       this.loader = false;
+  //     },
+  //     error: (error) =>{ console.error('Error sending message:', error)
+  //     this.loader = false;
+  //     }
+  //   });
+  // }
+ 
+  sendMessage() {
+    this.loader = true;
+  
+    // Prepare texts as an array (even if single message)
+    const texts = this.newMessage.trim() ? [this.newMessage.trim()] : undefined;
+  
+    // Extract files from selectedFiles array
+    const files = this.selectedFiles && this.selectedFiles.length > 0 
+      ? this.selectedFiles.map(fileObj => fileObj.file) 
+      : undefined;
+  
     this.messageService.sendMessage(
-      this.userId,
+      this.userId,           // Assuming userId is your adminId
       this.chatID,
-      this.newMessage.trim() || undefined,
-      this.selectedFile?.file
+      texts,                // Array of texts
+      files                 // Array of files
     ).subscribe({
       next: (response) => {
         this.refresh();
-        // console.log('Message sent successfully:', response);
+        console.log('Message sent successfully:', response);
         this.clearInput();
+        this.clearFile();
         this.loader = false;
       },
-      error: (error) =>{ console.error('Error sending message:', error)
-      this.loader = false;
+      error: (error) => {
+        console.error('Error sending message:', error);
+        this.loader = false;
       }
     });
   }
-
+  
   clearFile() {
-    this.selectedFile = null;
+    this.selectedFiles = [];
     this.fileInput.nativeElement.value = '';
   }
 
@@ -195,60 +231,28 @@ loader: any;
       });
   }
 
-  // triggerFileUpload(type: string): void {
-  //   this.fileAcceptType = type === 'image' ? 'image/*' : '.pdf,.doc,.docx,.txt'; // Adjust accepted file types
-  //   this.fileInput.nativeElement.click();
-  // }
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      const file = input.files[0];
-      const fileType = file.type.startsWith('image/') ? 'image' :
-      file.type.startsWith('video/') ? 'video' :
-      'document';
-      
-      this.selectedFile = { file, type: fileType, name: file.name };
-
-      if (fileType === 'image') {
-        const reader = new FileReader();
-        reader.onload = (e: any) => this.selectedFile!.preview = e.target.result;
-        reader.readAsDataURL(file);
-      }
-      input.value = '';
-    }
-  }
-
-  // onFileSelected(event: Event): void {
+ 
+  //====================================old code
+  // onFileSelected(event: Event) {
   //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files.length > 0) {
+  //   if (input.files?.length) {
   //     const file = input.files[0];
-  //     const type = this.fileAcceptType.includes('image') ? 'image' : 'document';
-  //     let preview: string | null = null;
+  //     const fileType = file.type.startsWith('image/') ? 'image' :
+  //     file.type.startsWith('video/') ? 'video' :
+  //     'document';
+      
+  //     this.selectedFile = { file, type: fileType, name: file.name };
 
-  //     if (type === 'image') {
+  //     if (fileType === 'image') {
   //       const reader = new FileReader();
-  //       reader.onload = (e) => {
-  //         preview = e.target?.result as string;
-  //         this.selectedFile = { type, preview, name: file.name, file };
-  //       };
-  //       reader.readAsDataURL(file); // Convert image to base64 for preview
-  //     } else {
-  //       // For documents, just store the file name and type (no preview needed)
-  //       this.selectedFile = { type, preview: null, name: file.name, file };
+  //       reader.onload = (e: any) => this.selectedFile!.preview = e.target.result;
+  //       reader.readAsDataURL(file);
   //     }
+  //     input.value = '';
   //   }
   // }
 
-  // clearFile(): void {
-  //   this.selectedFile = null;
-  //   this.fileInput.nativeElement.value = ''; // Clear file input
-  //   this.fileAcceptType = ''; // Reset accepted file types
-  // }
 
-  // Method to check if the message contains an image URL
-  // isImageMessage(message: string): boolean {
-  //   return message.startsWith('Photo : ') && message.includes('http');
-  // }
 
   // Method to check if the message contains a document URL
   isDocumentMessage(message: string): boolean {
@@ -290,4 +294,51 @@ loader: any;
     const htmlPattern = /<\/?[a-z][\s\S]*>/i; // Detects basic HTML tags
     return htmlPattern.test(message);
   }
+  
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      // Convert FileList to array and process each file
+      const files = Array.from(input.files);
+      
+      // Reset selectedFiles array or initialize if not already done
+      this.selectedFiles = this.selectedFiles || [];
+      
+      files.forEach(file => {
+        const fileType = file.type.startsWith('image/') ? 'image' :
+                        file.type.startsWith('video/') ? 'video' :
+                        'document';
+        
+        const fileObj = { 
+          file, 
+          type: fileType, 
+          name: file.name,
+          preview: ''  // Initialize preview property
+        };
+  
+        // Generate preview for images and videos
+        if (fileType === 'image' || fileType === 'video') {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            fileObj.preview = e.target.result;
+            // Trigger change detection if needed
+            this.cdr?.detectChanges(); // Add if using ChangeDetectorRef
+          };
+          reader.readAsDataURL(file);
+        }
+  
+        // Add the file object to the array
+        this.selectedFiles.push(fileObj);
+      });
+  
+      // Clear the input value to allow re-selecting the same files
+      input.value = '';
+    }
+  }
+
+  removeFile(fileToRemove: { file: File; type: string; name: string; preview?: string }) {
+    this.selectedFiles = this.selectedFiles.filter(f => f.file !== fileToRemove.file);
+  }
+
+
 }
