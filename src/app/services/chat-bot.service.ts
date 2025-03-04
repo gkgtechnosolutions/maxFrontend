@@ -48,27 +48,101 @@ export class ChatBotService {
        )
   }
  
-  sendMessage(request: AdminMessageRequest): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/UBotProject/messages/send`, request);
-  }
+  // sendMessage(request: AdminMessageRequest): Observable<any> {
+  //   return this.http.post<any>(`${this.baseUrl}/UBotProject/messages/send`, request);
+  // }
 
-  // getRecentChats(): Observable<any[]> {
-  //   return this.http.get<any[]>(`${this.baseUrl}/UBotProject/messages/recent`).pipe(
-  //     map(chats => {
-  //       // Transform the API response to match the structure expected by ChatComponent
-  //       return chats.map(chat => ({
-  //         name: chat.firstName, // Use firstName as the name
-  //         message: chat.lastMessage, // Use lastMessage as the chat message
-  //         time: chat.lastMessageTime,
-  //         chatId:chat.chatId
-  //       }));
-  //     })
+  // sendMessage(
+  //   adminId: number,
+  //   chatId: string,
+  //   text?: string,
+  //   file?: File
+  // ): Observable<any> {
+  //   // Create FormData for multipart request
+  //   const formData = new FormData();
+    
+  //   // Add required parameter
+  //   formData.append('chatId', chatId);
+
+  //   // Add optional parameters if they exist
+  //   if (text) formData.append('text', text);
+  //   if (file) formData.append('file', file);
+
+  //   // Make the POST request
+  //   return this.http.post<Map<string, string>>(
+  //     `${this.baseUrl}/UBotProject/messages/send/${adminId}`,
+  //     formData
   //   );
   // }
+
+  sendMessage(
+    adminId: number,
+    chatId: string,
+    texts?: string[],  // Changed to string[] to match backend List<String>
+    files?: File[]     // File[] to match backend MultipartFile[]
+  ): Observable<Map<string, string>> {
+    // Create FormData for multipart/form-data request
+    const formData = new FormData();
+
+    // Add required parameters
+    formData.append('chatId', chatId);
+
+    // Add optional texts if provided
+    if (texts && texts.length > 0) {
+      texts.forEach((text, index) => {
+        formData.append(`texts[${index}]`, text); // Match backend List<String>
+      });
+    }
+
+    // Add optional files if provided
+    if (files && files.length > 0) {
+      files.forEach((file, index) => {
+        formData.append('file', file, file.name); // Match backend MultipartFile[]
+      });
+    }
+
+    // Make the POST request
+    return this.http.post<Map<string, string>>(
+    `${this.baseUrl}/UBotProject/messages/send/${adminId}`,
+      formData
+    );
+  }
+  // sendMessage(
+  //   adminId: number,
+  //   chatId: string,
+  //   text?: string,
+  //   files?: File[] // Changed from single File to File[] array
+  // ): Observable<any> {
+  //   // Create FormData for multipart request
+  //   const formData = new FormData();
+    
+  //   // Add required parameter
+  //   formData.append('chatId', chatId);
+
+  //   // Add optional parameters if they exist
+  //   if (text) {
+  //     formData.append('text', text);
+  //   }
+  //   if (files && files.length > 0) {
+  //     // Append each file to the FormData
+  //     files.forEach((file, index) => {
+  //       formData.append(`files[${index}]`, file, file.name);
+  //     });
+  //   }
+
+  //   // Make the POST request
+  //   return this.http.post<Map<string, string>>(
+  //     `${this.baseUrl}/UBotProject/messages/send/${adminId}`,
+  //     formData
+  //   );
+  // }
+
+ 
   connect() {
     this.stompClient = new Client({
-      brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL
-      reconnectDelay: 5000, // Auto-reconnect after 5 seconds
+      brokerURL : this.baseUrl.replace('http://', 'ws://') + '/ws',
+      // brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL #Important chanegs
+      reconnectDelay: 5000, // Auto-reconnect after 5 seconds 
     });
 
     this.stompClient.onConnect = () => {
@@ -103,17 +177,6 @@ export class ChatBotService {
     }
   }
 
-  // getRecentChats(): Observable<any[]> {
-  //   return this.recentChatsSubject.asObservable();
-  // }
 
-  // private formatTime(timestamp: string): string {
-  //   const date = new Date(timestamp);
-  //   return date.toLocaleTimeString('en-US', {
-  //     hour: 'numeric',
-  //     minute: '2-digit',
-  //     hour12: true
-  //   });
-  // }
 
 }

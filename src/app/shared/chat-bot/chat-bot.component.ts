@@ -67,7 +67,7 @@ export class ChatBotComponent implements AfterViewInit {
       // mediaType:"",
     };
 
-    this.messageService.sendMessage(request).subscribe(response => {
+    this.messageService.sendMessage(this.userId,this.chatId,this.userId).subscribe(response => {
      
       this.refresh();
       // this.messages.push(this.newMessage);

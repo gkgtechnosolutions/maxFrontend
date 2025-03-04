@@ -1,23 +1,17 @@
+<app-loader *ngIf="loader"></app-loader>
 <div class="whatsapp-container d-flex">
   <!-- Sidebar for Recent Chats (unchanged) -->
   <div class="sidebar flex-shrink-0" style="width: 30%">
     <h2 class="sidebar-header">Chats</h2>
     <div class="chat-list">
-      <div
-        class="chat-item"
-        *ngFor="let chat of recentChats"
-        (click)="selectChat(chat)"
-      >
+      <div class="chat-item" *ngFor="let chat of recentChats" (click)="selectChat(chat)">
         <div class="d-flex align-items-center p-3">
           <div class="flex-grow-1">
             <div class="d-flex justify-content-between">
               <h6 class="mb-0 text-light">{{ chat.firstName }}</h6>
               <small class="text-muted">{{ chat.lastMessageTime | utcToLocal }}</small>
             </div>
-            <p
-              class="mb-0 text-muted small"
-              [innerHTML]="chat.lastMessage | slice : 0 : 50"
-            >
+            <p class="mb-0 text-muted small" [innerHTML]="chat.lastMessage | slice : 0 : 50">
               {{ chat.lastMessage }}
             </p>
           </div>
@@ -38,44 +32,33 @@
     <div class="chat-header d-flex align-items-center p-3 border-bottom">
       <h5 class="mb-0 text-light">{{ selectedChat.firstName }}</h5>
     </div>
-    <div
-      class="chat-messages p-3 chat-container"
-      style="height: calc(100vh - 120px); overflow-y: auto"
-      #chatContainer
-    >
+    <div class="chat-messages p-3 chat-container" style="height: calc(100vh - 120px); overflow-y: auto; overflow-x:hidden;" #chatContainer>
       <div class="chat-container2">
-        <div
-          *ngFor="let msg of messages"
-          [ngClass]="{
+        <div *ngFor="let msg of messages" [ngClass]="{
             'user-msg': msg.sender === 'USER',
             'bot-msg': msg.sender !== 'USER'
-          }"
-        >
-          <div *ngIf="isImageMessage(msg.message); else fileMessage">
-            <img
-              [src]="getImageUrl(msg.message)"
-              class="img-fluid rounded"
-              style="max-width: 200px"
-            />
+          }">
+          <div *ngIf="isImageMessage(msg.message); else videoMessage">
+            <img [src]="getImageUrl(msg.message)" class="img-fluid rounded" style="max-width: 200px" />
             <small class="text-muted">{{ msg.time }}</small>
           </div>
+          <ng-template #videoMessage>
+            <div *ngIf="isVideoMessage(msg.message); else fileMessage">
+              <video [src]="getVideoUrl(msg.message)" controls class="img-fluid rounded"
+                style="max-width: 200px"></video>
+              <small class="text-muted">{{ msg.time }}</small>
+            </div>
+          </ng-template>
           <ng-template #fileMessage>
             <div *ngIf="isDocumentMessage(msg.message); else textMessage">
-              <a
-                [href]="getFileUrl(msg.message)"
-                target="_blank"
-                class="text-decoration-none text-light"
-              >
+              <a [href]="getFileUrl(msg.message)" target="_blank" class="text-decoration-none text-light">
                 <i class="bi bi-file-earmark"></i>
                 {{ getFileName(msg.message) }}
               </a>
               <small class="text-muted">{{ msg.time }}</small>
             </div>
             <ng-template #textMessage>
-              <span
-                class="text-light"
-                [innerHTML]="msg.message | lineBreaks"
-              ></span>
+              <span class="text-light" [innerHTML]="msg.message | lineBreaks"></span>
               <small class="text-muted">{{ msg.time }}</small>
             </ng-template>
           </ng-template>
@@ -83,7 +66,7 @@
       </div>
     </div>
 
-    <div class="chat-input p-3 border-top">
+    <!-- <div class="chat-input p-3 border-top">
       <div class="input-group">
         <div class="dropdown">
           <button
@@ -169,6 +152,126 @@
           </button>
         </div>
       </div>
+    </div> -->
+    <div class="chat-input p-3 border-top">
+
+      <!-- old code -->
+      <!-- <div *ngIf="selectedFile" class="mb-4 d-flex align-items-center">
+        <ng-container [ngSwitch]="selectedFile.type">
+          <ng-container *ngSwitchCase="'image'">
+            <img [src]="selectedFile.preview" class="img-thumbnail me-2" alt="Preview"
+              style="max-width: 100px; max-height: 100px" />
+          </ng-container>
+          <ng-container *ngSwitchCase="'video'">
+            <video [src]="selectedFile.preview" class="img-thumbnail me-2" controls
+              style="max-width: 50px; max-height: 50px"></video>
+            <h6 style="color: aliceblue;">{{ selectedFile.name }}</h6>
+          </ng-container>
+          <ng-container *ngSwitchCase="'document'">
+            <span class="me-2 text-light">
+              <i class="bi bi-file-earmark me-1"></i>{{ selectedFile.name }}
+            </span>
+          </ng-container>
+        </ng-container>
+        <button class="btn btn-danger btn-sm" (click)="clearFile()">Cancel</button>
+      </div> -->
+
+
+      <!-- new code with close style  -->
+
+      <!-- <div *ngIf="selectedFile" class="mb-4 position-relative d-flex align-items-center">
+        <ng-container [ngSwitch]="selectedFile.type">
+          <ng-container *ngSwitchCase="'image'">
+            <div class="preview-container">
+              <img [src]="selectedFile.preview" class="img-thumbnail" alt="Preview"
+                style="max-width: 100px; max-height: 100px" />
+              <button class="btn cancel-btn" (click)="clearFile()">×</button>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'video'">
+            <div class="preview-container">
+              <video [src]="selectedFile.preview" class="img-thumbnail" controls
+                style="max-width: 50px; max-height: 50px"></video>
+              <h6 style="color: aliceblue;">{{ selectedFile.name }}</h6>
+              <button class="btn cancel-btn" (click)="clearFile()">×</button>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'document'">
+            <div class="preview-container">
+              <span class="text-light">
+                <i class="bi bi-file-earmark me-1"></i>{{ selectedFile.name }}
+              </span>
+              <button class="btn cancel-btn" (click)="clearFile()">×</button>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div> -->
+
+       <!-- new code with multi select  -->
+       <div *ngIf="selectedFiles.length > 0" class="mb-4">
+        <div class="d-flex flex-wrap">
+          <div *ngFor="let file of selectedFiles" class="preview-container me-2 mb-2 position-relative">
+            <ng-container [ngSwitch]="file.type">
+              <ng-container *ngSwitchCase="'image'">
+                <img [src]="file.preview" class="img-thumbnail" alt="Preview"
+                  style="max-width: 100px; max-height: 100px" />
+              </ng-container>
+              <ng-container *ngSwitchCase="'video'">
+                <video [src]="file.preview" class="img-thumbnail" controls
+                  style="max-width: 50px; max-height: 50px"></video>
+                <h6 style="color: aliceblue;">{{ file.name }}</h6>
+              </ng-container>
+              <ng-container *ngSwitchCase="'document'">
+                <span class="text-light">
+                  <i class="bi bi-file-earmark me-1"></i>{{ file.name }}
+                </span>
+              </ng-container>
+            </ng-container>
+            <button class="btn cancel-btn" (click)="removeFile(file)">×</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <!-- Attachment Dropdown -->
+        <div class="dropdown me-2">
+          <!-- <button class="btn btn-light dropdown-toggle" type="button" 
+            aria-expanded="false"> -->
+            <i class="material-icons" data-bs-toggle="dropdown"  style="color: aliceblue;">attach_file</i>
+          <!-- </button> -->
+          <ul class="dropdown-menu ">
+            <li>
+              <button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('image')">
+                <mat-icon class="me-2" style="color: #fed700">photo_camera</mat-icon>
+                Photos & Videos
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item d-flex align-items-center" (click)="triggerFileUpload('document')">
+                <mat-icon class="me-2" style="color: #fed700">insert_drive_file</mat-icon>
+                Document
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Message Input -->
+        <input type="text" class="form-control" placeholder="Type a message..." [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()" />
+
+        <!-- Hidden File Input -->
+        <!-- <input #fileInput type="file" class="d-none" (change)="onFileSelected($event)" [accept]="fileAcceptType" /> -->
+        <!-- Hidden file input for multi -->
+          <input #fileInput type="file" hidden [accept]="fileAcceptType" multiple (change)="onFileSelected($event)"> 
+
+        <!-- Send Button -->
+        <button class="btn btn-primary ms-2" (click)="sendMessage()" [disabled]="!newMessage.trim() && !selectedFiles">
+          Send
+        </button>
+      </div>
+
+      <!-- File Preview -->
+
     </div>
   </div>
 </div>
