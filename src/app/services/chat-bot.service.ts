@@ -35,6 +35,7 @@ export class ChatBotService {
 
 
   baseUrl: String = this.config.getBaseurl();
+  // baseUrlws: string = this.config.getBaseurlws();
 
   getLastMessages(chatId: string, page: number = 0): Observable<any> {
      let params = new HttpParams()
@@ -141,8 +142,10 @@ export class ChatBotService {
  
   connect() {
     this.stompClient = new Client({
-      brokerURL : this.baseUrl.replace('http://', 'ws://') + '/ws',
-      // brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL #Important chanegs
+      // brokerURL : this.baseUrl.replace('http://', 'ws://') + '/ws',
+      brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL #Important chanegs
+      // brokerURL: 'wss://hairy-additions-economies-betting.trycloudflare.com/ws', // Change this to your server URL #Important chanegs
+      // brokerURL : this.baseUrlws ,
       reconnectDelay: 5000, // Auto-reconnect after 5 seconds 
     });
 

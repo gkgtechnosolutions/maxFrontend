@@ -6,6 +6,7 @@ declare var appConfig;
 })
 export class AppConfigService {
   private baseUrl: String = appConfig.mainbackendUrl;
+  private baseUrlws: string = appConfig.mainbackendUrlws;
   constructor() {}
 
 
@@ -17,4 +18,10 @@ export class AppConfigService {
   getBaseurl(): String {
     return this.baseUrl;
   }
+
+  // getBaseurlws(): string {
+  //   return this.baseUrlws;
+  // }
+
+
 }

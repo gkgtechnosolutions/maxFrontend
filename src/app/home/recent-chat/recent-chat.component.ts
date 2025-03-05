@@ -124,10 +124,12 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     // Mock some messages for the selected chat (replace with API call if needed)
     this.isLoading = true;
     this.chatID = chat.chatId;
+    this.messages = [];
     this.messageService
       .getLastMessages(chat.chatId, 0)
       .subscribe((response) => {
         if (response && response.length > 0) {
+          
           this.messages = [...response.reverse()];
           setTimeout(() => {
             this.scrollToBottom();
