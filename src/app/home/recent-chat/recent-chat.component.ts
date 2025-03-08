@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ComponettitleService } from '../../services/componenttitle.service';
 import { ChatBotService } from '../../services/chat-bot.service';
-import { AdminMessageRequest } from '../../domain/chatbot';
+import { AdminMessageRequest, Selectedchat } from '../../domain/chatbot';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -37,7 +37,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
   messages: any[] = [];
   selectedImage: string | null = null;
   recentChats: any[] = [];
-  selectedChat: any = null;
+  selectedChat: Selectedchat  ;
   newMessage: string = '';
   mockMessages: any[] = [];
   private refreshSubscription: Subscription;
@@ -49,7 +49,11 @@ export class RecentChatComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void { 
     this.titleService.changeTitle('Recent Chat');
-    
+    let newChat : Selectedchat = {
+      "chatId" : "0",
+      "firstName" : "Message To All",
+      }
+      this.selectedChat = newChat;
     this.getUserId();
     this.messageSubscription = this.chatService.messages$.subscribe(
       (data) => {
@@ -87,7 +91,11 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     return message.startsWith('Photo : ') && message.includes('http');
   }
   selectALL(): void {
-    this.selectedChat = "0";
+    let newChat : Selectedchat = {
+    "chatId" : "0",
+    "firstName" : "Message To All",
+    }
+    this.selectedChat = newChat;
     // Mock some messages for the selected chat (replace with API call if needed)
     this.isLoading = true;
     this.chatID = "0";
@@ -142,6 +150,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
 
   selectChat(chat: any): void {
     this.selectedChat = { ...chat };
+    console.log('Selected chat:', chat);
     // Mock some messages for the selected chat (replace with API call if needed)
     this.isLoading = true;
     this.chatID = chat.chatId;
@@ -244,6 +253,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
   }
 
   refresh() {
+    if (this.selectedChat) {
     this.isLoading = true;
     this.messageService
       .getLastMessages(this.chatID, 0)
@@ -252,6 +262,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
         this.messages = response.reverse();
         this.isLoading = false;
       });
+    }
   }
 
  
