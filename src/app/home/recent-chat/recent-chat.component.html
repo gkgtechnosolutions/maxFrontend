@@ -2,7 +2,7 @@
 <div class="whatsapp-container d-flex">
   <!-- Sidebar for Recent Chats (unchanged) -->
   <div class="sidebar flex-shrink-0" style="width: 30%">
-    <h2 class="sidebar-header">Chats</h2>
+    <h2 class="sidebar-header" (click)="selectALL()" style="cursor: pointer;" >Chats </h2>
     <div class="chat-list">
       <div class="chat-item" *ngFor="let chat of recentChats" (click)="selectChat(chat)">
         <div class="d-flex align-items-center p-3">
@@ -21,11 +21,7 @@
   </div>
 
   <!-- Chat Detail Panel (No Chat Selected) -->
-  <div class="chat-panel flex-grow-1" *ngIf="!selectedChat">
-    <div class="chat-header d-flex align-items-center p-3 border-bottom">
-      <h5 class="mb-0 text-light">Please select chat</h5>
-    </div>
-  </div>
+
 
   <!-- Chat Detail Panel (Chat Selected) -->
   <div class="chat-panel flex-grow-1" *ngIf="selectedChat">
@@ -206,7 +202,12 @@
           </ng-container>
         </ng-container>
       </div> -->
-
+      <!-- <div *ngIf="selectedFiles.length! > 0">
+       <p>
+          No files selected yet , Select "Chat" to send to all
+       </p>
+     
+      </div> -->
        <!-- new code with multi select  -->
        <div *ngIf="selectedFiles.length > 0" class="mb-4">
         <div class="d-flex flex-wrap">
@@ -237,7 +238,7 @@
         <div class="dropdown me-2">
           <!-- <button class="btn btn-light dropdown-toggle" type="button" 
             aria-expanded="false"> -->
-            <i class="material-icons" data-bs-toggle="dropdown"  style="color: aliceblue;">attach_file</i>
+            <i class="material-icons" data-bs-toggle="dropdown"  style="color: aliceblue; cursor: pointer; margin-top: 6px;">attach_file</i>
           <!-- </button> -->
           <ul class="dropdown-menu ">
             <li>

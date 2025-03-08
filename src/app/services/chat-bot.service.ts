@@ -35,6 +35,7 @@ export class ChatBotService {
 
 
   baseUrl: String = this.config.getBaseurl();
+  // baseUrlws: string = this.config.getBaseurlws();
 
   getLastMessages(chatId: string, page: number = 0): Observable<any> {
      let params = new HttpParams()
@@ -78,7 +79,7 @@ export class ChatBotService {
   sendMessage(
     adminId: number,
     chatId: string,
-    texts?: string[],  // Changed to string[] to match backend List<String>
+    texts?: string,  // Changed to string[] to match backend List<String>
     files?: File[]     // File[] to match backend MultipartFile[]
   ): Observable<Map<string, string>> {
     // Create FormData for multipart/form-data request
@@ -87,12 +88,13 @@ export class ChatBotService {
     // Add required parameters
     formData.append('chatId', chatId);
 
+    formData.append('text', texts);
     // Add optional texts if provided
-    if (texts && texts.length > 0) {
-      texts.forEach((text, index) => {
-        formData.append(`texts[${index}]`, text); // Match backend List<String>
-      });
-    }
+    // if (texts && texts.length > 0) {
+    //   texts.forEach((text, index) => {
+    //     formData.append(`texts[${index}]`, text); // Match backend List<String>
+    //   });
+    // }
 
     // Add optional files if provided
     if (files && files.length > 0) {
@@ -140,8 +142,10 @@ export class ChatBotService {
  
   connect() {
     this.stompClient = new Client({
-      brokerURL : this.baseUrl.replace('http://', 'ws://') + '/ws',
-      // brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL #Important chanegs
+      // brokerURL : this.baseUrl.replace('http://', 'ws://') + '/ws',
+      brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL #Important chanegs
+      // brokerURL: 'wss://hairy-additions-economies-betting.trycloudflare.com/ws', // Change this to your server URL #Important chanegs
+      // brokerURL : this.baseUrlws ,
       reconnectDelay: 5000, // Auto-reconnect after 5 seconds 
     });
 

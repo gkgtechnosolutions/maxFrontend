@@ -86,6 +86,26 @@ export class RecentChatComponent implements OnInit, OnDestroy {
   isImageMessage(message: string): boolean {
     return message.startsWith('Photo : ') && message.includes('http');
   }
+  selectALL(): void {
+    this.selectedChat = "0";
+    // Mock some messages for the selected chat (replace with API call if needed)
+    this.isLoading = true;
+    this.chatID = "0";
+    this.messages = [];
+    this.messageService
+      .getLastMessages(this.chatID, 0)
+      .subscribe((response) => {
+        if (response && response.length > 0) {
+          
+          this.messages = [...response.reverse()];
+          setTimeout(() => {
+            this.scrollToBottom();
+          }, 0);
+          // this.cdRef.detectChanges();
+        }
+        this.isLoading = false;
+      });
+  }
 
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -119,15 +139,18 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     const urlMatch = message.match(/Video : (https?:\/\/[^\s]+)/);
     return urlMatch ? urlMatch[1] : '';
   }
+
   selectChat(chat: any): void {
     this.selectedChat = { ...chat };
     // Mock some messages for the selected chat (replace with API call if needed)
     this.isLoading = true;
     this.chatID = chat.chatId;
+    this.messages = [];
     this.messageService
       .getLastMessages(chat.chatId, 0)
       .subscribe((response) => {
         if (response && response.length > 0) {
+          
           this.messages = [...response.reverse()];
           setTimeout(() => {
             this.scrollToBottom();
@@ -183,7 +206,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     this.loader = true;
   
     // Prepare texts as an array (even if single message)
-    const texts = this.newMessage.trim() ? [this.newMessage.trim()] : undefined;
+    // const texts = this.newMessage.trim() ? [this.newMessage.trim()] : undefined;
   
     // Extract files from selectedFiles array
     const files = this.selectedFiles && this.selectedFiles.length > 0 
@@ -193,7 +216,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     this.messageService.sendMessage(
       this.userId,           // Assuming userId is your adminId
       this.chatID,
-      texts,                // Array of texts
+    this.newMessage.trim() || undefined,             // Array of texts
       files                 // Array of files
     ).subscribe({
       next: (response) => {
