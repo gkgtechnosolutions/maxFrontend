@@ -27,3 +27,12 @@ export interface ClientBankDetails {
   teleUser?: TeleUser;  // Reference back to TeleUser
 
 }
+
+export interface Selectedchat {
+  chatId?: string;              // "6707613804" -> string
+  firstName?: string;           // "Vinay" -> string
+  id ?: number;                  // 1 -> number
+  langPreferenceCode?: number;  // 0 -> number
+  lastMessage?: string;         // "Please Select Your Id :-\n" -> string
+  lastMessageTime?: string;     // "2025-03-07T12:17:12" -> string (ISO date format)
+}
