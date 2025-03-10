@@ -3,7 +3,7 @@ export interface TeleMessage {
     message: string;
     sender: 'USER' | 'BOT' | 'ADMIN';
     teleUser?: TeleUser;
-    // createdAt: string;
+    createdAt?: string;
   }
 
 export interface AdminMessageRequest {
