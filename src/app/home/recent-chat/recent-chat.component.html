@@ -27,9 +27,10 @@
 
 
   <!-- Chat Detail Panel (Chat Selected) -->
-  <div class="chat-panel flex-grow-1" *ngIf="selectedChat">
-    <div class="chat-header d-flex align-items-center p-3 border-bottom">
+  <div class="chat-panel flex-grow-1" *ngIf="selectedChat" >
+    <div class="chat-header d-flex flex-column p-3 border-bottom">
       <h5 class="mb-0 text-light">{{ selectedChat.firstName }}</h5>
+      <h6 class="mb-0 text-light">{{ phoneNumber }}</h6>
     </div>
     <div class="chat-messages p-3 chat-container" style="height: calc(100vh - 120px); overflow-y: auto; overflow-x:hidden;" #chatContainer>
       <div class="chat-container2">
@@ -39,13 +40,13 @@
           }">
           <div *ngIf="isImageMessage(msg.message); else videoMessage">
             <img [src]="getImageUrl(msg.message)" class="img-fluid rounded" style="max-width: 200px" />
-            <small class="text-muted">{{ msg.time }}</small>
+            <!-- <small class="text-muted">{{ msg.time }}</small> -->
           </div>
           <ng-template #videoMessage>
             <div *ngIf="isVideoMessage(msg.message); else fileMessage">
               <video [src]="getVideoUrl(msg.message)" controls class="img-fluid rounded"
                 style="max-width: 200px"></video>
-              <small class="text-muted">{{ msg.time }}</small>
+              <!-- <small class="text-muted">{{ msg.time }}</small> -->
             </div>
           </ng-template>
           <ng-template #fileMessage>
@@ -54,11 +55,11 @@
                 <i class="bi bi-file-earmark"></i>
                 {{ getFileName(msg.message) }}
               </a>
-              <small class="text-muted">{{ msg.time }}</small>
+              <!-- <small class="text-muted">{{ msg.time }}</small> -->
             </div>
             <ng-template #textMessage>
               <span class="text-light" [innerHTML]="msg.message | lineBreaks"></span>
-              <small class="text-muted">{{ msg.time }}</small>
+              <!-- <small class="text-muted">{{ msg.time }}</small> -->
             </ng-template>
           </ng-template>
         </div>

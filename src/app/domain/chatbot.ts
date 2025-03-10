@@ -2,6 +2,8 @@ export interface TeleMessage {
     id: number;
     message: string;
     sender: 'USER' | 'BOT' | 'ADMIN';
+    teleUser?: TeleUser;
+    // createdAt: string;
   }
 
 export interface AdminMessageRequest {
@@ -18,6 +20,7 @@ export interface TeleUser {
   firstName?: string;
   langPreferenceCode?: number;
   bankDetails?: ClientBankDetails[];
+  phoneNumber?: string;
 }
 
 // Required related interface for ClientBankDetails
@@ -35,4 +38,5 @@ export interface Selectedchat {
   langPreferenceCode?: number;  // 0 -> number
   lastMessage?: string;         // "Please Select Your Id :-\n" -> string
   lastMessageTime?: string;     // "2025-03-07T12:17:12" -> string (ISO date format)
+  // phoneNumber?: string;         // "1234567890" -> string
 }

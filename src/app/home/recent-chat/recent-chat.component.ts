@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ComponettitleService } from '../../services/componenttitle.service';
 import { ChatBotService } from '../../services/chat-bot.service';
-import { AdminMessageRequest, Selectedchat } from '../../domain/chatbot';
+import { AdminMessageRequest, Selectedchat, TeleMessage } from '../../domain/chatbot';
 import { interval, Subscription } from 'rxjs';
 
 @Component({
@@ -26,6 +26,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
   fileAcceptType: string = '';
   loader: any;
   subscription: any;
+phoneNumber: any;
 
   constructor(
     private titleService: ComponettitleService,
@@ -34,7 +35,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {}
   private messageSubscription: Subscription;
-  messages: any[] = [];
+  messages:TeleMessage[] ;
   selectedImage: string | null = null;
   recentChats: any[] = [];
   selectedChat: Selectedchat  ;
@@ -99,13 +100,14 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     // Mock some messages for the selected chat (replace with API call if needed)
     this.isLoading = true;
     this.chatID = "0";
-    this.messages = [];
+    // this.messages = [];
     this.messageService
       .getLastMessages(this.chatID, 0)
       .subscribe((response) => {
         if (response && response.length > 0) {
           
           this.messages = [...response.reverse()];
+        
           setTimeout(() => {
             this.scrollToBottom();
           }, 0);
@@ -154,13 +156,15 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     // Mock some messages for the selected chat (replace with API call if needed)
     this.isLoading = true;
     this.chatID = chat.chatId;
-    this.messages = [];
+    // this.messages = [];
     this.messageService
       .getLastMessages(chat.chatId, 0)
       .subscribe((response) => {
         if (response && response.length > 0) {
           
           this.messages = [...response.reverse()];
+          this.phoneNumber= this.messages[0].teleUser.phoneNumber;
+          console.log(this.phoneNumber);
           setTimeout(() => {
             this.scrollToBottom();
           }, 0);
@@ -225,7 +229,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     this.messageService.sendMessage(
       this.userId,           // Assuming userId is your adminId
       this.chatID,
-    this.newMessage.trim() || undefined,             // Array of texts
+    this.newMessage.trim() ,             // Array of texts
       files                 // Array of files
     ).subscribe({
       next: (response) => {
@@ -258,7 +262,7 @@ export class RecentChatComponent implements OnInit, OnDestroy {
     this.messageService
       .getLastMessages(this.chatID, 0)
       .subscribe((response) => {
-        this.messages = [];
+        // this.messages = [];
         this.messages = response.reverse();
         this.isLoading = false;
       });
