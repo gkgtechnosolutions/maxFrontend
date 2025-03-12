@@ -22,7 +22,9 @@ export class RecentChatComponent implements OnInit, OnDestroy {
   user: any;
   userId: any;
   selectedFile: any = null; // Store selected file data (type, preview, name, file object)
-  selectedFiles: { file: File; type: string; name: string; preview?: string }[] = [];
+  selectedFiles: {
+    caption: any; file: File; type: string; name: string; preview?: string 
+}[] = [];
   fileAcceptType: string = '';
   loader: any;
   subscription: any;
@@ -92,6 +94,8 @@ phoneNumber: any;
     return message.startsWith('Photo : ') && message.includes('http');
   }
   selectALL(): void {
+    this.messages = [];
+    this.phoneNumber = '';
     let newChat : Selectedchat = {
     "chatId" : "0",
     "firstName" : "Message To All",
@@ -100,7 +104,7 @@ phoneNumber: any;
     // Mock some messages for the selected chat (replace with API call if needed)
     this.isLoading = true;
     this.chatID = "0";
-    // this.messages = [];
+    
     this.messageService
       .getLastMessages(this.chatID, 0)
       .subscribe((response) => {
@@ -145,18 +149,39 @@ phoneNumber: any;
     const urlMatch = message.match(/Photo : (https?:\/\/[^\s]+)/);
     return urlMatch ? urlMatch[1] : '';
   }
+
+  getCaptionImage(message: string): string {
+    const parts = message.split(/Photo : https?:\/\/[^\s]+/);
+    const caption = parts.length > 1 ? parts[1].trim() : '';
+    return caption;
+  }
+
+  getCaptionVideo(message: string): string {
+    const parts = message.split(/Video : https?:\/\/[^\s]+/);
+    const caption = parts.length > 1 ? parts[1].trim() : '';
+    return caption;
+  }
+
+  getCaptionDocument(message: string): string {
+    const parts = message.split(/Document : https?:\/\/[^\s]+/);
+    const caption = parts.length > 1 ? parts[1].trim() : '';
+    return caption;
+  }
+
   getVideoUrl(message: string): string {
     const urlMatch = message.match(/Video : (https?:\/\/[^\s]+)/);
     return urlMatch ? urlMatch[1] : '';
   }
 
   selectChat(chat: any): void {
+    this.messages = [];
+    this.phoneNumber = '';
     this.selectedChat = { ...chat };
     console.log('Selected chat:', chat);
     // Mock some messages for the selected chat (replace with API call if needed)
     this.isLoading = true;
     this.chatID = chat.chatId;
-    // this.messages = [];
+   
     this.messageService
       .getLastMessages(chat.chatId, 0)
       .subscribe((response) => {
@@ -215,22 +240,74 @@ phoneNumber: any;
   //   });
   // }
  
+  // sendMessage() {
+  //   this.loader = true;
+  
+  //   // Prepare texts as an array (even if single message)
+  //   // const texts = this.newMessage.trim() ? [this.newMessage.trim()] : undefined;
+  
+  //   // Extract files from selectedFiles array
+  //   const files = this.selectedFiles && this.selectedFiles.length > 0 
+  //     ? this.selectedFiles.map(fileObj => fileObj.file) 
+  //     : undefined;
+  
+  //   this.messageService.sendMessage(
+  //     this.userId,           // Assuming userId is your adminId
+  //     this.chatID,
+  //   this.newMessage.trim() ,             // Array of texts
+  //     files                 // Array of files
+  //   ).subscribe({
+  //     next: (response) => {
+  //       this.refresh();
+  //       console.log('Message sent successfully:', response);
+  //       this.clearInput();
+  //       this.clearFile();
+  //       this.loader = false;
+  //     },
+  //     error: (error) => {
+  //       console.error('Error sending message:', error);
+  //       this.loader = false;
+  //     }
+  //   });
+  // }
   sendMessage() {
     this.loader = true;
   
-    // Prepare texts as an array (even if single message)
-    // const texts = this.newMessage.trim() ? [this.newMessage.trim()] : undefined;
+    // Prepare texts and files arrays based on selectedFiles
+    let texts: string[] | undefined;
+    let files: File[] | undefined;
   
-    // Extract files from selectedFiles array
-    const files = this.selectedFiles && this.selectedFiles.length > 0 
-      ? this.selectedFiles.map(fileObj => fileObj.file) 
-      : undefined;
+    if (this.selectedFiles && this.selectedFiles.length > 0) {
+      // Extract captions as texts
+      texts = this.selectedFiles
+        .filter(fileObj => fileObj.caption && fileObj.caption.trim()) // Only include non-empty captions
+        .map(fileObj => fileObj.caption.trim());
   
-    this.messageService.sendMessage(
-      this.userId,           // Assuming userId is your adminId
+      // Extract files
+      files = this.selectedFiles.map(fileObj => fileObj.file);
+    }
+  
+    // If there’s a standalone message in newMessage, prepend it to texts
+    if (this.newMessage && this.newMessage.trim()) {
+      texts = texts ? [this.newMessage.trim(), ...texts] : [this.newMessage.trim()];
+    }
+  
+    // If no texts are present, set to undefined
+    if (texts && texts.length === 0) {
+      texts = undefined;
+    }
+  
+    // If no files are present, set to undefined
+    if (files && files.length === 0) {
+      files = undefined;
+    }
+  
+    // Call the service to send the message
+    this.messageService.sendMessage2(
+      this.userId, // Assuming userId is your adminId
       this.chatID,
-    this.newMessage.trim() ,             // Array of texts
-      files                 // Array of files
+      texts, // Array of texts (captions + optional standalone message)
+      files  // Array of files
     ).subscribe({
       next: (response) => {
         this.refresh();
@@ -244,6 +321,10 @@ phoneNumber: any;
         this.loader = false;
       }
     });
+  }
+  
+  onCaptionChange(file: any) {
+    console.log(`Caption updated for ${file.name}: ${file.caption}`);
   }
   
   clearFile() {
@@ -351,7 +432,8 @@ phoneNumber: any;
           file, 
           type: fileType, 
           name: file.name,
-          preview: ''  // Initialize preview property
+          preview: '', 
+          caption: '' // Initialize preview property
         };
   
         // Generate preview for images and videos
