@@ -109,6 +109,39 @@ export class ChatBotService {
       formData
     );
   }
+
+  sendMessage2(
+    adminId: number,
+    chatId: string,
+    texts?: string[],  // Still an array in the method signature
+    files?: File[]     // File[] to match backend MultipartFile[]
+  ): Observable<Map<string, string>> {
+    // Create FormData for multipart/form-data request
+    const formData = new FormData();
+  
+    // Add required parameters
+    formData.append('chatId', chatId);
+  
+    // Add optional texts as individual "text" entries
+    if (texts && texts.length > 0) {
+      texts.forEach((text) => {
+        formData.append('text', text); // Append each text as a separate "text" field
+      });
+    }
+  
+    // Add optional files if provided
+    if (files && files.length > 0) {
+      files.forEach((file, index) => {
+        formData.append('file', file, file.name);  // Keep files as an array
+      });
+    }
+  
+    // Make the POST request
+    return this.http.post<Map<string, string>>(
+      `${this.baseUrl}/UBotProject/messages/send/${adminId}`,
+      formData
+    );
+  }
   // sendMessage(
   //   adminId: number,
   //   chatId: string,
@@ -138,13 +171,14 @@ export class ChatBotService {
   //     formData
   //   );
   // }
+  
 
  
   connect() {
     this.stompClient = new Client({
       // brokerURL : this.baseUrl.replace('http://', 'ws://') + '/ws',
       brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL #Important chanegs
-      // brokerURL: 'wss://mu-refresh-big-devoted.trycloudflare.com/ws', // Change this to your server URL #Important chanegs
+      // brokerURL: 'wss://supervision-surgeon-are-equal.trycloudflare.com/ws', // Change this to your server URL #Important chanegs
       // brokerURL : this.baseUrlws ,
       reconnectDelay: 5000, // Auto-reconnect after 5 seconds 
     });

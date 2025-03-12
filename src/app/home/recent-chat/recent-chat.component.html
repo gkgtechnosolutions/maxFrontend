@@ -14,9 +14,21 @@
               <h6 class="mb-0 text-light">{{ chat.firstName }}</h6>
               <small class="text-muted">{{ chat.lastMessageTime | utcToLocal }}</small>
             </div>
-            <p class="mb-0 text-muted small" [innerHTML]="chat.lastMessage | slice : 0 : 50">
+            <p class="mb-0 text-muted small" *ngIf="isImageMessage(chat.lastMessage); else videoMessage">Photo</p>
+            <ng-template #videoMessage>
+              <p class="mb-0 text-muted small"*ngIf="isVideoMessage(chat.lastMessage); else fileMessage">Video</p>
+            </ng-template>
+            <ng-template #fileMessage>
+              <p class="mb-0 text-muted small" *ngIf="isDocumentMessage(chat.lastMessage); else textMessage">Document</p>
+            </ng-template>
+            <ng-template #textMessage>
+              <p class="mb-0 text-muted small" [innerHTML]="chat.lastMessage | slice : 0 : 50">
+                {{ chat.lastMessage }}
+              </p>
+            </ng-template>
+            <!-- <p class="mb-0 text-muted small" [innerHTML]="chat.lastMessage | slice : 0 : 50">
               {{ chat.lastMessage }}
-            </p>
+            </p> -->
           </div>
         </div>
       </div>
@@ -38,28 +50,60 @@
             'user-msg': msg.sender === 'USER',
             'bot-msg': msg.sender !== 'USER'
           }">
-          <div *ngIf="isImageMessage(msg.message); else videoMessage">
+         <div *ngIf="isImageMessage(msg.message); else videoMessage">
+          <div class="message-container">
             <img [src]="getImageUrl(msg.message)" class="img-fluid rounded" style="max-width: 200px" />
-            <!-- <small class="text-muted">{{ msg.time }}</small> -->
+            <div class=" mt-2" *ngIf="getCaptionImage(msg.message)">
+              <p style="margin-bottom: 0%;">{{ getCaptionImage(msg.message) }}</p>
+            </div>
+            <div class="timestamp-container"*ngIf="getCaptionImage(msg.message)">
+              <small class="text-muted">{{ msg.createdAt | utcToLocal }}</small>
+            </div>
+            <div class="timestamp-container" *ngIf="!getCaptionImage(msg.message)">
+              <small class="text-muted">{{ msg.createdAt | utcToLocal }}</small>
+            </div>
           </div>
+        </div>
           <ng-template #videoMessage>
             <div *ngIf="isVideoMessage(msg.message); else fileMessage">
+              <div class="message-container">
               <video [src]="getVideoUrl(msg.message)" controls class="img-fluid rounded"
                 style="max-width: 200px"></video>
-              <!-- <small class="text-muted">{{ msg.time }}</small> -->
+              <div class="caption mt-2" *ngIf="getCaptionVideo(msg.message)">
+                <p style="margin-bottom: 0%;">{{ getCaptionVideo(msg.message) }}</p>
+                
+              </div>
+              <div class="timestamp-container"*ngIf="getCaptionVideo(msg.message)">
+                <small class="text-muted">{{ msg.createdAt | utcToLocal }}</small>
+              </div>
+              <div class="timestamp-container" *ngIf="!getCaptionVideo(msg.message)">
+                <small class="text-muted">{{ msg.createdAt | utcToLocal }}</small>
+              </div>
+                
+            </div>
             </div>
           </ng-template>
           <ng-template #fileMessage>
+            <div class="message-container">
             <div *ngIf="isDocumentMessage(msg.message); else textMessage">
               <a [href]="getFileUrl(msg.message)" target="_blank" class="text-decoration-none text-light">
                 <i class="bi bi-file-earmark"></i>
                 {{ getFileName(msg.message) }}
               </a>
-              <!-- <small class="text-muted">{{ msg.time }}</small> -->
+          
+              <div class="timestamp-container">
+              <small class="text-muted">{{ msg.createdAt | utcToLocal }}</small>
+                </div>
+            </div>
             </div>
             <ng-template #textMessage>
+              <div class="message-container">
               <span class="text-light" [innerHTML]="msg.message | lineBreaks"></span>
-              <!-- <small class="text-muted">{{ msg.time }}</small> -->
+              <div class="timestamp-container">
+                
+              <small class="text-muted">{{ msg.createdAt| utcToLocal }}</small>
+              </div>
+            </div>
             </ng-template>
           </ng-template>
         </div>
@@ -69,7 +113,7 @@
 
     <div class="chat-input p-3 border-top">
       
-       <div *ngIf="selectedFiles.length > 0 " class="mb-4">
+      <div *ngIf="selectedFiles.length > 0" class="mb-4">
         <div class="d-flex flex-wrap">
           <div *ngFor="let file of selectedFiles" class="preview-container me-2 mb-2 position-relative">
             <ng-container [ngSwitch]="file.type">
@@ -88,11 +132,20 @@
                 </span>
               </ng-container>
             </ng-container>
+            <!-- Caption Input Field -->
+            <div class="caption-container mt-1">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="Add a caption..."
+                [(ngModel)]="file.caption"
+                (ngModelChange)="onCaptionChange(file)"
+              />
+            </div>
             <button class="btn cancel-btn" (click)="removeFile(file)">×</button>
           </div>
         </div>
       </div>
-     
      
 
       <div class="input-group">
