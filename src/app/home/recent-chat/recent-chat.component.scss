@@ -327,3 +327,9 @@ mat-icon[style*="color: #00a884"] {
   text-align: right;
   margin-top: 4px;
 }
+textarea {
+  resize: none; /* Disable manual resizing */
+  overflow: hidden; /* Hide scrollbar */
+  min-height: 30px; /* Minimum height */
+  max-height: 40px; /* Maximum height before scrolling */
+}

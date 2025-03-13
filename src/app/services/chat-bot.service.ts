@@ -177,8 +177,8 @@ export class ChatBotService {
   connect() {
     this.stompClient = new Client({
       // brokerURL : this.baseUrl.replace('http://', 'ws://') + '/ws',
-      brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL #Important chanegs
-      // brokerURL: 'wss://supervision-surgeon-are-equal.trycloudflare.com/ws', // Change this to your server URL #Important chanegs
+      // brokerURL: 'ws://13.200.63.62:8080/ws', // Change this to your server URL #Important chanegs
+      brokerURL: 'wss://paid-tubes-pride-brighton.trycloudflare.com/ws', // Change this to your server URL #Important chanegs
       // brokerURL : this.baseUrlws ,
       reconnectDelay: 5000, // Auto-reconnect after 5 seconds 
     });

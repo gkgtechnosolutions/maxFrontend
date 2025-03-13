@@ -112,6 +112,24 @@ export class ApproveService {
     );
   }
 
+  searchWithdarws(
+    statuses,
+    searchTerm: string,
+    pageSize: number,
+    pageNo: number
+  ) {
+    const params = new HttpParams()
+      .set('status', statuses)
+      .set('searchTerm', searchTerm)
+      .set('page', pageNo.toString())
+      .set('size', pageSize.toString());
+
+    return this.http.get<any>(
+      `${this.baseUrl}/approveOperation/approve-deposits/search`,
+      { params }
+    );
+  }
+
   Reject(Id: number, rejectReason: string, userId: number): Observable<any> {
     const params = new HttpParams()
       .set('id', Id.toString())
