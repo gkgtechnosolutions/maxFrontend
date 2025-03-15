@@ -234,7 +234,7 @@ export class AppvDListComponent implements OnInit , OnDestroy {
   updateSearchText(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.searchText = target.value;
-    console.log('Search text updated:', this.searchText);
+    // console.log('Search text updated:', this.searchText);
   }
 
   onSearchClick(): void {

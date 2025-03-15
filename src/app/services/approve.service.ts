@@ -125,7 +125,7 @@ export class ApproveService {
       .set('size', pageSize.toString());
 
     return this.http.get<any>(
-      `${this.baseUrl}/approveOperation/approve-deposits/search`,
+      `${this.baseUrl}/approveOperation/withdraw/approve-withdraws/search`,
       { params }
     );
   }

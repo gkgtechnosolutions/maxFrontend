@@ -97,7 +97,9 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
     }
   }
   updateSearchText($event: Event) {
-    throw new Error('Method not implemented.');
+    const target = event.target as HTMLInputElement;
+    this.searchText = target.value;
+    // console.log('Search text updated:', this.searchText);
   }
   // Define the displayed columns
   displayedColumns: string[] = [
@@ -337,20 +339,31 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
       // console.log(this.pageNo); //
       this.pageSize = event.pageSize;
       // console.log(this.pageSize + 'pagesize'); //
-      // if (this.searchText && this.searchText.trim() !== '') {
-      //   this.pageNo = 0; // Reset to first page for a new search
-      //   // this.searchW();
-      // } else {
+      if (this.searchText && this.searchText.trim() !== '') {
+        this.pageNo = 0; // Reset to first page for a new search
+        this.searchWithdraws();
+      } else {
       //   console.log('Search text is empty, no search will be performed.');
         // Optionally, you can fetch the default list if search is empty
         this.getWithdraws();
-      // }
+      }
     }
     searchWithdraws(): void {
       const statusesToSend =
         this.selectedStatuses.value.length > 0
           ? this.selectedStatuses.value
-          : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED', 'USER_CREATED'];
+          : [
+            'ALL',
+            'PENDING',
+            'APPROVED',
+            'IN_PROCESS',
+            'REJECTED',
+            'DONE',
+            'FAILED',
+            'DELETED',
+            'MESSAGE_SENT',
+            'INSUFFICIENT_BALANCE',
+          ];
       // this.loader = true;
       this.apprvserv
         .searchWithdarws(
