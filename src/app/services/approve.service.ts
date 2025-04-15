@@ -61,6 +61,15 @@ export class ApproveService {
     );
   }
 
+  RejectApprove(Id:number,rejectReason:string ,userId:number): Observable<any> {
+    const params =  new HttpParams()
+    .set('id', Id.toString())
+   .set('rejectReason', rejectReason)
+   .set('executedById', userId.toString())
+
+    return this.http.put<any>(`${this.baseUrl}/approveOperation/rejectWati`,null,{ params });
+  }
+
   ApproveCheckWithdraw(Id: number, userId: number, approveWithdraw: any) {
     const params = new HttpParams()
       .set('id', Id.toString())

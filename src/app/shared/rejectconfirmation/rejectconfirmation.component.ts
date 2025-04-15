@@ -82,7 +82,20 @@ export class RejectconfirmationComponent {
         this.loader = false;
         console.log(error);
       }
-    );
+    );} else if(this.type==="wati"){
+      this.apprvserv.RejectApprove(this.Id,reasonsAsString,this.userId).subscribe(
+        (data) => {
+          this.snackbarService.snackbar('Successfull', 'success');
+          console.log('reject', data);
+       
+          this.loader = false;
+          this.dialogRef.close(rejectionData);
+        },
+        (error) => {
+          this.loader = false;
+          console.log(error);
+        }
+      );
 
     } else {
       this.loader = true;

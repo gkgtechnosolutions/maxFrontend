@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Deposite, DepositeWithdraw } from '../domain/Deposite';
 import { Observable, of } from 'rxjs';
@@ -61,4 +61,12 @@ export class OperationsService {
       `${this.baseUrl}/operation/mastersUser/findUser/${username}`
     );
   }
+
+  withdrawConfirmation(withdrawId: any,bankId:any): Observable<any> {
+    let params = new HttpParams()
+   .set('withdrawId', withdrawId.toString())
+   .set('bankId', bankId.toString());
+   return this.http.put<any>(`${this.baseUrl}/operation/add-bank`,{},{params} );
+ }
+
 }

@@ -1,0 +1,21 @@
+<h2 mat-dialog-title >Select Bank for Withdrawal</h2>
+<mat-dialog-content>
+  <form #bankForm="ngForm">
+    <div class="form-group" [formGroup]="formGroup">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Select Bank</mat-label>
+        <mat-select style="color: white" formControlName="bankId">
+          <mat-option *ngFor="let bank of banks" [value]="bank.id">{{
+            bank.bankName
+            }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button style="color: gold;" (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="!bankForm.valid" (click)="onSubmit()"
+    style="color: gold;">Submit</button>
+</mat-dialog-actions>
