@@ -234,7 +234,7 @@ export class AppvDListComponent implements OnInit , OnDestroy {
   updateSearchText(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.searchText = target.value;
-    console.log('Search text updated:', this.searchText);
+    // console.log('Search text updated:', this.searchText);
   }
 
   onSearchClick(): void {
@@ -242,7 +242,7 @@ export class AppvDListComponent implements OnInit , OnDestroy {
       this.pageNo = 0; // Reset to first page for a new search
       this.searchDeposits();
     } else {
-      console.log('Search text is empty, no search will be performed.');
+      // console.log('Search text is empty, no search will be performed.');
       // Optionally, you can fetch the default list if search is empty
       this.getDeposits();
     }
@@ -445,7 +445,7 @@ export class AppvDListComponent implements OnInit , OnDestroy {
 
   onPageEvent(event: PageEvent): void {
     this.pageNo = event.pageIndex;
-    console.log(this.pageNo); //
+    // console.log(this.pageNo); //
     this.pageSize = event.pageSize;
     console.log(this.pageSize + 'pagesize'); //
     if (this.searchText && this.searchText.trim() !== '') {

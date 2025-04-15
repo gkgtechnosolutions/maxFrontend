@@ -26,6 +26,7 @@ import { AppvHomeComponent } from './appv-home/appv-home.component';
 import { UserPanelComponent } from './user-panel/user-panel.component';
 import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
 import { RecentChatComponent } from './recent-chat/recent-chat.component';
+import { ApproveComponent } from './approve/approve.component';
 
 
 // Components
@@ -139,7 +140,11 @@ const routes: Routes = [
       {
         path:'Recent-Chat',
         component: RecentChatComponent,
-      }
+      },
+      {
+        path: 'approve',
+        component: ApproveComponent,
+      },
     
       
 

@@ -1,0 +1,243 @@
+<div class=" containe">
+    <h5 style="color: white">Fill Details :-</h5>
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit($event)" class="row">
+      <!-- Top Row -->
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label style="color: #ffd700;">User ID</mat-label>
+            <input
+              matInput
+              formControlName="userId"
+              placeholder="Enter User ID"
+              (input)="onUserInput($event)"
+              (keydown)="onKeydown($event)"
+            />
+            <div class="three-body" *ngIf="loader1">
+              <div class="three-body__dot"></div>
+              <div class="three-body__dot"></div>
+              <div class="three-body__dot"></div>
+            </div>
+            <mat-error
+              *ngIf="
+                formGroup.get('userId').invalid &&
+                (formGroup.get('userId').dirty ||
+                  formGroup.get('userId').touched)
+              "
+            >
+              <span *ngIf="formGroup.get('userId').errors['required']"
+                >User ID is required.</span
+              >
+              <span
+                *ngIf="
+                  formGroup.get('userId').errors &&
+                  formGroup.get('userId').errors['userExists']
+                "
+              >
+                User Not Found .
+              </span>
+              <span *ngIf="formGroup.get('userId').errors['minlength']"
+                >User ID must be at least 4 characters long.</span
+              >
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Bottom Row -->
+
+        <!-- Display error messages for Amount -->
+        <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label style="color: #ffd700;">Amount</mat-label>
+            <input
+              matInput
+              formControlName="amount"
+              placeholder="Enter Amount"
+              type="number"
+              (keydown)="onKeydown($event)"
+            />
+            <!-- Display error messages for required and min validation -->
+            <mat-error
+              *ngIf="
+                formGroup.get('amount').invalid &&
+                (formGroup.get('amount').dirty ||
+                  formGroup.get('amount').touched)
+              "
+            >
+              <span *ngIf="formGroup.get('amount').errors['required']"
+                >Amount is required.</span
+              >
+              <span *ngIf="formGroup.get('amount').errors['min']"
+                >Amount must be greater than 0.</span
+              >
+              <span *ngIf="formGroup.get('amount').errors['pattern']"
+                >Amount must be in number only</span
+              >
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- <div class="row"> -->
+        <!-- <div class="col-md-6">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Select Bank</mat-label>
+            <mat-select style="color: white" formControlName="bankId">
+              <mat-option *ngFor="let bank of banks" [value]="bank.id">{{
+                bank.bankName
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+      <!-- </div> -->
+      <!-- <div class="row"></div> -->
+
+      <!-- <div class="row">
+        <div class="mt-3" *ngIf="prograsbar">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated golden-progress-bar"
+            role="progressbar"
+            [attr.aria-valuenow]="pBarPecentage"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [style.width.%]="pBarPecentage"
+          ></div>
+          <mat-progress-bar
+            mode="determinate"
+            [value]="pBarPecentage"
+          ></mat-progress-bar>
+        </div>
+      </div> -->
+
+      <br /><br />
+
+      <div class="row justify-content-center">
+        <button class="Btn">Button</button>
+      </div>
+      <div class="col my-2">
+        @if(dataSource.length >0){
+        <div class="table">
+          <table mat-table [dataSource]="dataSource">
+            <!--- Note that these columns can be defined in any order.
+               The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="userName" [sticky]="true">
+              <th style="color: #ffd700" mat-header-cell *matHeaderCellDef>
+                UserId
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                class="userName"
+                (click)="openDialog()"
+              >
+                {{ element.userName }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="amount" [sticky]="true">
+              <th style="color: #ffd700" mat-header-cell *matHeaderCellDef>
+                Amount
+              </th>
+              <td
+                mat-cell
+                *matCellDef="let element"
+                (click)="openDialog()"
+                class="amount"
+              >
+                {{ element.amount }}
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="status" [sticky]="true">
+              <th style="color: #ffd700" mat-header-cell *matHeaderCellDef>
+                Status
+              </th>
+              <td mat-cell *matCellDef="let element" class="status-cell">
+                @switch (element.status) { @case ('In Process') {
+                <div class="loader">
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+                </div>
+                } @case ('Success') {
+                <i
+                  class="fa-solid fa-circle-check fa-lg"
+                  style="color:#f5cb32"
+                ></i>
+                <i
+                  (click)="openDepositDialog(element)"
+                  class="fa-solid fa-receipt fa-lg"
+                  style="color: #f5cb32; padding-left: 10px"
+                ></i>
+                }@case ('Sent') {
+                  <i
+                  class="fa-solid fa-circle-check fa-lg"
+                  style="color:#60f532"
+                ></i>
+                <i
+                  (click)="openDepositDialog(element)"
+                  class="fa-solid fa-receipt fa-lg"
+                  style="color: #f5cb32; padding-left: 10px"
+                ></i>
+
+                }
+                 @case ('Failed:Balance Not Sufficient') {
+                <i
+                  class="fa-solid fa-exclamation-triangle fa-lg"
+                  style="color: #f39c12"
+                ></i>
+                } @default { @if(element.status.startsWith('F') ) {
+                <i
+                  class="fa-solid fa-circle-xmark fa-lg"
+                  style="color: #df7630"
+                ></i>
+                } @else {
+                {{ element.status }}
+                } } }
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="retry" [sticky]="true">
+              <th style="color: #ffd700" mat-header-cell *matHeaderCellDef>
+                Operations
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="justify-content-evenly">
+                  @if( element.status.startsWith('F')){
+                  <i
+                    (click)="retry(element)"
+                    class="fa-solid fa-arrows-rotate userName"
+                    style="color: #8cf584"
+                  ></i>
+                  } @if(element.status.startsWith('F')
+                  ||element.status.startsWith('I') ){
+                  <i
+                    (click)="deleteReport(element.id)"
+                    class="fa-solid fa-trash userName"
+                    style="color: #f90808; margin-left: 10px"
+                  ></i>
+                  }
+                  <i   (click)="openWithdrawConf(element.opId)"
+                  style="color: #e6f584; margin-left: 10px; font-size: 20px; "
+                  class="material-symbols-outlined userName">
+                    list_alt_check
+                  </i>
+                 
+                </div>
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+        }
+      </div>
+
+      <input type="hidden" formControlName="id" />
+    </form>
+  </div>

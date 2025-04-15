@@ -211,6 +211,15 @@ phoneNumber: any;
       return;
     }
   }
+  handleKeydown(event: KeyboardEvent): void {
+    // Check if Enter is pressed without Shift
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault(); // Prevent default Enter behavior (new line)
+      this.sendMessage(); // Call sendMessage
+    }
+    // If Shift+Enter is pressed, allow default behavior (new line)
+    // No action needed here since textarea handles it natively
+  }
 
   clearImage(): void {
     this.selectedImage = null;

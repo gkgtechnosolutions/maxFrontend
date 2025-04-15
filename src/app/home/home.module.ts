@@ -57,6 +57,7 @@ import { LanguageDashboardComponent } from './language-dashboard/language-dashbo
 import { RecentChatComponent } from './recent-chat/recent-chat.component';
 import { UtcToLocalPipe } from '../services/utc-to-local.pipe';
 import { LineBreaksPipe } from '../services/line-breaks.pipe';
+import { ApproveComponent } from './approve/approve.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { LineBreaksPipe } from '../services/line-breaks.pipe';
     RecentChatComponent,
     UtcToLocalPipe,
     LineBreaksPipe,
+    ApproveComponent,
   ],
   imports: [
     CommonModule,

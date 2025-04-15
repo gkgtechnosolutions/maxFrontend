@@ -12,6 +12,7 @@ import { interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { SseServiceService } from '../../services/sse-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-appv-wlist',
@@ -19,10 +20,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './appv-wlist.component.scss',
 })
 export class AppvWlistComponent implements OnInit , OnDestroy { 
-  searchText: boolean;
+  searchText: string;
   userId: any;
   user: any;
   notificationCount: any = 0;
+  totalElements: any;
 
   openEditDialog(arg0: any) {
     throw new Error('Method not implemented.');
@@ -85,10 +87,19 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
     'INSUFFICIENT_BALANCE',
   ];
   onSearchClick() {
-    throw new Error('Method not implemented.');
+    if (this.searchText && this.searchText.trim() !== '') {
+      this.pageNo = 0; // Reset to first page for a new search
+      this.searchWithdraws();
+    } else {
+    //   console.log('Search text is empty, no search will be performed.');
+      // Optionally, you can fetch the default list if search is empty
+      this.getWithdraws();
+    }
   }
   updateSearchText($event: Event) {
-    throw new Error('Method not implemented.');
+    const target = event.target as HTMLInputElement;
+    this.searchText = target.value;
+    // console.log('Search text updated:', this.searchText);
   }
   // Define the displayed columns
   displayedColumns: string[] = [
@@ -323,6 +334,56 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
       console.log('SSE Subscription stopped');
     }
   }
+   onPageEvent(event: PageEvent): void {
+      this.pageNo = event.pageIndex;
+      // console.log(this.pageNo); //
+      this.pageSize = event.pageSize;
+      // console.log(this.pageSize + 'pagesize'); //
+      if (this.searchText && this.searchText.trim() !== '') {
+        this.pageNo = 0; // Reset to first page for a new search
+        this.searchWithdraws();
+      } else {
+      //   console.log('Search text is empty, no search will be performed.');
+        // Optionally, you can fetch the default list if search is empty
+        this.getWithdraws();
+      }
+    }
+    searchWithdraws(): void {
+      const statusesToSend =
+        this.selectedStatuses.value.length > 0
+          ? this.selectedStatuses.value
+          : [
+            'ALL',
+            'PENDING',
+            'APPROVED',
+            'IN_PROCESS',
+            'REJECTED',
+            'DONE',
+            'FAILED',
+            'DELETED',
+            'MESSAGE_SENT',
+            'INSUFFICIENT_BALANCE',
+          ];
+      // this.loader = true;
+      this.apprvserv
+        .searchWithdarws(
+          statusesToSend,
+          this.searchText,
+          this.pageSize,
+          this.pageNo
+        )
+        .subscribe(
+          (data) => {
+            this.withdraws = data.content;
+            this.totalElements = data.totalElements;
+            this.loader = false;
+          },
+          (error) => {
+            console.log('Error during search:', error);
+            this.loader = false;
+          }
+        );
+    }
 }
 
 // Sample data (replace this with your actual data)

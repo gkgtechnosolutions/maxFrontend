@@ -235,7 +235,10 @@
 
   <!-- Paginator -->
   <mat-paginator
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    showFirstLastButtons
-  ></mat-paginator>
+  [length]="page?.totalElements || 0"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5, 10, 20]"
+  (page)="onPageEvent($event)"
+>
+</mat-paginator>
 </div>

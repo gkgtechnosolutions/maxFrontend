@@ -1,0 +1,29 @@
+.form-group {
+    margin-bottom: 15px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  mat-dialog-actions {
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  .mdc-dialog__title {
+    background-color: rgb(49, 47, 47) !important;
+    color:gold!important;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  ::ng-deep .mat-mdc-dialog-container  .mdc-dialog__content{
+    background-color: rgb(49, 47, 47)!important;
+    color: white !important;
+  }
+
+  ::ng-deep  mat-dialog-actions{
+    background-color: rgb(49, 47, 47)!important;
+    color: white !important;
+
+  }
+ 

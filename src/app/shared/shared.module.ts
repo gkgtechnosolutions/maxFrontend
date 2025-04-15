@@ -47,6 +47,10 @@ import { UpAppvlistComponent } from './up-appvlist/up-appvlist.component';
 import { LanguageDailogComponent } from './language-dailog/language-dailog.component';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DepoDailogComponent } from './depo-dailog/depo-dailog.component';
+import { WithDailogComponent } from './with-dailog/with-dailog.component';
+import { WithdrawConfirmComponent } from './withdraw-confirm/withdraw-confirm.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -77,7 +81,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     UpAppvlistComponent,
     LanguageDailogComponent,
     CreateUserDailogComponent,
-    ChatBotComponent
+    ChatBotComponent,
+    DepoDailogComponent,
+    WithDailogComponent, 
+    WithdrawConfirmComponent
   ],
   imports: [
     CommonModule,
@@ -106,6 +113,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
   ],exports:[LoaderComponent,DialogComponent]
 })
 export class SharedModule { }
