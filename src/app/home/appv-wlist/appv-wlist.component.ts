@@ -13,6 +13,8 @@ import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/co
 import { SseServiceService } from '../../services/sse-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageEvent } from '@angular/material/paginator';
+import { WithDailogComponent } from '../../shared/with-dailog/with-dailog.component';
+import { DepoDailogComponent } from '../../shared/depo-dailog/depo-dailog.component';
 
 @Component({
   selector: 'app-appv-wlist',
@@ -144,7 +146,7 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
     const statusesToSend =
       this.selectedStatuses.value.length > 0
         ? this.selectedStatuses.value
-        : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED', 'DONE'];
+          : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED','DONE', 'INSUFFICIENT_BALANCE'];
     this.apprvserv
       .getSelectionWithdrawdata(statusesToSend, this.pageSize, this.pageNo)
       .subscribe(
@@ -384,6 +386,21 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
           }
         );
     }
+
+    withdarwDialog() {
+      const dialogRef = this.dialog.open(WithDailogComponent, {
+        width: '800px',
+        data: null,}
+      );
+      }
+
+    depositeDialog() {
+    const dialogRef = this.dialog.open(DepoDailogComponent, {
+      width: '800px',
+      data: null,}
+    );
+    }            
+
 }
 
 // Sample data (replace this with your actual data)

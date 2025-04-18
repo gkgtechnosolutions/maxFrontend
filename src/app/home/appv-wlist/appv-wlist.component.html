@@ -24,49 +24,52 @@
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
     </button>
+
   </div>
   <div class="col-lg-6">
-    <div class="row">
-      <div class="col-lg-4">
-        <mat-form-field style="border-radius: 10px">
-          <mat-label style="color: white; border-radius: 10px"
-            >Select Status</mat-label
-          >
-          <mat-select [formControl]="selectedStatuses" multiple>
-            <mat-select-trigger>
-              {{ selectedStatuses.value?.[0] || '' }}
-              <ng-container *ngIf="(selectedStatuses.value?.length || 0) > 1">
-                <span class="example-additional-selection">
-                  (+{{ (selectedStatuses.value?.length || 0) - 1 }}
-                  {{
-                    selectedStatuses.value?.length === 2 ? "other" : "others"
-                  }})
-                </span>
-              </ng-container>
-            </mat-select-trigger>
-            <mat-option *ngFor="let status of statuses" [value]="status">{{
-              status
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div class="col-lg-2">
-        <button
-          mat-flat-button
-          (click)="refresh()"
-          style="height: 53px; background-color: #333; color: white"
-        >
-          <mat-icon>refresh</mat-icon>
-        </button>
-      </div>
-      <div class="col-lg-6">
-        <button mat-button 
-        (click)="toggleNotifications()" 
-        [ngClass]="notificationsEnabled ? 'on' : 'off'">
-        <mat-icon>{{ notificationsEnabled ? 'notifications_active' : 'notifications_off' }}</mat-icon>
+    <div style="display: flex; ">
+      <mat-form-field style="border-radius: 10px;">
+        <mat-label style="color: white;">Select Status</mat-label>
+        <mat-select [formControl]="selectedStatuses" multiple >
+          <mat-select-trigger>
+            {{ selectedStatuses.value?.[0] || '' }}
+            <ng-container *ngIf="(selectedStatuses.value?.length || 0) > 1">
+              <span class="example-additional-selection">
+                (+{{ (selectedStatuses.value?.length || 0) - 1 }}
+                {{ selectedStatuses.value?.length === 2 ? "other" : "others" }})
+              </span>
+            </ng-container>
+          </mat-select-trigger>
+          <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    
+    
+    
+      <button 
+        (click)="depositeDialog()" 
+        style="margin-left: 5px;  height: 55px; min-width: 120px; padding: 0 16px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; line-height: 48px; display: flex; align-items: center; justify-content: center;"
+      >
+        Add Point +
       </button>
-      </div>
+      <button 
+      (click)="withdarwDialog()" 
+      style="margin-left: 5px;  height: 55px; min-width: 120px; padding: 0 16px; background-color:#f44336; color: white; border: none; border-radius: 4px; cursor: pointer; line-height: 48px; display: flex; align-items: center; justify-content: center;"
+    >
+      Withdraw -
+    </button>
+    
+      <!-- <button 
+        style="height: 48px; min-width: 120px; padding: 0 16px; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer; line-height: 48px; display: flex; align-items: center; justify-content: center;"
+      >
+        Withdraw Point -
+      </button> -->
+      <button 
+      mat-icon-button 
+      (click)="refresh()" 
+      style="color: #ffffff;  width: 48px; background-color: transparent; border: none;">
+      <mat-icon>refresh</mat-icon>
+    </button>
     </div>
   </div>
 </div>
@@ -196,8 +199,8 @@
           @if(user.approveWithdrawStatus.startsWith('F') ){
           <i
             matTooltip="Retry"
-            (click)="checkApprove(user)"
-            class="fa-solid fa-eye userName icon"
+            (click)="retry(user.id)"
+            class="fa-solid fa-arrows-rotate userName icon"
             style="color: #59e94e"
           ></i>
           }@else{

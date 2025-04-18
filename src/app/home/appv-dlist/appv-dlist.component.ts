@@ -25,6 +25,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ChatBotComponent } from '../../shared/chat-bot/chat-bot.component';
 import { ChatBotService } from '../../services/chat-bot.service';
 import { TeleMessage } from '../../domain/chatbot';
+import { WithDailogComponent } from '../../shared/with-dailog/with-dailog.component';
+import { DepoDailogComponent } from '../../shared/depo-dailog/depo-dailog.component';
 // import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
@@ -590,5 +592,19 @@ export class AppvDListComponent implements OnInit , OnDestroy {
       }
     );
   }
+
+  withdarwDialog() {
+    const dialogRef = this.dialog.open(WithDailogComponent, {
+      width: '800px',
+      data: null,}
+    );
+    }
+
+depositeDialog() {
+  const dialogRef = this.dialog.open(DepoDailogComponent, {
+    width: '800px',
+    data: null,}
+  );
+  }  
 
 }
