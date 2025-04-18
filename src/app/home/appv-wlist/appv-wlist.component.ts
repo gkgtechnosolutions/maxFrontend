@@ -146,7 +146,7 @@ export class AppvWlistComponent implements OnInit , OnDestroy {
     const statusesToSend =
       this.selectedStatuses.value.length > 0
         ? this.selectedStatuses.value
-        : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED', 'DONE'];
+          : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED','DONE', 'INSUFFICIENT_BALANCE'];
     this.apprvserv
       .getSelectionWithdrawdata(statusesToSend, this.pageSize, this.pageNo)
       .subscribe(
