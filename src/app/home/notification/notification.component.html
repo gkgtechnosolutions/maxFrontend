@@ -1,0 +1,226 @@
+<div class="container-fluid" style="max-height: 100vh;">
+  <div class="row">
+    <div class="col-4 bg-dark text-white p-3" style="max-height: 100vh;">
+      <h4>Approve List :-</h4>
+      <div class="scrollable-table" style="max-height: 78vh; overflow-y: auto; overflow-x:hidden ;">
+        <table class="table table-dark table-striped">
+          <thead>
+            <tr >
+              <th>userID</th>
+              <th>amount</th>
+              <th>status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of approveList">
+              <td [matTooltip]="item.entryTime | utcToLocal">{{ item.userId }}</td>
+              <td>{{ item.amount }}</td>
+              <td> <span *ngIf="item.approveStatus === 'PENDING'" style="color: yellow; font-weight: 200"
+                  matTooltip="Pending">
+                  <i class="fa-solid fa-hourglass-half"></i>
+                  <!-- Pending icon -->
+                </span>
+
+                <!-- Failed status -->
+                <span *ngIf="item.approveStatus === 'FAILED'" style="color: red; font-weight: 200" matTooltip="Failed">
+                  <i class="fa-solid fa-circle-xmark"></i>
+                  <!-- Failed icon -->
+                </span>
+
+                <!-- Done status -->
+                <span *ngIf="item.approveStatus === 'DONE'" style="color: rgb(98, 252, 98); font-weight: 200"
+                  matTooltip="Done">
+                  <i class="fa-solid fa-circle-check fa-lg"></i>
+                  <!-- Done icon -->
+                </span>
+                <!-- Reject status -->
+                <i *ngIf="item.approveStatus === 'REJECTED'" class="fa-solid fa-circle-xmark fa-lg" style="color: red"
+                  matTooltip="Rejected">
+                </i>
+
+                <!-- Manual Approve status -->
+                <i *ngIf="item.approveStatus === 'APPROVED'" class="fa-solid fa-circle-check fa-lg"
+                  style="color: rgb(245, 166, 49)" matTooltip="Manually Approved">
+                </i>
+                <div class="loader" *ngIf="item.approveStatus === 'IN_PROCESS'">
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-8 bg-secondary p-3">
+
+      <div class=" nav-container">
+        <ul class="row nav nav-tabs" id="myTab" role="tablist">
+          <li class="col-4 nav-item" role="presentation">
+            <button class="nav-link"  id="message-tab" data-bs-toggle="tab" data-bs-target="#message" type="button"
+            role="tab">Message</button>
+          </li>
+          <li class="col-4 nav-item " role="presentation">
+            <button class="nav-link active" id="alert-tab" data-bs-toggle="tab" data-bs-target="#alert" type="button"
+            role="tab">Alert</button>
+          </li>
+          <li class="col-4  nav-item"  role="presentation"
+>
+          
+          <!-- <div class="dropdown" role="tab">
+            <button class="btn btn-secondary dropdown-toggle nav-link" type="button" id="chatSelectDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              Select Chats
+              <span *ngIf="selectedChats.value?.length">
+                ({{ selectedChats.value?.length }} selected)
+              </span>
+            </button>
+            <ul class="dropdown-menu " aria-labelledby="chatSelectDropdown">
+              <li *ngFor="let chat of chatOptions">
+                <div class="dropdown-item">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [id]="'chat-' + chat" [value]="chat" 
+                           (change)="toggleChat(chat)" [checked]="isSelected(chat)">
+                    <label class="form-check-label" [for]="'chat-' + chat">
+                      {{ chat }}
+                    </label>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div> -->
+        </li>
+        </ul>
+        <!-- <div class="col-4">
+        <mat-form-field  appearance="fill" class="chat-select">
+          <mat-label>Select Chats</mat-label>
+          <mat-select [formControl]="selectedChats" multiple>
+            <mat-select-trigger>
+              {{ selectedChats.value?.[0] || '' }}
+              <ng-container *ngIf="(selectedChats.value?.length || 0) > 1">
+                <span class="example-additional-selection">
+                  (+{{ (selectedChats.value?.length || 0) - 1 }}
+                  {{ selectedChats.value?.length === 2 ? 'other' : 'others' }})
+                </span>
+              </ng-container>
+            </mat-select-trigger>
+            <mat-option *ngFor="let chat of chatOptions" [value]="chat">{{ chat }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+      </div>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade  " id="message" role="tabpanel">
+          <!-- <div class="row mt-4">
+            <div class="col-12 d-flex justify-content-end">
+              <mat-form-field style="max-width: 200px; border-radius: 10px; color: hsl(0, 0%, 0%);">
+                <mat-label style="color: rgb(23, 22, 22);">Select Chats</mat-label>
+                <mat-select [formControl]="selectedChats" multiple>
+                  <mat-select-trigger>
+                    {{ selectedChats.value?.[0] || '' }}
+                    <ng-container *ngIf="(selectedChats.value?.length || 0) > 1">
+                      <span class="example-additional-selection">
+                        (+{{ (selectedChats.value?.length || 0) - 1 }}
+                        {{ selectedChats.value?.length === 2 ? 'other' : 'others' }})
+                      </span>
+                    </ng-container>
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let chat of chatOptions" [value]="chat">{{ chat }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div> -->
+          <div class="row">
+            
+            <div class="col-12" #chatContainer style="max-height: 70vh; overflow-y: auto; padding-top: 10px;">
+              <div class="chat-container" *ngFor="let obj of objects">
+                <div class="chat-message">
+                  <small [matTooltip]="'+' + obj.waId" matTooltipPosition="above" style="margin-bottom: 10px; color: #f0f72d;">{{ obj.senderName }}</small>
+                 
+                  <div *ngIf="isImageMessage(obj); else textMessage">
+                    <div class="message-container">
+                      <img [src]="obj.data" class="img-fluid rounded" style="max-width: 200px" />
+                     
+                    </div>
+                  </div>
+                  <ng-template #textMessage>
+                    <div style="margin-bottom: 10px;" class="message-container">
+                      <p>{{ obj.text }}</p>
+                    </div>
+                  </ng-template>
+                 
+                  <small>{{ (obj.timestamp * 1000) | date: ' hh:mm a' }}</small>
+                  
+                  <!-- <small>{{ obj.timestamp | date:'medium'| utcToLocal }}</small> -->
+                </div>
+                
+              </div>
+              <div *ngIf="isLoading" class="text-center my-3">
+                <mat-spinner diameter="30"></mat-spinner>
+              </div>
+              <!-- No messages or no chats selected -->
+             
+          </div>
+        </div>
+       
+    </div>
+    <div class="tab-pane fade show active " id="alert" role="tabpanel">
+      <div class="alert-checkbox" style="margin-bottom: 10px;">
+        <input 
+          type="checkbox" 
+          id="alert-checkbox" 
+          [(ngModel)]="alertSelected" 
+          (change)="onCheckboxChange(alertSelected)"
+          name="alert-checkbox"
+          [checked]="false"
+        >
+        <label for="alert-checkbox">All Alert</label>
+      </div>
+      <div class="alert-container" #alertContainer style="max-height: 70vh; overflow-y: auto; padding-top: 10px;">
+      
+
+        <div class="alert" *ngFor="let alert of alerts" [ngClass]="{'pending': alert.status === AlertStatus.PENDING}">
+          
+          <small  style="margin-bottom: 10px; color: #f7602d;">{{ alert.waId }}</small>
+          <div class="alert-message"  *ngIf="!(alert.type == AlertType.USERNAMEMISSING)">
+            <div [innerHTML]="alert.alertMessage | lineBreaks"></div>
+            <img *ngIf="alert.type === AlertType.REJECTEDREQUEST" [src]="alert.data" class="img-fluid rounded" style="max-width: 200px" />
+          </div>
+  
+          <!-- Show userId input only for USERNOTFOUND type -->
+          <div class="alert-action" *ngIf="alert.type === AlertType.USERNAMEMISSING">
+           
+            <img [src]="alert.data" class="img-fluid rounded" style="max-width: 200px" />
+            
+            <div [innerHTML]="alert.alertMessage | lineBreaks"></div>
+            <!-- <p> {{  | lineBreaks }}</p> -->
+            @if( !( alert.status === AlertStatus.REMOVED)) {
+            <input 
+              type="text" 
+              placeholder="Enter User ID" 
+              [(ngModel)]="alert.userId"
+              (focus)="setInputActive(true)"
+              (blur)="setInputActive(false)"
+             >
+            }
+          </div>
+  
+          <!-- Close button for all alert types -->
+          <div class="alert-close">
+            <!-- <button *ngIf="alert.type === AlertType.REJECTEDREQUEST" 
+            class="bttn" 
+            (click)="onSubmit(alert.id, alert.userId)">Submit</button> -->
+            @if( !( alert.status === AlertStatus.REMOVED)) {
+            <button *ngIf="alert.type === AlertType.USERNAMEMISSING " 
+            class="bttn" 
+            (click)="onSubmit(alert)">Submit</button>
+          }
+            <button   style= "border: none; background-color: transparent; color: #090909;   position: absolute;
+  right: 10px; top: 5px;" (click)="onClose(alert.id)"
+            *ngIf="!(alertSelected)">X</button>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</div>

@@ -51,7 +51,6 @@ export class AddUserDialogComponent {
     });
     this.patchDtoZuserId();
   }
-  
   patchDtoZuserId() {
     const userString = localStorage.getItem('user');
     if (userString) {

@@ -62,9 +62,6 @@ export class UpdatePasswordComponent {
       this.getDeposite();
     });
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
   getuserID() {
     const userString = localStorage.getItem('user');
     if (userString) {

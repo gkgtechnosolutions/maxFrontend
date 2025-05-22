@@ -52,12 +52,15 @@ import { SupAWithdrawComponent } from './sup-awithdraw/sup-awithdraw.component';
 import { AppvHomeComponent } from './appv-home/appv-home.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UserPanelComponent } from './user-panel/user-panel.component';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
-import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
-import { RecentChatComponent } from './recent-chat/recent-chat.component';
-import { UtcToLocalPipe } from '../services/utc-to-local.pipe';
-import { LineBreaksPipe } from '../services/line-breaks.pipe';
+import { ImageTextModalComponent } from './image-text-modal/image-text-modal.component';
 import { ApproveComponent } from './approve/approve.component';
+import { ApvadminDailog1Component } from './apvadmin-dailog1/apvadmin-dailog1.component';
+import { NotificationComponent } from './notification/notification.component';
+import { UtcToLocalPipe } from '../services/utc-to-local.pipe';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LineBreaksPipe } from '../services/line-breaks.pipe';
+import { WattiChatComponent } from './watti-chat/watti-chat.component';
+import { WattiService } from '../services/watti.service';
 
 @NgModule({
   declarations: [
@@ -89,11 +92,13 @@ import { ApproveComponent } from './approve/approve.component';
     AppvDListComponent,
     AppvHomeComponent,
     UserPanelComponent,
-    LanguageDashboardComponent,
-    RecentChatComponent,
+    ImageTextModalComponent,
+    ApproveComponent,
+    ApvadminDailog1Component,
+    NotificationComponent,
     UtcToLocalPipe,
     LineBreaksPipe,
-    ApproveComponent,
+    WattiChatComponent
   ],
   imports: [
     CommonModule,
@@ -114,14 +119,15 @@ import { ApproveComponent } from './approve/approve.component';
     MatProgressBarModule,
     MatTooltipModule,
     MatTabsModule,
-    MatPaginator,
+    MatPaginatorModule,
     MatAutocompleteModule,
     MatInputModule,
     MatDatepickerModule,
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
-    MatSlideToggle,
+    MatProgressSpinnerModule
   ],
+  providers: [WattiService]
 })
 export class HomeModule {}

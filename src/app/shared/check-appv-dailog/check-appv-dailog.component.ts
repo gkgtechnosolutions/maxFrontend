@@ -51,6 +51,7 @@ export class CheckAppvDailogComponent {
   imageStatus: string = 'Select or drag UTR Image';
   imagePreview: string | null = null;
   selectedFile: File | null = null;
+  banks: Bank[] = [];
   
   constructor(
     private fb: FormBuilder,
@@ -77,6 +78,7 @@ export class CheckAppvDailogComponent {
       amount: [data.user.amount],
       newId: [data.user.isNewId],
       utrImage: [null, Validators.required ],
+      bank: [null, Validators.required]
       // IbankId: [user.bank.bankName]
     });
   }else if (this.type === 'Deposit') {
@@ -171,29 +173,35 @@ export class CheckAppvDailogComponent {
           });
       }
     } else {
-      //need to check validtons
-      //  debugger
-      const updatedData = this.formGroup.value;
-      this.loader = true;
-      this.apprvservice
-        .ApproveCheckWithdraw(this.user.id, this.userId, updatedData)
-        .subscribe({
-          next: (response) => {
-            console.log('Update successful', response);
-            this.snackbarService.snackbar('Update successfully!', 'success');
-            this.getwithdrawApproveStatus();
-            // this.loadBanks();
-            const utrNumberControl = this.formGroup.get('utrNumber');
-            console.log('Add required validator');
-            utrNumberControl.setValidators([Validators.required]);
-            this.loader = false;
-          },
-          error: (error) => {
-            this.loader = false;
-            this.snackbarService.snackbar('failed!', 'error');
-            console.error('Update failed', error);
-          },
-        });
+      if (this.formGroup.valid) {
+        //need to check validtons
+        //  debugger
+        const updatedData = this.formGroup.value;
+        this.loader = true;
+        this.apprvservice
+          .ApproveCheckWithdraw(this.user.id, this.userId, updatedData)
+          .subscribe({
+            next: (response) => {
+              console.log('Update successful', response);
+              this.snackbarService.snackbar('Update successfully!', 'success');
+              this.getwithdrawApproveStatus();
+              // this.loadBanks();
+              const utrNumberControl = this.formGroup.get('utrNumber');
+              console.log('Add required validator');
+              utrNumberControl.setValidators([Validators.required]);
+              this.loader = false;
+            },
+            error: (error) => {
+              this.loader = false;
+              this.snackbarService.snackbar('failed!', 'error');
+              console.error('Update failed', error);
+            },
+          });
+      } else {
+        // Mark all fields as touched to trigger validation errors
+        this.formGroup.markAllAsTouched();
+        this.snackbarService.snackbar('Please fill all required fields', 'error');
+      }
     }
   }
   private loadBanks() {
@@ -201,6 +209,7 @@ export class CheckAppvDailogComponent {
     this.bank.getBankListdata().subscribe(
       (data) => {
         this.banksList = data;
+        this.banks = data;
         console.log(data);
         this.loader = false;
         // this.dataSource.shift();
@@ -284,44 +293,15 @@ export class CheckAppvDailogComponent {
   onFileSelected(event: any) {
     this.loader = true;
 
-    const file: File = event.target.files[0];
-    console.log(file);
-    // Store the file in the form control
-
-    if (file) {
-      // console.log("file",file);
-      // this.formGroup.patchValue({utrImage: file});
-      this.formGroup.get('utrImage')?.setValue(file);
-
-      // this.formGroup.get('utrImage')?.updateValueAndValidity();
-
-      // Generate a preview using FileReader
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-      };
-      reader.readAsDataURL(file);
-    }
-    //  if (file instanceof Blob) {
-    //   this.selectedFile = file;
-
-    //   // Update the form control with the file
-    //   this.formGroup.get('utrImage')?.setValue(file);
-
-    //   // Generate a preview using FileReader
-    //   const reader = new FileReader();
-    //   reader.onload = () => {
-    //     this.imagePreview = reader.result as string;
-    //   };
-    //   reader.readAsDataURL(file);
-    // } else {
-    //   console.error("Selected file is not a valid Blob.");
-    // }
-
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-
-      this.recognizeText(imageUrl);
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      this.handleFiles(files);
+      
+      if (file) {
+        const imageUrl = URL.createObjectURL(file);
+        this.recognizeText(imageUrl);
+      }
     } else {
       this.loader = false;
     }
@@ -416,6 +396,7 @@ export class CheckAppvDailogComponent {
         this.status = data.approveStatus;
         console.log('Status:', this.status);
       },
+      
       (error) => {
         console.error('Error fetching banks', error);
       }
@@ -424,21 +405,18 @@ export class CheckAppvDailogComponent {
 
   onSendMessage() {
     if (this.formGroup.valid) {
-      const userId = this.user.userId;
-      const amount = this.formGroup.get('amount')?.value;
+      const userId = this.userId;
+      const bankId = this.formGroup.get('bank')?.value;
       const id = this.user.id;
       const chatId = this.user.chatID;
       const utr = this.formGroup.get('utrNumber')?.value;
-
-      // Convert the data object to a JSON string
-
-      // formData.append('utrImage', this.formGroup.get('utrImage')?.value);
       const fileData = this.formGroup.get('utrImage')?.value;
+      
       this.loader = true;
       console.log(fileData);
 
       this.apprvservice
-        .sendWithdrawMsg(id, userId, amount, chatId, utr, fileData)
+        .sendWithdrawMsg(id, userId, bankId, chatId, utr, fileData)
         .subscribe(
           (data) => {
             console.log(data);
@@ -459,6 +437,7 @@ export class CheckAppvDailogComponent {
   }
 
   openImageDialog(imageUrl: string) {
+   
     this.dialog.open(ImageDialogComponent, {
       data: { imageUrl },
       panelClass: 'custom-dialog-container',
@@ -657,5 +636,50 @@ export class CheckAppvDailogComponent {
     // Update the CSS variables for `transform-origin`
     target.style.setProperty('--mouse-x', `${xPercent}%`);
     target.style.setProperty('--mouse-y', `${yPercent}%`);
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      // Handle dropped files
+      this.handleFiles(files);
+    }
+  }
+
+  handleFiles(files: FileList) {
+    if (files && files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      if (file) {
+        const imageUrl = URL.createObjectURL(file);
+        this.recognizeText(imageUrl);
+      }
+      // Update the selected file
+      this.selectedFile = file;
+      this.formGroup.patchValue({
+        utrImage: file
+      });
+      
+      // Show image preview
+      reader.onload = (e: any) => {
+        this.imagePreview = e.target.result;
+        this.imageStatus = file.name;
+      };
+      
+      reader.readAsDataURL(file);
+    }
   }
 }

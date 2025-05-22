@@ -44,13 +44,11 @@ import { SendmsgdailogComponent } from './sendmsgdailog/sendmsgdailog.component'
 import { AddAppUserComponent } from './add-app-user/add-app-user.component';
 import { CreateUserDailogComponent } from './create-user-dailog/create-user-dailog.component';
 import { UpAppvlistComponent } from './up-appvlist/up-appvlist.component';
-import { LanguageDailogComponent } from './language-dailog/language-dailog.component';
-import { ChatBotComponent } from './chat-bot/chat-bot.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { DepoDailogComponent } from './depo-dailog/depo-dailog.component';
-import { WithDailogComponent } from './with-dailog/with-dailog.component';
 import { WithdrawConfirmComponent } from './withdraw-confirm/withdraw-confirm.component';
+import { DepoDailogComponent } from './depo-dailog/depo-dailog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { WithDailogComponent } from './with-dailog/with-dailog.component';
+
 
 @NgModule({
   declarations: [
@@ -79,12 +77,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AddAppUserComponent,
     CreateUserDailogComponent,
     UpAppvlistComponent,
-    LanguageDailogComponent,
-    CreateUserDailogComponent,
-    ChatBotComponent,
+    WithdrawConfirmComponent,
+    DialogComponent,
     DepoDailogComponent,
-    WithDailogComponent, 
-    WithdrawConfirmComponent
+    WithDailogComponent
+   
   ],
   imports: [
     CommonModule,
@@ -112,7 +109,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatProgressSpinnerModule,
     MatTooltipModule,
   ],exports:[LoaderComponent,DialogComponent]
 })

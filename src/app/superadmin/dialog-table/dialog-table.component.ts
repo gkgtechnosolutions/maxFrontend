@@ -55,7 +55,6 @@ export class DialogTableComponent  implements OnInit  {
     // this.getRangedata();
     this.inputPage = 1;
   }
-  
 
   getdata(): void {
     if(this.dataSource ==="Deposit"){

@@ -87,8 +87,8 @@
   <table>
     <thead>
       <tr>
-        <!-- <th>Sr. No.</th> -->
-        <th>Order Id</th>
+        <th>Sr. No.</th>
+        <th>User Id</th>
         <th>Utr Number</th>
         <th>Amount</th>
         <th>Date / Time</th>
@@ -103,8 +103,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let user of deposits; let i = index">
-        <!-- <td>{{ i + 1 }}</td> -->
-        <td>231{{ user.userId }}122</td>
+        <td>{{ i + 1 }}</td>
+        <td>{{ user.userId }}</td>
         <td>{{ user.utrNumber }}</td>
         <!-- <td><Img [src]="user.bankUtrImageLink" width="100px" height="100px"></td> -->
         <td>{{ user.amount }}</td>
@@ -259,9 +259,8 @@
             }
           </ng-template>
         </td>
-        <td>
         @if(user.approveStatus!=="DELETED" ){
-       
+        <td>
           <i
             (click)="openEditDialog(user)"
             class="fa-solid fa-edit userName"
@@ -272,15 +271,8 @@
             class="fa-solid fa-trash userName"
             style="color: #f90808; margin-left: 10px"
           ></i>
-        
+        </td>
         }
-        <i
-    (click)="openChat(user.chatID)"
-    class="fa-solid fa-message userName"
-    style="color: #007bff; margin-left: 10px"
-      ></i>
-       
-      </td>
       </tr>
       <!-- Repeat the above <tr> block for more rows -->
     </tbody>

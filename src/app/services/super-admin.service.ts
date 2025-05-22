@@ -12,7 +12,7 @@ export class SuperAdminService {
   constructor( public http: HttpClient, private config:AppConfigService) { }
   baseUrl: String = this.config.getBaseurl();
 
-  saveUser(user: USER): Observable<any> {
+   saveUser(user: USER): Observable<any> {
     return this.http.post<any>(
       `${this.baseUrl}/auth/save`,user
     );

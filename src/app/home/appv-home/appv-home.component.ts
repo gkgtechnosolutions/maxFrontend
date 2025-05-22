@@ -6,6 +6,7 @@ import { ComponettitleService } from '../../services/componenttitle.service';
 import { interval } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AppvWlistComponent } from '../appv-wlist/appv-wlist.component';
+import { ApvadminDailog1Component } from '../apvadmin-dailog1/apvadmin-dailog1.component';
 
 @Component({
   selector: 'app-appv-home',
@@ -14,8 +15,8 @@ import { AppvWlistComponent } from '../appv-wlist/appv-wlist.component';
 })
 export class AppvHomeComponent {
   openAppvWithdraw() {
-    const dialogRef = this.dialog.open(AppvWlistComponent, {
-      width: '2080px',
+    const dialogRef = this.dialog.open(ApvadminDailog1Component, {
+      width: '100%',
       panelClass: 'custom-dialog',
       data: {
         // Pass the user object or other data here if needed
@@ -25,6 +26,7 @@ export class AppvHomeComponent {
 openAppvDeposit() {
 throw new Error('Method not implemented.');
 }
+
 
   appvWithdraw:number;
   appvDeposit:number;

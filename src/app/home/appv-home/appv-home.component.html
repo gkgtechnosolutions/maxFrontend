@@ -7,7 +7,7 @@
           <h5 class="card-title">Total Deposit Requests </h5>
           <p class="card-text">{{totalDeposit}}</p>
         </div>
-        <div class="temp-scale" >
+        <div class="temp-scale"  >
           <i class="fa-solid fa-arrow-right" style="color: #926108"></i>
         </div>
       </div>
@@ -87,7 +87,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </mat-card>
-      <button mat-button (click)="openAppvDeposit()" class="more-button">more</button>
+      <button mat-button routerLink="/SupADeposit"  class="more-button">more</button>
     </div>
   
     <!-- Row 2 -->
@@ -127,7 +127,8 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       </mat-card>
-      <button mat-button (click)="openAppvWithdraw()" class="more-button">more</button>
+      <button mat-button  [routerLink]="['AppvWlist']"
+      [routerLinkActive]="'active'" class="more-button">more</button>
     </div>
   </div>
   

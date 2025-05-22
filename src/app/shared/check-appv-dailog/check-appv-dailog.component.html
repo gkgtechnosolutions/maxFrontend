@@ -128,11 +128,12 @@
             </mat-error>
           </mat-form-field>
 
+          @if (type==="Deposit"){
           <mat-form-field appearance="fill" class="form-field">
             <mat-label>Amount</mat-label>
             <input matInput formControlName="amount" />
           </mat-form-field>
-          @if (type==="Deposit"){
+          
           <button
             *ngIf="utrNumber.errors?.['utrExists']"
             style="color: #20d813"
@@ -140,13 +141,27 @@
             (click)="openUTRDetailsPopup()"
           >
             Check UTR Details
-          </button>}
+          </button>
+          }@else {
+          <mat-form-field appearance="fill" class="form-field">
+            <mat-label>Select Bank</mat-label>
+            <mat-select formControlName="bank">
+              <mat-option *ngFor="let bank of banks" [value]="bank.id">
+                {{bank.bankName}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('bank')?.errors?.['required']">
+              Bank selection is required
+              
+            </mat-error>
+          </mat-form-field>
+          }
         </div>
         
         <div class="container">
           <div class="row">
             <div *ngIf="!imagePreview">
-              <label class="custum-file-upload">
+              <label class="custum-file-upload" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
                 <div>
                   <div class="icon">
                     <svg
@@ -248,7 +263,10 @@
       </div>
       }@else{
       <div style="margin-top: 10px">
-        <h4 class="mat-h4" style="color: gold">Withdraw Message :</h4>
+        <h4 class="mat-h4" style="color: gold">With
+          
+          
+          draw Message :</h4>
         <mat-card
           class="scrollable-card"
           style="padding: 2px; margin-left: 20px"
@@ -311,7 +329,7 @@
   
   <div *ngIf="status === 'REJECTED'" class="status-message rejected">
     <i class="fas fa-exclamation-triangle"></i>
-    <span><strong>Rejection Reason:</strong> {{ obj.rejectReason }}</span>
+    <!-- <span><strong>Rejection Reason:</strong> {{ obj.rejectReason }}</span> -->
   </div>
   
   }@else{
@@ -363,7 +381,7 @@
   </div>
   <div *ngIf="status === 'REJECTED'" class="status-message rejected">
     <i class="fas fa-exclamation-triangle"></i>
-    <span><strong>Rejection Reason:</strong> {{ obj.rejectReason }}</span>
+    <!-- <span><strong>Rejection Reason:</strong> {{ obj.rejectReason }}</span> -->
   </div>
   
   <button *ngIf="status === 'FAILED'" 

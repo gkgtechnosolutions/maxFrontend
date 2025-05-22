@@ -17,6 +17,7 @@ import {
   masterJoker,
   masters777Exch,
   mastersCrex247,
+  mastersPs777,
   mastersWood,
   mastersWorld,
 } from '../../domain/SiteMaster';
@@ -87,8 +88,11 @@ export class AddNewUserComponent {
     const currentDate = new Date();
     this.formGroup.get('date').setValue(currentDate);
     this.getuserID();
+
     this.getAddUser();
+
     this.subscribeToSiteSelection();
+
     this.subscription = interval(5000).subscribe(() => {
       this.getAddUser();
     });
@@ -102,7 +106,7 @@ export class AddNewUserComponent {
   }
   myFormValues(): void {
     this.formGroup = this.fb.group({
-      userId: ['', [Validators.required, Validators.minLength(4)]],
+      userId: ['', [Validators.required, Validators.minLength(5)]],
       password: ['', []],
       name: [''],
       balance: ['0'],
@@ -110,11 +114,11 @@ export class AddNewUserComponent {
       site_id: ['', Validators.required],
       betStatus: [false],
       activeStatus: [false],
-      masterId: ['1'],
+      masterId: [''],
       id: ['0'],
       zuserId: [''],
       date: [new Date()],
-      utrNumber: ['', Validators.required],
+      utrNumber: ['NA', ],
     });
   }
   get utrNumber() {
@@ -153,8 +157,10 @@ export class AddNewUserComponent {
       } else {
       }
       const id = this.user.user_id;
+
       this.prograsbar = true;
       this.formGroup.patchValue({ zuserId: id });
+
       this.increaseProgressBar();
 
       this.operation.addUser(this.formGroup.value).subscribe(
@@ -205,6 +211,7 @@ export class AddNewUserComponent {
   resetForm() {
     // Reset form controls
     this.formGroup.reset();
+
     // Mark the form as pristine and untouched
     this.formGroup.markAsPristine();
     this.formGroup.markAsUntouched();
@@ -236,6 +243,9 @@ export class AddNewUserComponent {
 
       case 5:
         this.siteMaster = mastersCrex247;
+        break;
+      case 6:
+        this.siteMaster = mastersPs777;
         break;
     }
   }
@@ -277,7 +287,8 @@ export class AddNewUserComponent {
     const userIdControl = this.formGroup.get('userId');
     let currentUserId = userIdControl.value;
     if (!currentUserId.startsWith(this.userIdPrefix)) {
-      currentUserId = this.userIdPrefix + currentUserId.substring(this.userIdPrefix.length);
+      currentUserId =
+        this.userIdPrefix + currentUserId.substring(this.userIdPrefix.length);
       userIdControl.setValue(currentUserId);
     } else if (currentUserId.length > this.userIdPrefix.length) {
       const charactersAfterPrefix = currentUserId.substring(
@@ -461,4 +472,32 @@ export class AddNewUserComponent {
     const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe((result) => {});
   }
+  copyText(element: any) {
+    const textToCopy = `siteS.com
+
+🆔 ${element.userName}
+
+🅿️ Zxcv1212
+
+Welcome To our sIte`;
+    
+    try {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            // You can replace this with your preferred notification system
+            this.snackbarService.snackbar('Text Copied Successfully', 'success');
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
+    } catch (err) {
+        console.error('Clipboard API not supported', err);
+        // Fallback to the previous method if Clipboard API is not available
+        const textarea = document.createElement('textarea');
+        textarea.value = textToCopy;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        console.log('Text copied using fallback method');
+    }
+}
 }

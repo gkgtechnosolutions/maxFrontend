@@ -17,11 +17,11 @@ import { DWModalComponent } from '../dw-modal/dw-modal.component';
   styleUrl: './users.component.scss',
 })
 export class UsersComponent {
-  displayedColumns: string[] = ['userId', 'siteName', 'masterName','update'];
+  displayedColumns: string[] = ['userId', 'siteName', 'update'];
   dataSource = new MatTableDataSource();
   typingTimer: any;
   doneTypingInterval = 800;
-  loader1: boolean;
+  loader1 = false;
   loader2: boolean;
   constructor(
     private _liveAnnouncer: LiveAnnouncer,
@@ -35,7 +35,6 @@ export class UsersComponent {
     this.titleService.changeTitle('User panel');
     this.dataSource.sort = this.sort;
   }
-  
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
@@ -49,9 +48,9 @@ export class UsersComponent {
       (data) => {
         console.log(data);
         const mappedData = data.map((item: any) => ({
-          userId: item.user.userId,
-          siteName: item.user.site.name,
-          masterName: item.masterName,
+          userId: item.userId,
+          siteName: item.site.name,
+          // masterName: item.masterName,
         }));
 
         // Assign the mapped data to the MatTableDataSource
