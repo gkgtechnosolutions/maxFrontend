@@ -10,7 +10,6 @@
   box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.37); /* Box shadow for depth */
 }
 
-
 // .loader {
 //   display: inline-block;
 //   margin-left: 5px; /* Adjust margin as needed */
@@ -19,20 +18,13 @@
 
 // Operator: number;
 
-
-
-
-
-
-
-
-.userName{
+.userName {
   // display: flex;
   // align-items: center;
   cursor: pointer !important;
 }
 
-.table{
+.table {
   // table-layout:fixed !important;
   height: 200px;
   // width: 100%;
@@ -40,16 +32,22 @@
   margin-left: 10px;
   border-radius: 10px;
   overflow-y: auto;
-    overflow-x: hidden ;
+  overflow-x: hidden;
 }
-.mat-mdc-table tbody, .mat-mdc-table tfoot, .mat-mdc-table thead, .mat-mdc-cell, .mat-mdc-footer-cell, .mat-mdc-header-row, .mat-mdc-row, .mat-mdc-footer-row, .mat-mdc-table .mat-mdc-header-cell
-{
+.mat-mdc-table tbody,
+.mat-mdc-table tfoot,
+.mat-mdc-table thead,
+.mat-mdc-cell,
+.mat-mdc-footer-cell,
+.mat-mdc-header-row,
+.mat-mdc-row,
+.mat-mdc-footer-row,
+.mat-mdc-table .mat-mdc-header-cell {
   height: 30px;
   color: white;
   background: black;
   border-bottom: none;
 }
-
 
 .custum-file-upload {
   height: 200px;
@@ -398,14 +396,12 @@ mat-form-field.mat-form-field.mat-white {
 .status-cell {
   display: flex;
   align-items: center;
-  
 }
 
 .loader {
   display: flex;
   align-items: center;
   margin-left: 6px;
-  
 }
 
 .bar {
@@ -420,11 +416,11 @@ mat-form-field.mat-form-field.mat-white {
 .bar:nth-child(2) {
   height: 15px;
   margin: 0 5px;
-  animation-delay: .25s;
+  animation-delay: 0.25s;
 }
 
 .bar:nth-child(3) {
-  animation-delay: .5s;
+  animation-delay: 0.5s;
 }
 
 @keyframes scale-up4 {
@@ -436,4 +432,8 @@ mat-form-field.mat-form-field.mat-white {
   40% {
     transform: scaleY(1);
   }
+}
+.viewImage {
+  color: #00ff2f;
+  cursor: pointer;
 }

@@ -15,12 +15,12 @@ export class BackendhealthService {
   secUrl: String = appConfig.secbackendUrl;
 
   checkHealth(): Observable<any> {
-    // console.log(this.baseUrl);
+    console.log(this.baseUrl);
     return this.http.get( `${this.baseUrl}/auth/BackendHealth` );
   }
 
   checkHealthSec(): Observable<any> {
-    // console.log(this.baseUrl);
+    console.log(this.baseUrl);
     return this.http.get( `${this.secUrl}/auth/BackendHealth` );
   }
 }

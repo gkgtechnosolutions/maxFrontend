@@ -56,7 +56,6 @@ export class SupDtableComponent {
     this.getRangedata();
     this.inputPage = 1;
   }
-  
 
   getdata(): void {
     if(this.dataSource ==="Deposit"){
@@ -484,20 +483,26 @@ onEnter(value: string) {
  
   let dataSubscription;
   if (this.dataSource === "Deposit") {
-    dataSubscription = this.depositService.getDateDepositdata(this.StartDate, this.EndDate, this.totalElements, this.page);
+    dataSubscription =  this.supADeposit.DownExcelDepodateRange(this.StartDate, this.EndDate);
   } else if (this.dataSource === "Withdraw") {
-    console.log("hello world");
-    dataSubscription = this.depositService.getDateWithdrawdata(this.StartDate, this.EndDate, this.totalElements, this.page);
+    dataSubscription = this.supADeposit.DownExcelWithdateRange(this.StartDate, this.EndDate);
   }
 
   if (dataSubscription) {
-    dataSubscription.subscribe((data: any) => {
-      console.log(data);
-      this.excelData = data.content;
-      console.log(this.excelData);
-      this.exportAsXLSX()
-      // this.totalElements = data.totalElements;
-      // this.cumulativeCount = (this.page * this.size);
+    dataSubscription.subscribe((response: Blob) => {
+      const blob = new Blob([response], { 
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+      });
+      const url = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'successful_deposits.xlsx';
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
       this.loader = false;
     }, (error) => {
       console.log(error);
@@ -514,20 +519,27 @@ getTodayFailureExceldata() {
  
   let dataSubscription;
   if (this.dataSource === "Deposit") {
-    dataSubscription = this.depositService.getTodaysDepositFailuredata();
+    dataSubscription = this.supADeposit.getTodaysDepositFailuredata();
   } else if (this.dataSource === "Withdraw") {
     console.log("hello world");
-    dataSubscription = this.depositService.getTodaysWithdrawFailuredata();
+    dataSubscription = this.supADeposit.getTodaysWithdrawFailuredata();
   }
 
   if (dataSubscription) {
-    dataSubscription.subscribe((data: any) => {
-      console.log(data);
-      this.excelData = data;
-      console.log(this.excelData);
-      this.exportAsXLSX()
-      // this.totalElements = data.totalElements;
-      // this.cumulativeCount = (this.page * this.size);
+    dataSubscription.subscribe((response: Blob) => {
+      const blob = new Blob([response], { 
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+      });
+      const url = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'successful_deposits.xlsx';
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
       this.loader = false;
     }, (error) => {
       console.log(error);
@@ -544,20 +556,27 @@ getTodaySuccessExceldata() {
  
   let dataSubscription;
   if (this.dataSource === "Deposit") {
-    dataSubscription = this.depositService.getTodaysDepositSuccessdata();
+    dataSubscription = this.supADeposit.getTodaysDepositSuccessdata();
   } else if (this.dataSource === "Withdraw") {
-    console.log("hello world");
-    dataSubscription = this.depositService.getTodaysWithdrawSuccessdata();
+    
+    dataSubscription = this.supADeposit.getTodaysWithdrawSuccessdata();
   }
 
   if (dataSubscription) {
-    dataSubscription.subscribe((data: any) => {
-      console.log(data);
-      this.excelData = data;
-      console.log(this.excelData);
-      this.exportAsXLSX()
-      // this.totalElements = data.totalElements;
-      // this.cumulativeCount = (this.page * this.size);
+    dataSubscription.subscribe((response: Blob) => {
+      const blob = new Blob([response], { 
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' 
+      });
+      const url = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'successful_deposits.xlsx';
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
       this.loader = false;
     }, (error) => {
       console.log(error);
@@ -583,11 +602,12 @@ exportAsXLSX(): void {
     UserId: o.userId,
     ...(isDeposit && { UtrNumber: o.utrNumber }), // Include UtrNumber only if dataSource is "Deposit"
     Amount: parseFloat(o.amount), // Ensure Amount is a number
-    Date: this.getFormattedDate(o.date),
+    Date: this.getFormattedDate(o.entryTime),
     Status: o.status,
-    BankName: o.bankDetails.bankName,
+    BankName: o.bank.bankHolderName
+    ,
     SiteName: o.site.name,
-    Botuser: o.dtoZuser.username,
+    Botuser: o.executedBy.username,
   }));
 
   // Calculate total amount

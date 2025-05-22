@@ -1,13 +1,13 @@
 <Div mat-dialog-title style="padding-bottom:0px">
-    <h2 >New User Deposit</h2>
-    <!-- <div>
+    <h2 >Create and Approve</h2>
+    <div>
       @if(type==="Deposit"){
       <span style="color: aliceblue;">userId : {{obj.userId}} ,   BankName : {{user.bank.bankName}}   </span>
       }@else {
         <span style="color: aliceblue;">userId : {{user.userId}}   </span>
       }
       
-    </div> -->
+    </div>
   </Div>
 
 
@@ -17,7 +17,6 @@
 
     <div class="row" >
         <div class="col-md-6">
-          @if(status === 'PENDING'||status === 'FAILED'){
           <form [formGroup]="formGroup" class="form-container">
             @if(status === 'USER_CREATED'){
               <span style="color: rgb(64, 228, 75);"> User created with userID : {{obj.userId}}  </span>
@@ -88,31 +87,6 @@
               </mat-form-field> -->
             </div>
           </form>
-        }@else {
-          <div class="transaction-card">
-            <h3>💰 Deposit Details</h3>
-            
-            <p><strong>🆔 User ID:</strong> {{ user.userId }}</p>
-            <p><strong>💸 Amount:</strong> ₹{{ user.amount }}</p>
-            <p><strong>🔢 UTR Number:</strong> {{ user.utrNumber }}</p>
-            
-            <p><strong>🏦 Bank:</strong> {{ user.bank.bankName }} ({{ user.bank.bankHolderName }})</p>
-            <p><strong>💳 Account No:</strong> {{ user.bank.accountNumber }}</p>
-            <p><strong>📅 Entry Time:</strong> {{ user.entryTime | date:'dd MMM yyyy, h:mm a' }}</p>
-          
-            <p><strong>🖥️ Site:</strong> 
-              <a [href]="user.site.url" target="_blank">{{ user.site.name }}</a>
-            </p>
-            
-            <p><strong>📷 UTR Image:</strong> 
-              <a [href]="user.bankUtrImageLink" target="_blank">Download Image</a>
-            </p>
-          
-            <div class="status" [ngClass]="user.approveStatus.toLowerCase()">
-              <strong>Status:</strong> {{ user.approveStatus }}
-            </div>
-          </div>
-        }
         </div>
         <div class="col-md-6">
           @if(type==="Deposit"){
@@ -192,23 +166,8 @@
     Retry
   </button>
  
-  <!-- <span *ngIf="status === 'DONE' "style="color: rgb(64, 228, 75);"> User created with userID : {{obj.userId}} And Deposit Succesfull !!!</span>
-  <span *ngIf="status === 'DELETED' "style="color: red;">  Deleted For some reason !!!</span>
-  <span *ngIf="status === 'REJECTED' "style="color: red;"> {{obj.rejectReason}}</span> -->
-  <div *ngIf="status === 'DONE'" class="status-message success">
-    <i class="fas fa-check-circle"></i>  
-    <span>User created successfully with <strong>User ID: {{ obj.userId }}</strong>. Deposit Successful! 🎉</span>
-  </div>
+  <span *ngIf="status === 'DONE' "style="color: rgb(64, 228, 75);"> User created with userID : {{obj.userId}} And Deposit Succesfull !!!</span>
   
-  <div *ngIf="status === 'DELETED'" class="status-message deleted">
-    <i class="fas fa-times-circle"></i>
-    <span><strong>Action Required:</strong> The record has been deleted for some reason.</span>
-  </div>
   
-  <div *ngIf="status === 'REJECTED'" class="status-message rejected">
-    <i class="fas fa-exclamation-triangle"></i>
-    <span><strong>Rejection Reason:</strong> {{ obj.rejectReason }}</span>
-  </div>
-
   }
   </mat-dialog-actions>

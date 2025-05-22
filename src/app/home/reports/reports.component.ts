@@ -35,9 +35,6 @@ export class ReportsComponent implements OnInit {
     //   this.getDeposite();
     // });
   }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
 
   getDeposite() {
     this.loader=true;

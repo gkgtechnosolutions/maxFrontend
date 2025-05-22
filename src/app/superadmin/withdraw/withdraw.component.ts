@@ -54,7 +54,6 @@ export class WithdrawComponent {
     this.getWithDrawTabledata();
     
   }
-  
 
   // ngAfterViewInit() {
   //   this.dataSource.paginator = this.paginator;

@@ -1,5 +1,5 @@
 import { DatePipe, formatDate } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SearchsuperadminService } from '../../services/searchsuperadmin.service';
 import { DepositSuperadminService } from '../../services/deposit-superadmin.service';
@@ -20,11 +20,6 @@ import { EditDialogComponent } from '../../shared/edit-dialog/edit-dialog.compon
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { CheckAppvDailogComponent } from '../../shared/check-appv-dailog/check-appv-dailog.component';
 import { CreateUserDailogComponent } from '../../shared/create-user-dailog/create-user-dailog.component';
-import { SseServiceService } from '../../services/sse-service.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ChatBotComponent } from '../../shared/chat-bot/chat-bot.component';
-import { ChatBotService } from '../../services/chat-bot.service';
-import { TeleMessage } from '../../domain/chatbot';
 import { WithDailogComponent } from '../../shared/with-dailog/with-dailog.component';
 import { DepoDailogComponent } from '../../shared/depo-dailog/depo-dailog.component';
 // import { WebsocketService } from '../../services/websocket.service';
@@ -34,16 +29,12 @@ import { DepoDailogComponent } from '../../shared/depo-dailog/depo-dailog.compon
   templateUrl: './appv-dlist.component.html',
   styleUrl: './appv-dlist.component.scss',
 })
-export class AppvDListComponent implements OnInit , OnDestroy {
-  messages: any ;
-  teleUser: any;
-  editReport(arg0: number) {
-    throw new Error('Method not implemented.');
-  }
+export class AppvDListComponent {
 
-  private sseSubscription?: Subscription;
-  private sseSubscription2?: Subscription;
-  notificationCount: any;
+editReport(arg0: number) {
+throw new Error('Method not implemented.');
+}
+
   searchText: string = '';
   loader: boolean = false;
   deposit: any;
@@ -80,10 +71,9 @@ export class AppvDListComponent implements OnInit , OnDestroy {
   pageNo: number = 0;
   pageSize: number = 8;
   user: any;
-  userId: number;
+  userId:number ;
   isButtonClicked: { [key: number]: boolean } = {};
   retried: boolean = false;
-  notificationsEnabled = false;
   // selectedStatus: string = '';
 
   constructor(
@@ -93,13 +83,12 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     private titleService: ComponettitleService,
     private excelService: ExcelService,
     private operation: OperationsService,
-    private sseService: SseServiceService,
     public dialog: MatDialog,
     private apprvserv: ApproveService,
-    private snackbarService: SnackbarService ,// private webSocketService: WebsocketService
-    private snackBar: MatSnackBar, 
-    private messageService: ChatBotService ,
-  ) {
+    private snackbarService: SnackbarService,
+  ) // private webSocketService: WebsocketService
+
+  {
     this.titleService.changeTitle('Approve List');
     this.dateRange = { start: null, end: null };
   }
@@ -109,16 +98,8 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     this.selectedStatuses.valueChanges.subscribe((selectedStatuses) => {
       this.onStatusChange(selectedStatuses);
     });
-    this.sseSubscription2 = this.sseService.getServerSentEvent2().subscribe({
-        next: (message) => {
-          console.log('Received:', message);
-          this.showNotification(message);
-        },
-        error: (err) => console.error('Error:', err),
-      });
-   
 
-    this.getUserId();
+    this.getUserId()
     this.getDeposits();
 
     this.subscription = interval(10000).subscribe(() => {
@@ -141,102 +122,13 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-
-      this.sseSubscription2.unsubscribe();
-   
-  }
-  //===============================On / off NOtification============================
-
-
-  toggleNotifications() {
-    if (this.notificationsEnabled) {
-      this.stopNotifications();
-    } else {
-      this.startNotifications();
-    }
-    this.notificationsEnabled = !this.notificationsEnabled;
   }
 
-  startNotifications() {
-    this.sseSubscription = this.sseService.getServerSentEvent().subscribe({
-      next: (message) => {
-        this.getDeposits();
-        console.log('Received:', message);
-        this.showNotification(message);
-      },
-      error: (err) => console.error('Error:', err),
-    });
-  }
-  
-
-
-  stopNotifications() {
-    if (this.sseSubscription) {
-      this.sseSubscription.unsubscribe();
-      console.log('SSE Subscription stopped');
-    }
-  }
-
-  showSnackbar(message: string, action: string) {
-    this.snackBar.open(message, action, {
-      duration: 0, 
-      horizontalPosition: 'center', // 'start', 'center', 'end', 'left', 'right'
-      verticalPosition: 'bottom', // 'top', 'bottom'
-    });
-  }
-  
-  //===============================Notify============================
-  showNotification(message: string) {
-    this.playNotificationSound();
-    this.showSnackbar(message, 'New Notifiation');
-    console.log(' in Showing notification:');
-    if (!('Notification' in window)) {
-      console.error('This browser does not support desktop notifications.');
-      return;
-    }
-
-    // Request permission if not already granted
-    if (Notification.permission === 'granted') {
-      console.log(' in Notification.permission === granted:');
-     
-      this.incrementNotificationCount();
-     
-      new Notification('New Message Received', {
-        body: message,
-        // icon: 'assets/notification-icon.png', // Optional: Add an icon
-      });
-    } else if (Notification.permission !== 'denied') {
-      console.log(' inNotification.permission !== denied');
-      Notification.requestPermission().then((permission) => {
-        if (permission === 'granted') {
-          new Notification('New Message Received', {
-            body: message,
-            icon: 'assets/notification-icon.png',
-          });
-        }
-      });
-    }
-  }
-  playNotificationSound() {
-    const audio = new Audio('assets/542043_6856600-lq.mp3'); // Path to the sound file
-
-    audio.volume = 1.0; // Set volume (0.0 to 1.0), 0.3 is ~30% of full volume
-
-    audio.play().catch((err) => console.error('Error playing sound:', err));
-  }
-  incrementNotificationCount() {
-    this.notificationCount++;
-    document.title = `(${this.notificationCount}) New Notifications`; // Update title bar
-  }
-  clearNotificationCount() {
-    this.notificationCount = 0;
-    document.title = 'My Website'; // Reset to default title
-  }
   //===============================search============================
   updateSearchText(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.searchText = target.value;
-    // console.log('Search text updated:', this.searchText);
+    console.log('Search text updated:', this.searchText);
   }
 
   onSearchClick(): void {
@@ -244,25 +136,22 @@ export class AppvDListComponent implements OnInit , OnDestroy {
       this.pageNo = 0; // Reset to first page for a new search
       this.searchDeposits();
     } else {
-      // console.log('Search text is empty, no search will be performed.');
+      console.log('Search text is empty, no search will be performed.');
       // Optionally, you can fetch the default list if search is empty
       this.getDeposits();
     }
   }
 
+
   searchDeposits(): void {
+
     const statusesToSend =
-      this.selectedStatuses.value.length > 0
-        ? this.selectedStatuses.value
-        : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED', 'USER_CREATED'];
+    this.selectedStatuses.value.length > 0
+      ? this.selectedStatuses.value
+      : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED','USER_CREATED'];
     // this.loader = true;
     this.apprvserv
-      .searchDeposits(
-        statusesToSend,
-        this.searchText,
-        this.pageSize,
-        this.pageNo
-      )
+      .searchDeposits(statusesToSend,this.searchText, this.pageSize, this.pageNo)
       .subscribe(
         (data) => {
           this.deposits = data.content;
@@ -277,55 +166,60 @@ export class AppvDListComponent implements OnInit , OnDestroy {
   }
 
   refresh() {
-    this.searchText = '';
-    this.getDeposits();
+    this.searchText="";
+    this.getDeposits()
   }
 
+
+
+  
   //==============================================================
 
-  Avp(Id: number, retry: number) {
+  Avp(Id: number, retry: number ,) {
+   
     const updatedData = {};
     const userData = localStorage.getItem('user');
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '300px',
-      data: { amount: 'CheckAppv' },
+      data: {amount:"CheckAppv"},
     });
     dialogRef.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
-        if (userData) {
-          this.user = JSON.parse(userData);
-        } else {
-          // Handle the case when user data is not available
-          console.error('User data not found in localStorage');
-          return;
-        }
-        const userId = this.user.user_id;
-        if (!this.isActionTaken) {
-          this.isActionTaken = true;
-          // Your logic to approve the deposit
-          console.log(`Approved user with ID: ${Id}`);
-        }
-        this.loader = true;
-        this.apprvserv.Approvecheck(Id, retry, userId, updatedData).subscribe(
-          (data) => {
-            console.log('Approve', data);
-            this.getDeposits();
-            this.loader = false;
-            this.snackbarService.snackbar('Successful !!', 'success');
-          },
-          (error) => {
-            this.loader = false;
-            console.log(error);
-          }
-        );
+
+    if (userData) {
+      this.user = JSON.parse(userData);
+    } else {
+      // Handle the case when user data is not available
+      console.error('User data not found in localStorage');
+      return;
+    }
+    const userId = this.user.user_id;
+    if (!this.isActionTaken) {
+      this.isActionTaken = true;
+      // Your logic to approve the deposit
+      console.log(`Approved user with ID: ${Id}`);
+    }
+     this.loader = true;
+    this.apprvserv.Approvecheck(Id, retry, userId,updatedData).subscribe(
+      (data) => {
+        console.log('Approve', data);
+        this.getDeposits();
+        this.loader = false;
+        this.snackbarService.snackbar('Successful !!', 'success');
+      },
+      (error) => {
+        this.loader = false;
+        console.log(error);
       }
-    });
+    );
+  }
+});
   }
 
-  retry(Id: number, obj: any) {
+  retry(Id: number ,obj:any) {
     this.loader = true;
-    this.retried = true;
-    this.apprvserv.retry(Id, this.retried, obj).subscribe(
+    this.retried=true;
+    this.apprvserv.retry(Id,this.retried,obj).subscribe(
       (data) => {
         console.log('Approve', data);
         this.getDeposits();
@@ -340,12 +234,13 @@ export class AppvDListComponent implements OnInit , OnDestroy {
   }
   Reject(Id: number) {
     this.openRejectDialog(Id);
-
+ 
     this.getDeposits();
+   
   }
 
   manulAvp(utr: String) {
-    this.loader = true;
+     this.loader = true;
     this.apprvserv.manualApprove(utr).subscribe(
       (data) => {
         // console.log('manual', data);
@@ -359,10 +254,15 @@ export class AppvDListComponent implements OnInit , OnDestroy {
       }
     );
   }
-  disableButton(userId): void {
+  disableButton(userId ): void {
     // Set the clicked state for the corresponding user.id to true
     this.isButtonClicked[userId] = true;
   }
+
+  
+
+
+
 
   getSerialNumber(index: number): number {
     // Return the cumulative count plus the index within the current page
@@ -381,6 +281,7 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     };
     return new Intl.DateTimeFormat(undefined, options).format(date);
   }
+ 
 
   approve(deposits) {
     const newDeposits = {
@@ -402,6 +303,7 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     console.log('inside approval');
   }
 
+  
   getDeposits(): void {
     console.log(this.selectedStatuses.value);
     const statusesToSend =
@@ -447,7 +349,7 @@ export class AppvDListComponent implements OnInit , OnDestroy {
 
   onPageEvent(event: PageEvent): void {
     this.pageNo = event.pageIndex;
-    // console.log(this.pageNo); //
+    console.log(this.pageNo); //
     this.pageSize = event.pageSize;
     console.log(this.pageSize + 'pagesize'); //
     if (this.searchText && this.searchText.trim() !== '') {
@@ -460,15 +362,20 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     }
   }
 
+
+
   openRejectDialog(id: number) {
     const dialogRef = this.dialog.open(RejectconfirmationComponent, {
-      data: { id: id, type: 'Deposit' },
+      data: { id: id,
+             type:"Deposit"        
+       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         console.log('Rejection Reason:', result);
       }
+    
     });
 
     this.getDeposits();
@@ -482,31 +389,33 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     dialogRef.afterClosed().subscribe((isConfirmed) => {
       if (isConfirmed) {
         this.loader = true;
-        this.apprvserv.deleteReport(Id, this.userId).subscribe({
-          next: (response) => {
-            console.log('Delete successful', response);
-            this.getDeposits();
-            this.snackbarService.snackbar('Deleted successful', 'success');
-            this.loader = false;
-
-            // Handle success logic, e.g., showing a notification or refreshing the list
-          },
-          error: (error) => {
-            console.error('Delete failed', error);
-            this.loader = false;
-            // Handle error logic, e.g., showing an error message
-          },
-        });
+    this.apprvserv.deleteReport(Id, this.userId).subscribe({
+      next: (response) => {
+        console.log('Delete successful', response);
+        this.getDeposits();
+        this.snackbarService.snackbar('Deleted successful', 'success');
+        this.loader = false;
+        
+        // Handle success logic, e.g., showing a notification or refreshing the list
+      },
+      error: (error) => {
+        console.error('Delete failed', error);
+        this.loader = false;
+        // Handle error logic, e.g., showing an error message
       }
-    });
+    })
+  }
+});
   }
 
-  getUserId() {
+
+  getUserId(){
     const userData = localStorage.getItem('user');
+ 
 
     if (userData) {
       this.user = JSON.parse(userData);
-      this.userId = this.user.user_id; // Get the user ID from localStorage
+      this.userId = this.user.user_id;  // Get the user ID from localStorage
     } else {
       // Handle the case when user data is not available
       console.error('User data not found in localStorage');
@@ -517,10 +426,10 @@ export class AppvDListComponent implements OnInit , OnDestroy {
   openEditDialog(user: any): void {
     const dialogRef = this.dialog.open(EditDialogComponent, {
       width: '400px',
-      data: user, // Pass the user object to the dialog
+      data: user  // Pass the user object to the dialog
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Handle logic after the dialog is closed, if required (e.g., refreshing data)
         console.log('Dialog result:', result);
@@ -530,14 +439,14 @@ export class AppvDListComponent implements OnInit , OnDestroy {
 
   checkApprove(user) {
     const dialogRef = this.dialog.open(CheckAppvDailogComponent, {
-      width: '700px',
+      width: '800px',
       data: {
         user: user,
-        type: 'Deposit',
-      }, // Pass the user object to the dialog
+        type: "Deposit",
+      }    // Pass the user object to the dialog
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Handle logic after the dialog is closed, if required (e.g., refreshing data)
         console.log('Dialog result:', result);
@@ -551,9 +460,11 @@ export class AppvDListComponent implements OnInit , OnDestroy {
       width: '800px',
       data: {
         user: user,
-        type: 'Deposit',
-      }, // Pass the user object to the dialog
+        type: "Deposit",
+      }    // Pass the user object to the dialog
     });
+
+ 
   }
 
   onClick(user: any): void {
@@ -564,47 +475,19 @@ export class AppvDListComponent implements OnInit , OnDestroy {
     }
   }
 
-  openChat(chatID: string): void {
-    this.loadMessages(0,10,chatID);
-     // Load the initial messages for the chat session
-   
-  }
-  loadMessages(page: number = 0, size: number = 10,chatId): void {
-    this.loader = true;
-    this.messageService.getLastMessages(chatId, page).subscribe(
-      (response) => {
-        this.messages = response;
-        // console.log(this.messages.content.teleUser);
-        this.dialog.open(ChatBotComponent, {
-          width: '400px',
-          panelClass: 'chat-dialog',
-          data: {
-            messages: this.messages.reverse(),
-            teleUser : this.messages[0].teleUser,
-          }
-        }); 
-        this.loader = false;
-        console.log(this.messages)// Adjust based on the actual API response format
-      },
-      (error) => {
-        console.error('Error fetching messages:', error);
-        this.loader = false;
-      }
-    );
-  }
-
-  withdarwDialog() {
-    const dialogRef = this.dialog.open(WithDailogComponent, {
-      width: '800px',
-      data: null,}
-    );
-    }
-
-depositeDialog() {
-  const dialogRef = this.dialog.open(DepoDailogComponent, {
-    width: '800px',
-    data: null,}
-  );
-  }  
-
+   withdarwDialog() {
+                const dialogRef = this.dialog.open(WithDailogComponent, {
+                  width: '800px',
+                  data: null,}
+                );
+                }
+  
+     depositeDialog() {
+              const dialogRef = this.dialog.open(DepoDailogComponent, {
+                width: '800px',
+                data: null,}
+              );
+              }  
+  
+  
 }

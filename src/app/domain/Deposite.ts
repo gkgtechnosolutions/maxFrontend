@@ -1,7 +1,6 @@
 import { Bank, BankAccount } from "./Bank";
 
 export interface AppvDeposit{
-chatID: string;
  isNewId: any;
  requestBy: requestBy;
   bankUtrImageLink: any;
@@ -17,7 +16,6 @@ chatID: string;
   reportID: number,
   bankDetails: BankAccount,
   approveStatus: string,
-  rejectReason: string,
 }
 
 export interface appvWithdraw {
@@ -66,6 +64,9 @@ export interface DepositeWithdraw {
   siteMasterId?: number;
   zuserId: number;
   siteId: number;
+  bankUtrImageLink?: string;
+  newId?: boolean;
+  chatID?: string;
 }
 export interface utrDeposit {
   id: number;
@@ -111,4 +112,10 @@ export interface Site {
   id: number;
   name: string;
   url: string;
+}
+
+export interface WithdrawMessage {
+  amount: number;
+  bankId: string;
+  image?: File;
 }

@@ -45,7 +45,7 @@
 <div class="carousel-container">
   <Div  *ngIf="deposits.length==0 "style="text-align: center; color: #f7f7f4; font-size: larger;">Records not found pls refresh !!!</Div>
     <!-- Previous Button -->
-    <button mat-icon-button *ngIf="deposits.length>0 " (click)="prevPage()" [disabled]="currentPage === 0">
+    <button mat-icon-button *ngIf="deposits.length>0 && !(currentPage === 0)" (click)="prevPage()" [disabled]="currentPage === 0">
       <mat-icon style="color: white;">arrow_back</mat-icon>
     </button>
   
@@ -166,7 +166,6 @@
           #approveButton
           aria-label="Button that displays a tooltip when focused or hovered over"
         >Approve</button>
-        
           <i
           (click)="deleteReport(deposit.id)"
           class="fa-solid fa-trash userName"
@@ -207,7 +206,7 @@
     </div>
   
     <!-- Next Button -->
-    <button *ngIf="deposits.length>0 " mat-icon-button (click)="nextPage()" [disabled]="(currentPage + 1) * itemsPerPage >= totalItems">
+    <button *ngIf="!((currentPage + 1) * itemsPerPage >= totalItems )" mat-icon-button (click)="nextPage()" >
       <mat-icon style="color: white;">arrow_forward</mat-icon>
     </button>
   </div>

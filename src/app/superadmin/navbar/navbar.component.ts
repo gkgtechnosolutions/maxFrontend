@@ -42,7 +42,6 @@ export class NavbarComponent implements AfterViewInit ,OnInit {
     }
    
   }
-  
 
   ngAfterViewInit() {
     if (this.navbarToggler && this.navbarToggler.nativeElement) {

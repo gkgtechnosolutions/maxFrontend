@@ -19,12 +19,8 @@ import { SiteMaster } from '../../domain/SiteMaster';
 })
 export class AddAppUserComponent {
   formGroup: FormGroup;
-  roles = [
-    { value: 'APPROVEDEPOSIT', viewValue: 'ApproveDeposit' },
-    { value: 'APPROVEWITHDRAW', viewValue: 'ApproveWithdraw' },
-    
-  ];
-  
+  roles: string[] = ['USER','ADMIN','SUPERADMIN','APPROVEADMIN', 'DEPOSIT','APPROVEDEPOSIT'];
+
   ocrResult: string = '';
   imagePath: string = '';
   imageStatus: string = 'Select or drag UTR Image';
@@ -62,20 +58,19 @@ export class AddAppUserComponent {
 
  
   ngOnInit(): void {
-   
+    this.titleService.changeTitle('Add user panel');
     this.myFormValues();
     const currentDate = new Date();
     // this.formGroup.get('date').setValue(currentDate);
    
   }
-  
 
   openFileInput(): void {
     this.fileInput.nativeElement.click();
   }
   myFormValues(): void {
     this.formGroup = this.fb.group({
-      role: ['', Validators.required],
+      role: [''],
       username: ['', [Validators.required, Validators.minLength(4)]],
       password: ['', [Validators.required, this.passwordValidator]],
       // name: ['', Validators.required],
@@ -92,19 +87,19 @@ export class AddAppUserComponent {
     
     this.loader=true;
     const userData = localStorage.getItem('user');
-
+     
     if (userData) {
       this.user = JSON.parse(userData);
     } else {
     }
     const id = this.user.user_id;
-    console.log('form is valid');
-    console.log(this.formGroup.value);
+
 
     if (this.formGroup.valid) {
-      
+   
       this.formGroup.patchValue({ zuserId: id });
-     
+      this.formGroup.patchValue({ role:"APPROVEDEPOSIT" });
+      
       this.superAdmin.saveUser(this.formGroup.value).subscribe(
         (data) => {
           this.snackbarService.snackbar(`added user successfully with name ${this.formGroup.value.username} `, 'success');

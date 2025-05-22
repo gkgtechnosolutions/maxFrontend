@@ -17,6 +17,7 @@ import {
   masterJoker,
   masters777Exch,
   mastersCrex247,
+  mastersPs777,
   mastersWood,
   mastersWorld,
 } from '../../domain/SiteMaster';
@@ -33,7 +34,7 @@ import { DialogComponent } from '../../shared/dialog/dialog.component';
 @Component({
   selector: 'app-add-old-user',
   templateUrl: './add-old-user.component.html',
-  styleUrl: './add-old-user.component.scss'
+  styleUrl: './add-old-user.component.scss',
 })
 export class AddOldUserComponent {
   formGroup: FormGroup;
@@ -78,43 +79,40 @@ export class AddOldUserComponent {
   utrNumberImageFileName: '';
   prograsbar: boolean = false;
   pBarPecentage: number = 0;
- 
+
   ngOnInit(): void {
     this.titleService.changeTitle('Add Old User');
-   
+
     this.myFormValues();
     const currentDate = new Date();
     this.formGroup.get('date').setValue(currentDate);
     this.getuserID();
-   
-  }
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+    this.getAddUser();
 
-  
+    this.subscription = interval(5000).subscribe(() => {
+      this.getAddUser();
+    });
+  }
 
   openFileInput(): void {
     this.fileInput.nativeElement.click();
   }
   myFormValues(): void {
-   
-      this.formGroup = this.fb.group({
-        userId: ['', []],
-        password: ['', []],
-        name: ['', []],
-        balance: ['0'],
-        creditReference: ['0'],
-        site_id: ['', Validators.required],
-        masterId: [''],
-        betStatus: [false],
-        activeStatus: [false],
-        id: ['0'],
-        zuserId: [''],
-        date: [new Date()],
-        utrNumber: [''],
-      });
-  
+    this.formGroup = this.fb.group({
+      userId: ['', []],
+      password: ['', []],
+      name: ['', []],
+      balance: ['0'],
+      creditReference: ['0'],
+      site_id: ['', Validators.required],
+      masterId: [''],
+      betStatus: [false],
+      activeStatus: [false],
+      id: ['0'],
+      zuserId: [''],
+      date: [new Date()],
+      utrNumber: [''],
+    });
   }
   get utrNumber() {
     return this.formGroup.get('utrNumber');
@@ -142,14 +140,11 @@ export class AddOldUserComponent {
       }
     } catch (error) {
       this.snackbarService.snackbar('Error recognizing text!', 'error');
-     
     }
   }
   onSubmit() {
-   
     const userData = localStorage.getItem('user');
     if (this.formGroup.valid) {
-      
       if (userData) {
         this.user = JSON.parse(userData);
       } else {
@@ -160,28 +155,25 @@ export class AddOldUserComponent {
       this.formGroup.patchValue({ zuserId: id });
 
       this.increaseProgressBar();
-      
-      
-    
-        this.operation.addUserToDatabase(this.formGroup.value).subscribe(
-          (data) => {
-            this.snackbarService.snackbar(
-              `added user to database successfully with name ${this.formGroup.value.userId} `,
-              'success'
-            );
-            this.prograsbar = false;
-            this.pBarPecentage = 0;
-            this.resetForm();
-          },
-          (error) => {
-            this.prograsbar = false;
-            this.pBarPecentage = 0;
-            this.snackbarService.snackbar('failed to add user!', 'error');
 
-            // confirm(error.error.message);
-          }
-        );
-   
+      this.operation.addUserToDatabase(this.formGroup.value).subscribe(
+        (data) => {
+          this.snackbarService.snackbar(
+            `added user to database successfully with name ${this.formGroup.value.userId} `,
+            'success'
+          );
+          this.prograsbar = false;
+          this.pBarPecentage = 0;
+          this.resetForm();
+        },
+        (error) => {
+          this.prograsbar = false;
+          this.pBarPecentage = 0;
+          this.snackbarService.snackbar('failed to add user!', 'error');
+
+          // confirm(error.error.message);
+        }
+      );
     }
   }
   increaseProgressBar() {
@@ -245,6 +237,9 @@ export class AddOldUserComponent {
       case 5:
         this.siteMaster = mastersCrex247;
         break;
+      case 6:
+        this.siteMaster = mastersPs777;
+        break;
     }
   }
   subscribeToSiteSelection(): void {
@@ -282,19 +277,17 @@ export class AddOldUserComponent {
   }
 
   onUserIdChange(event: Event): void {
-
-      const userIdControl = this.formGroup.get('userId');
-      let currentUserId = userIdControl.value;
-      if (!currentUserId.startsWith(this.userIdPrefix)) {
-        currentUserId =
-          this.userIdPrefix + currentUserId.substring(this.userIdPrefix.length);
-        userIdControl.setValue(currentUserId);
-      } else if (currentUserId.length > this.userIdPrefix.length) {
-        const charactersAfterPrefix = currentUserId.substring(
-          this.userIdPrefix.length
-        );
-      }
-   
+    const userIdControl = this.formGroup.get('userId');
+    let currentUserId = userIdControl.value;
+    if (!currentUserId.startsWith(this.userIdPrefix)) {
+      currentUserId =
+        this.userIdPrefix + currentUserId.substring(this.userIdPrefix.length);
+      userIdControl.setValue(currentUserId);
+    } else if (currentUserId.length > this.userIdPrefix.length) {
+      const charactersAfterPrefix = currentUserId.substring(
+        this.userIdPrefix.length
+      );
+    }
   }
   onUTRInput(utrValue: string) {
     this.loader2 = true;
@@ -404,7 +397,6 @@ export class AddOldUserComponent {
       this.checkUser(inputElement.value);
     }, this.doneTypingInterval);
   }
- 
 
   retry(op: any) {
     this.prograsbar = true;
@@ -435,21 +427,20 @@ export class AddOldUserComponent {
       );
     } else {
       this.snackbarService.snackbar('Deletion canceled by the user!', 'error');
-      
     }
   }
-  // getAddUser() {
-  //   this.report.getAddNewReport(this.Operator).subscribe(
-  //     (data) => {
-  //       // this.dataSource=this.operations;
-  //       this.dataSource = data;
-  //       this.operations = data;
-  //     },
-  //     (error) => {
-  //       this.snackbarService.snackbar('failed!', 'error');
-  //     }
-  //   );
-  // }
+  getAddUser() {
+    this.report.getAddNewReport(this.Operator).subscribe(
+      (data) => {
+        // this.dataSource=this.operations;
+        this.dataSource = data;
+        this.operations = data;
+      },
+      (error) => {
+        this.snackbarService.snackbar('failed!', 'error');
+      }
+    );
+  }
   getuserID() {
     const userString = localStorage.getItem('user');
     if (userString) {
@@ -468,11 +459,7 @@ export class AddOldUserComponent {
       operation: this.operations,
     };
 
-   
     const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe((result) => {
-     
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
-
 }
