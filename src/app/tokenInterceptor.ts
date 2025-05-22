@@ -22,7 +22,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {
      this.token = localStorage.getItem('token');
      this.user = JSON.parse(localStorage.getItem('user'));;    
-    //  console.log("set token", this.token);
+
    }
 
   isRefreshingToken: boolean = false;
@@ -38,10 +38,10 @@ export class TokenInterceptor implements HttpInterceptor {
   );
   // this.token = localStorage.getItem('token');
   if (isExcluded) {
-    // console.log('Excluded URL:', request);
+ 
     return next.handle(request);
   }else{
-      // console.log("intercepted request ... ", request.url);
+     
         return next.handle(this.addTokenToRequest(request, this.token))
           .pipe(
             catchError(err => {
@@ -60,11 +60,11 @@ export class TokenInterceptor implements HttpInterceptor {
 
   private addTokenToRequest(request: HttpRequest<any>, token: string): HttpRequest<any> {
     if (!token) {
-      // console.warn('Token is missing. Skipping token addition.');
+      console.warn('Token is missing. Skipping token addition.');
       return request;
     }
     
-    // console.log('Adding token to request:', token);
+ 
     
     const modifiedRequest = request.clone({
       setHeaders: {

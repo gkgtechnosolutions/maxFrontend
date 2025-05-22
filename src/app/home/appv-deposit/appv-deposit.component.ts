@@ -94,7 +94,7 @@ export class AppvDepositComponent {
     this.getuserID();
     this.myFormValues();
     this.getDeposite();
-    this.subscription = interval(5000).subscribe(() => {
+    this.subscription = interval(2000).subscribe(() => {
       this.getDeposite();
     });
 
@@ -102,7 +102,6 @@ export class AppvDepositComponent {
    
  
   }
-  
 
   resetForm() {
     this.formGroup.reset(); // Reset form values

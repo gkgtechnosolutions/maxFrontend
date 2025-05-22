@@ -20,6 +20,7 @@ import { WithdrawSuperadminService } from '../../services/withdraw-superadmin.se
 import { ComponettitleService } from '../../services/componenttitle.service';
 import { SupADepositService } from '../../services/sup-adeposit.service';
 import { SupDtableComponent } from '../sup-dtable/sup-dtable.component';
+import { DialogTableComponent } from '../../superadmin/dialog-table/dialog-table.component';
 
 
 @Component({
@@ -28,7 +29,7 @@ import { SupDtableComponent } from '../sup-dtable/sup-dtable.component';
   styleUrl: './sup-awithdraw.component.scss'
 })
 export class SupAWithdrawComponent {
-  todayWithdraw :number = 0;
+  todayWithdraw :number ;
   displayedColumns = ['position', 'userId', 'count' ];
   dataSource : any[];
   totalwithdraw: number=0 ;
@@ -55,7 +56,6 @@ export class SupAWithdrawComponent {
     this.getWithDrawTabledata();
     
   }
-  
 
 
   openDialog() {
@@ -174,6 +174,11 @@ export class SupAWithdrawComponent {
       operation : "Withdraw",
       type : "Today's",
     };
+
+    const dialogRef = this.dialog.open(SupDtableComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe((result) => {
+     
+    });
    
     // const dialogRef = this.dialog.open(DialogTableComponent, dialogConfig);
     // dialogRef.afterClosed().subscribe((result) => {

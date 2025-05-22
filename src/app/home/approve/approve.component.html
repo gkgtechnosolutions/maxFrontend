@@ -45,7 +45,7 @@
 <div class="carousel-container">
   <Div  *ngIf="deposits.length==0 "style="text-align: center; color: #f7f7f4; font-size: larger;">Records not found pls refresh !!!</Div>
     <!-- Previous Button -->
-    <button mat-icon-button *ngIf="deposits.length>0 " (click)="prevPage()" [disabled]="currentPage === 0">
+    <button mat-icon-button *ngIf="deposits.length>0 && !(currentPage === 0)" (click)="prevPage()" [disabled]="currentPage === 0">
       <mat-icon style="color: white;">arrow_back</mat-icon>
     </button>
   
@@ -148,24 +148,24 @@
         <mat-card-actions>
           <button 
           *ngIf="deposit.approveStatus === 'PENDING'" 
-            mat-button
-            (click)="deposit.approveStatus === 'PENDING' ? openRejectDialog(deposit) : null"
-            [ngStyle]="{color: deposit.approveStatus === 'PENDING' ? 'white' : 'gray'}"
-            [class.disabled]="deposit.approveStatus !== 'PENDING'"
-            style="background-color: red"
-          >Reject</button>
-          <button 
+          mat-button
+          (click)="deposit.approveStatus === 'PENDING' && !isApproved[deposit.id] ? openRejectDialog(deposit) : null"
+          [ngStyle]="{color: deposit.approveStatus === 'PENDING' && !isApproved[deposit.id] ? 'white' : 'gray'}"
+          [class.disabled]="deposit.approveStatus !== 'PENDING' || isApproved[deposit.id]"
+          style="background-color: red"
+        >Reject</button>
+        <button 
           *ngIf="deposit.approveStatus === 'PENDING'" 
-            class="approve-btn"
-            type="button"
-            (click)="deposit.approveStatus === 'PENDING' ? onSave(deposit) : null"
-            [ngStyle]="{color: deposit.approveStatus === 'PENDING' ? 'white' : 'gray'}"
-            [class.disabled]="deposit.approveStatus !== 'PENDING'"
-            [style.background-color]="'#20d813'"
-            mat-raised-button
-            #approveButton
-            aria-label="Button that displays a tooltip when focused or hovered over"
-          >Approve</button>
+          class="approve-btn"
+          type="button"
+          (click)="deposit.approveStatus === 'PENDING' && !isApproved[deposit.id] ? onSave(deposit) : null"
+          [ngStyle]="{color: deposit.approveStatus === 'PENDING' && !isApproved[deposit.id] ? 'white' : 'gray'}"
+          [class.disabled]="deposit.approveStatus !== 'PENDING' || isApproved[deposit.id]"
+          [style.background-color]="'#20d813'"
+          mat-raised-button
+          #approveButton
+          aria-label="Button that displays a tooltip when focused or hovered over"
+        >Approve</button>
           <i
           (click)="deleteReport(deposit.id)"
           class="fa-solid fa-trash userName"
@@ -206,7 +206,7 @@
     </div>
   
     <!-- Next Button -->
-    <button *ngIf="deposits.length>0 " mat-icon-button (click)="nextPage()" [disabled]="(currentPage + 1) * itemsPerPage >= totalItems">
+    <button *ngIf="!((currentPage + 1) * itemsPerPage >= totalItems )" mat-icon-button (click)="nextPage()" >
       <mat-icon style="color: white;">arrow_forward</mat-icon>
     </button>
   </div>

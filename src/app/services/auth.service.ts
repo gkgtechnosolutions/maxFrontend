@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { interval, Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { USER } from '../domain/User';
 import { AppConfigService } from './app-config.service';
 import { Router } from '@angular/router';
@@ -10,8 +10,6 @@ declare var appConfig;
   providedIn: 'root',
 })
 export class AuthService {
-  private checkInterval = 30 * 60 * 1000; // 30 minutes in milliseconds
-  private intervalSubscription: Subscription | null = null;
   constructor(public route: Router,public http: HttpClient, public config: AppConfigService) {}
 
   public loginUser(user: USER): Observable<USER> {
@@ -24,25 +22,6 @@ export class AuthService {
     return this.http.post<USER>(
       `${this.config.getBaseurl()}/auth/updatePassword=${password}`,
       user
-    );
-  }
-  startValidationCheck() {
-    this.intervalSubscription = interval(this.checkInterval).subscribe(() => {
-      this.validateUser();
-    });
-  }
-
-  validateUser() {
-    this.http.get<boolean>('/api/auth/validate').subscribe(
-      (isValid) => {
-        if (!isValid) {
-          alert('Session expired! Logging out...');
-          this.logout();
-        }
-      },
-      (error) => {
-        console.error('Validation failed', error);
-      }
     );
   }
 

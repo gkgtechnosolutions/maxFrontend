@@ -1,0 +1,210 @@
+<div class="watti-chat-container">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>Chats</h2>
+      <mat-form-field class="filter-select">
+        <mat-select [(ngModel)]="selectedFilter" (selectionChange)="applyFilter()">
+          <mat-option value="all">All Conversations</mat-option>
+          <!-- <mat-option value="unread">Unread</mat-option>
+          <mat-option value="done">Done</mat-option> -->
+          <mat-option value="undone">Not Done</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="conversation-list">
+      <!-- <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar> -->
+      <div *ngIf="!loading && filteredConversations.length === 0" class="no-conversations">
+        No conversations found.
+      </div>
+      <mat-card 
+        *ngFor="let conversation of filteredConversations" 
+        class="conversation-item"
+        [class.active]="activeWatiNumber === conversation.watiNumber"
+        (click)="loadConversationByWatiNumber(conversation.watiNumber); markAsRead(conversation)">
+        <mat-card-content>
+          <div class="avatar">
+            <mat-icon>account_circle</mat-icon>
+            <div *ngIf="!conversation.isRead" class="notification-badge"></div>
+          </div>
+          <div class="conversation-details">
+            <!-- <h3 *ngIf="conversation.clientId " >{{  conversation.clientName  }}</h3> -->
+            <h3 *ngIf="conversation.clientName " >{{ conversation.clientId ||  conversation.clientName  }}</h3>
+            <h3 *ngIf="!conversation.clientName "> USER </h3>
+            <p class="lastmsg" [innerHTML]="getlastMessage(conversation.data) | lineBreaks"></p>
+            <p class="timestamp">{{ conversation.lastMessageTime | utcToLocal }}</p>
+          </div>
+          <button *ngIf=" !conversation.isDone"
+          mat-icon-button 
+                  class="done-button" 
+                  (click)="markAsDone(conversation); $event.stopPropagation()"
+                  [class.done]="conversation.isDone"
+                  matTooltip="Mark as done">
+            <mat-icon>{{ conversation.isDone ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="chat-main">
+    <div class="chat-header" *ngIf="selectedConversation">
+      <div class="chat-header-user">
+        <mat-icon>account_circle</mat-icon>
+        <div class="client-name-container">
+          <input *ngIf="isEditingName" 
+                 [(ngModel)]="editingClientName" 
+                 (blur)="updateClientName()"
+                 (keyup.enter)="updateClientName()"
+                 class="client-name-input"
+                 matInput>
+          <h2 *ngIf="!isEditingName" 
+              (click)="startEditingName()" 
+              [class.has-client-id]="selectedConversation.clientId">
+            {{  selectedConversation.clientId ||selectedConversation.clientName || 'USER' }}
+          </h2>
+        </div>
+      </div>
+      <div class="chat-header-actions">
+      <!-- <div class="ws-status" [class.connected]="wsConnected" title="WebSocket Connection Status">
+        <span *ngIf="wsConnected">Live</span>
+        <span *ngIf="!wsConnected">Offline</span>
+      </div> -->
+      <!-- <p><strong>Manual Status:</strong> {{ isManual ? 'Manual' : 'Automatic' }}</p> -->
+    <button (click)="toggleManualStatus(selectedConversation.watiNumber)" class="toggle-button">
+      {{ isManual ? 'Switch to Automatic' : 'Switch to Manual' }}
+    </button>
+    </div>
+    </div>
+
+    <div class="chat-messages" #chatContainer>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+      <div *ngIf="!loading && messages.length === 0" class="no-messages">
+        No messages found. Start the conversation.
+      </div>
+
+      <div class="messages-container">
+        <div *ngIf="loadingMore" class="loading-more">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+        <div *ngFor="let message of messages" 
+            class="message-bubble" 
+            [class.user-message]="message.fromUser || message.isFromUser" 
+             [class.admin-message]="!message.fromUser && !message.isFromUser"
+             [class.image-message]="message.mediaUrl && isImage(message.mediaType)">
+          <div class="message-content">
+            <!-- Display media first if present -->
+            <div *ngIf="message.mediaUrl" class="media-container">
+              <!-- Image -->
+              <img *ngIf="isImage(message.mediaType)" 
+              [src]="message.mediaUrl" 
+              alt="Image" 
+              class="media-image" 
+              (click)="openImage(message.mediaUrl)">
+
+                
+
+                <div *ngIf="selectedImageUrl" class="image-overlay" (click)="closeImage()">
+                  <img [src]="selectedImageUrl" alt="Full-size Image" class="enlarged-image">
+                </div>
+              
+              <!-- Video -->
+              <video *ngIf="isVideo(message.mediaType)" controls class="media-video">
+                <source [src]="getFileUrl(message.mediaName)" [type]="message.mediaType">
+                Your browser does not support the video tag.
+              </video>
+              
+              <!-- Audio -->
+              <div *ngIf="isAudio(message.mediaType)" class="audio-player">
+                <button class="play-button" (click)="toggleAudio($event, message)">
+                  <mat-icon>{{ isPlaying(message) ? 'pause' : 'play_arrow' }}</mat-icon>
+                </button>
+                <div class="audio-progress">
+                  <div class="progress-bar" [style.width.%]="getAudioProgress(message)"></div>
+                </div>
+                <span class="audio-duration">{{ getAudioDuration(message) }}</span>
+              </div>
+              
+              <!-- Other file types (download link) -->
+              <div *ngIf="!isImage(message.mediaType) && !isVideo(message.mediaType) && !isAudio(message.mediaType)" class="media-file">
+                <mat-icon>attach_file</mat-icon>
+                <a [href]="getFileUrl(message.mediaName)" target="_blank" download>
+                  {{ message.mediaName }}
+                </a>
+              </div>
+              <span class="timestamp">{{message.timestamp | utcToLocal }}</span>
+            </div>
+
+            <!-- Then show content below media -->
+            <p *ngIf="message.content && message.content.trim().length> 0" [innerHTML]="message.content | lineBreaks"></p>
+            <div ></div>
+            <span *ngIf="!message.mediaUrl" class="timestamp">{{message.timestamp | utcToLocal }}</span>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Message input -->
+    <div class="chat-input" *ngIf="activeWatiNumber">
+      <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+        <div class="file-attachment" *ngIf="selectedFile">
+          <span>{{ selectedFile.name }}</span>
+          <button mat-icon-button type="button" (click)="clearSelectedFile()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+
+        <div class="recording-preview" *ngIf="recordingPreview">
+          <div class="preview-audio">
+            <button class="play-button" (click)="togglePreviewAudio()" [disabled]="!previewAudio">
+              <mat-icon>{{ isPreviewPlaying ? 'pause' : 'play_arrow' }}</mat-icon>
+            </button>
+            <div class="audio-progress">
+              <div class="progress-bar" [style.width.%]="previewProgress"></div>
+            </div>
+            <span class="audio-duration">{{ previewDuration | date:'mm:ss' }}</span>
+          </div>
+          <div class="preview-actions">
+            <button mat-icon-button type="button" (click)="cancelRecording()" class="btn-icon cancel">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-icon-button type="button" (click)="sendRecording()" class="btn-icon send" [disabled]="!previewAudio">
+              <mat-icon>send</mat-icon>
+            </button>
+          </div>
+        </div>
+        
+        <div class="input-container">
+          <button mat-icon-button type="button" (click)="fileInput.click()" class="btn-icon">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <input hidden type="file" #fileInput (change)="onFileSelected($event)">
+          
+          <div class="recording-controls" *ngIf="isRecording">
+            <div class="recording-timer">
+              <mat-icon class="recording-icon">fiber_manual_record</mat-icon>
+              {{ recordingDuration | date:'mm:ss' }}
+            </div>
+            <button mat-icon-button type="button" (click)="cancelRecording()" class="btn-icon cancel">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          
+          <div class="message-input-container" [class.recording]="isRecording">
+            <mat-form-field class="message-input">
+              <input matInput formControlName="content" placeholder="Type a message">
+          </mat-form-field>
+            
+            <!-- <button mat-icon-button type="button" (click)="toggleRecording()" class="btn-icon" [class.recording]="isRecording">
+              <mat-icon>{{ isRecording ? 'stop' : 'mic' }}</mat-icon>
+            </button> -->
+          </div>
+          
+          <button mat-icon-button type="submit" [disabled]="messageForm.invalid || loading" class="btn-icon">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 

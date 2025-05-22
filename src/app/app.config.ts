@@ -7,9 +7,11 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { TokenInterceptor } from './tokenInterceptor';
 
+// WebSocket provider token
+
+
 export const appConfig: ApplicationConfig = {
   providers: [
-    
     provideRouter(routes),
     provideAnimationsAsync(),
     importProvidersFrom(HttpClientModule),
@@ -20,5 +22,8 @@ export const appConfig: ApplicationConfig = {
       useClass: TokenInterceptor,
       multi: true,
     },
+    
+    // WebSocket configuration
+
   ],
 };

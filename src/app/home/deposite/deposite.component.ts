@@ -18,7 +18,16 @@ import { SiteService } from '../../services/site.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalService } from '../../services/modal.service';
 import { UtrService } from '../../services/utr.service';
-import { Observable, Subscription, debounceTime, fromEvent, interval, map, of, startWith } from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  debounceTime,
+  fromEvent,
+  interval,
+  map,
+  of,
+  startWith,
+} from 'rxjs';
 import { Operation, Operations } from '../../domain/operation';
 import { ReportService } from '../../services/report.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -31,6 +40,8 @@ import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/co
 import { UTRDetailsPopupComponent } from '../../shared/utrdetails-popup/utrdetails-popup.component';
 import { SlipComponent } from '../../shared/slip/slip.component';
 import { Bank } from '../../domain/Bank';
+import { DialogRef } from '@angular/cdk/dialog';
+import { ImageTextModalComponent } from '../image-text-modal/image-text-modal.component';
 
 @Component({
   selector: 'app-deposite',
@@ -44,6 +55,7 @@ export class DepositeComponent implements OnInit, OnDestroy {
   imagePath: string = '';
   imageStatus: string = 'Select or drag UTR Image';
   loader: boolean = false;
+  imagetext: string;
   DeposteWithdraw: DepositeWithdraw;
   buttonName: string = 'Deposit';
   user: any = {};
@@ -63,7 +75,6 @@ export class DepositeComponent implements OnInit, OnDestroy {
   filteredBanks: Observable<any[]>;
   bankIdControl!: FormControl;
 
-
   constructor(
     private snackbarService: SnackbarService,
     public dialog: MatDialog,
@@ -71,7 +82,7 @@ export class DepositeComponent implements OnInit, OnDestroy {
     private site: SiteService,
     private fb: FormBuilder,
     private operation: OperationsService,
-    private _snackBar: MatSnackBar,
+
     private modalService: ModalService,
     private utrservice: UtrService,
     private retryserv: RetryService,
@@ -88,7 +99,7 @@ export class DepositeComponent implements OnInit, OnDestroy {
     this.myFormValues();
     this.getuserID();
     this.getDeposite();
-    this.subscription = interval(5000).subscribe(() => {
+    this.subscription = interval(1000).subscribe(() => {
       this.getDeposite();
     });
   }
@@ -111,6 +122,8 @@ export class DepositeComponent implements OnInit, OnDestroy {
     );
   }
 
+  
+
   openFileInput(): void {
     this.fileInput.nativeElement.click();
   }
@@ -118,7 +131,7 @@ export class DepositeComponent implements OnInit, OnDestroy {
     this.formGroup = new FormGroup({
       utrNumber: new FormControl('', [
         Validators.required,
-        Validators.maxLength(12),
+        // Validators.maxLength(12),
       ]),
       userId: new FormControl('', [
         Validators.required,
@@ -135,8 +148,7 @@ export class DepositeComponent implements OnInit, OnDestroy {
       depositType: new FormControl('DEPOSIT', Validators.required),
     });
 
-     
-     this.bankIdControl = this.formGroup.get('bankId') as FormControl;
+    this.bankIdControl = this.formGroup.get('bankId') as FormControl;
 
     this.formGroup.get('userId').valueChanges.subscribe((value: string) => {
       // Convert v alue to lowercase and assign it back to the FormControl
@@ -150,18 +162,18 @@ export class DepositeComponent implements OnInit, OnDestroy {
       .valueChanges.subscribe((value: string) => {
         if (value !== 'DEPOSIT') {
           this.formGroup.get('utrNumber').setValue('NA');
+          this.formGroup.get('bankId').setValue(0);
           // this.formGroup.get('utrNumber').disable(); // Disable the utrNumber control
         } else {
           this.formGroup.get('utrNumber').setValue(''); // Clear the value
           // this.formGroup.get('utrNumber').enable(); // Enable the utrNumber control
         }
       });
-      
-      
-      this.filteredBanks = this.formGroup.controls['bankId'].valueChanges.pipe(
-        startWith(''),
-        map(value => this._filterBanks(value || ''))
-      );
+
+    this.filteredBanks = this.formGroup.controls['bankId'].valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filterBanks(value || ''))
+    );
     this.fetchBanks();
   }
 
@@ -213,6 +225,7 @@ export class DepositeComponent implements OnInit, OnDestroy {
       const blob = await response.blob();
       const result = await Tesseract.recognize(blob);
       console.log(result.data.text);
+      this.imagetext = result.data.text;
       const transactionID = this.extractTransactionID(result.data.text);
       // Extracting the amount
 
@@ -311,19 +324,18 @@ export class DepositeComponent implements OnInit, OnDestroy {
     //===========================
     const enteredBankName = this.formGroup.get('bankId').value;
 
-  // Find the bank in the banksList by bankName
-  const selectedBank = this.banks.find(bank => bank.accountHolder === enteredBankName);
+    // Find the bank in the banksList by bankName
+    const selectedBank = this.banks.find(
+      (bank) => bank.accountHolder === enteredBankName
+    );
 
-  if (selectedBank) {
-    // Set the formControl's value to the bank's ID
-    this.formGroup.get('bankId').setValue(selectedBank.id);
-
-    // Now proceed with form submission logic
-    console.log('Form Submitted', this.formGroup.value);
-  } else {
-    // Handle case where no matching bank was found
-    console.log('Bank not found!');
-  }
+    if (selectedBank) {
+      // Set the formControl's value to the bank's ID
+      this.formGroup.get('bankId').setValue(selectedBank.id);
+    } else {
+      // Handle case where no matching bank was found
+      console.log('Bank not found!');
+    }
     //===========================
     const userData = localStorage.getItem('user');
     const currentDate = this.getLocalDateTime(); // probleam
@@ -495,9 +507,9 @@ export class DepositeComponent implements OnInit, OnDestroy {
     this.filteredBanks = of(this.banks);
     this.filteredBanks = this.formGroup.controls['bankId'].valueChanges.pipe(
       startWith(''),
-      map(value => this._filterBanks(value || ''))
+      map((value) => this._filterBanks(value || ''))
     );
-  this.fetchBanks();
+    this.fetchBanks();
   }
   onUTRInput(utrValue: string) {
     this.loader2 = true;
@@ -572,9 +584,9 @@ export class DepositeComponent implements OnInit, OnDestroy {
   retry(op: Operation) {
     this.prograsbar = true;
     this.retryserv.postRetry(op).subscribe((data) => {
-      this.snackbarService.snackbar('success Retry', 'success');
+      this.snackbarService.snackbar('success Retry', 'success'); 
+      this.getDeposite();
       this.prograsbar = false;
-
       (error) => {
         confirm(error.error.message);
       };
@@ -591,6 +603,7 @@ export class DepositeComponent implements OnInit, OnDestroy {
       this.retryserv.deleteReport(id).subscribe(
         (data) => {
           this.snackbarService.snackbar('Success: Report deleted', 'success');
+          this.getDeposite();
           this.prograsbar = false;
         },
         (error) => {
@@ -623,10 +636,19 @@ export class DepositeComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(SlipComponent, dialogConfig);
   }
   private _filterBanks(value: string): any[] {
-    
     const filterValue = value.toLowerCase();
-   
-   
-    return this.banks.filter(bank => bank.accountHolder.toLowerCase().includes(filterValue));
+
+    return this.banks.filter((bank) =>
+      bank.accountHolder.toLowerCase().includes(filterValue)
+    );
+  }
+  openDialogText() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '60%';
+    // dialogConfig.data = this.operations;
+    dialogConfig.data = this.imagetext;
+
+    console.log('in dialog');
+    const dialogRef = this.dialog.open(ImageTextModalComponent, dialogConfig);
   }
 }

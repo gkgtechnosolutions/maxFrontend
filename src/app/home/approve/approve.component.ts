@@ -45,7 +45,7 @@ export class ApproveComponent implements OnInit, OnDestroy {
   formGroups: { [key: string]: FormGroup } = {};
   loader: boolean;
   userId: any;
-  isApproved: boolean;
+  isApproved: { [key: string]: any } = {};
   private zoomedStates = new Map<number, boolean>();
   loader2: any;
   retried: boolean;
@@ -317,9 +317,11 @@ export class ApproveComponent implements OnInit, OnDestroy {
 
     // this.formGroup.patchValue({ newId: deposite.isNewId });
     // console.log('Updated form value:', this.formGroup.value);
+    this.isApproved[deposite.id] = true;
     const formGroup = this.getFormGroup(deposite.id);
     formGroup.patchValue({ newId: deposite.isNewId });
-    console.log('onSave - FormGroup:', formGroup);
+    // console.log('onSave - FormGroup:', formGroup);
+
     if (formGroup) {
       const formValue = formGroup.value;
 
@@ -332,7 +334,7 @@ export class ApproveComponent implements OnInit, OnDestroy {
             console.log('Update successful', response);
             this.snackbarService.snackbar('Update successfully!', 'success');
             this.loadProducts();
-            this.isApproved = true;
+            // this.isApproved[deposite.id] = true;
             this.loader = false;
             this.resetFormGroup(deposite.id); // Reset the form group after successful update
           },
@@ -396,7 +398,9 @@ export class ApproveComponent implements OnInit, OnDestroy {
       this.typingTimer = setTimeout(() => {
         this.isTyping = false;
       }, this.doneTypingInterval);
-      this.onSave(deposit);
+      if (!this.isApproved[deposit.id]) {
+        this.onSave(deposit);
+      }
     }
 
   }

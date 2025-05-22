@@ -24,9 +24,10 @@ import { SupAdepositComponent } from './sup-adeposit/sup-adeposit.component';
 import { SupAWithdrawComponent } from './sup-awithdraw/sup-awithdraw.component';
 import { AppvHomeComponent } from './appv-home/appv-home.component';
 import { UserPanelComponent } from './user-panel/user-panel.component';
-import { LanguageDashboardComponent } from './language-dashboard/language-dashboard.component';
-import { RecentChatComponent } from './recent-chat/recent-chat.component';
 import { ApproveComponent } from './approve/approve.component';
+import { NotificationComponent } from './notification/notification.component';
+import { WattiChatComponent } from './watti-chat/watti-chat.component';
+
 
 
 // Components
@@ -134,17 +135,18 @@ const routes: Routes = [
         component: UserPanelComponent,
       },
       {
-        path:'language-dashboard',
-        component: LanguageDashboardComponent,
-      },
-      {
-        path:'Recent-Chat',
-        component: RecentChatComponent,
-      },
-      {
         path: 'approve',
         component: ApproveComponent,
       },
+      {
+        path: 'notification',
+        component: NotificationComponent,
+      },
+      {
+        path: "watti-chat",
+        component: WattiChatComponent,
+      }
+     
     
       
 

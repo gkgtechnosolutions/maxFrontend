@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppConfigService } from './app-config.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DepositTable } from '../domain/table';
 
@@ -99,7 +99,7 @@ export class SupADepositService {
 
   getTodaysWithdraw(): Observable<any> {
     return this.http.get<any>(
-      `${this.baseUrl}/operation/superadmin/today/withdrawCount`
+      `${this.baseUrl}/approveOperation/superAdmin/apWithdraw/todaysApprovedCount`
     );
   }
 
@@ -131,6 +131,127 @@ export class SupADepositService {
     )
   
 
+}
+
+
+
+
+
+getTodaysDepositSuccessdata(): Observable<any>{
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  });
+
+  return this.http.get<any>(
+    `${this.baseUrl}/approveOperation/superAdmin/apDeposit/todaySuccessfulExcel`
+    , {
+      headers: headers,
+      responseType: 'blob' as 'json'
+    }
+    
+  )
+
+}
+
+getTodaysDepositFailuredata(): Observable<any>{
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  });
+
+  return this.http.get<any>(
+    `${this.baseUrl}/approveOperation/superAdmin/apDeposit/todayFailedExcel`
+    , {
+      headers: headers,
+      responseType: 'blob' as 'json'
+    }
+    
+  )
+
+}
+
+getTodaysWithdrawFailuredata(): Observable<any>{
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  });
+
+  return this.http.get<any>(
+    `${this.baseUrl}/approveOperation/superAdmin/apWithdraw/todayFailedExcel`
+    , {
+      headers: headers,
+      responseType: 'blob' as 'json'
+    }
+    
+  )
+
+}
+
+getTodaysWithdrawSuccessdata(): Observable<any>{
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  });
+
+  return this.http.get<any>(
+    `${this.baseUrl}/approveOperation/superAdmin/apWithdraw/todaySuccessfulExcel`
+    , {
+      headers: headers,
+      responseType: 'blob' as 'json'
+    }
+    
+  )
+
+}
+
+DownExcelDepodateRange( startDate: number , endDate: number): Observable<any> {
+  
+  let params = new HttpParams()
+  .set('startDate', startDate.toString())
+  .set('endDate', endDate.toString());
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  });
+  
+  
+  return this.http.get<any>(
+    `${this.baseUrl}/approveOperation/superAdmin/apDeposit/byDateRangExcel`,
+    { 
+      params , 
+      headers: headers,
+      responseType: 'blob' as 'json' 
+   }
+  
+    
+  )
+}
+
+DownExcelWithdateRange( startDate: number , endDate: number): Observable<any> {
+  
+  let params = new HttpParams()
+  .set('startDate', startDate.toString())
+  .set('endDate', endDate.toString());
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  });
+  
+  
+  return this.http.get<any>(
+    `${this.baseUrl}/approveOperation/superAdmin/apWithdraw/byDateRangExcel`,
+    { 
+      params , 
+      headers: headers,
+      responseType: 'blob' as 'json' 
+   }
+  
+    
+  )
 }
 
 }

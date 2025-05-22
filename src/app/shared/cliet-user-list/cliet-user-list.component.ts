@@ -54,7 +54,6 @@ export class ClietUserListComponent {
         this.loader=false;
       });
     }
-    
 
   }
 

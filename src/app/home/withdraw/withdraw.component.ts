@@ -24,6 +24,7 @@ import { BankingService } from '../../services/banking.service';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 
 import { SlipComponent } from '../../shared/slip/slip.component';
+import { WithdrawConfirmComponent } from '../../shared/withdraw-confirm/withdraw-confirm.component';
 
 @Component({
   selector: 'app-withdraw',
@@ -32,6 +33,7 @@ import { SlipComponent } from '../../shared/slip/slip.component';
   styleUrl: './withdraw.component.scss',
 })
 export class WithdrawComponent implements OnInit, OnDestroy {
+
   formGroup: FormGroup;
 
   ocrResult: string = '';
@@ -112,8 +114,8 @@ export class WithdrawComponent implements OnInit, OnDestroy {
         ],
       ],
       id: [''],
-      bankId: [''],
-      date: [],
+      // bankId: [''],
+      // date: [],
     });
     this.fetchBanks();
   }
@@ -365,4 +367,15 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     };
     const dialogRef = this.dialog.open(SlipComponent, dialogConfig);
   }
+
+  openWithdrawConf(Id: any) {
+    console.log(Id +"withdraw id");
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '32%';
+    dialogConfig.data = {
+      type: 'WITHDRAW',
+      id: Id,
+    };
+    const dialogRef = this.dialog.open(WithdrawConfirmComponent, dialogConfig);
+    }
 }

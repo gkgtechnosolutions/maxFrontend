@@ -22,6 +22,7 @@ import { UtrService } from '../../services/utr.service';
 import { SuperAdminService } from '../../services/super-admin.service';
 import { SnackbarService } from '../../services/snackbar.service';
 import { ComponettitleService } from '../../services/componenttitle.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-add-new-user',
@@ -30,7 +31,9 @@ import { ComponettitleService } from '../../services/componenttitle.service';
 })
 export class AddNewUserComponent {
   formGroup: FormGroup;
-  roles: string[] = ['USER','ADMIN','SUPERADMIN','APPROVEADMIN', 'DEPOSIT','APPROVEDEPOSIT','APPROVEWITHDRAW'];
+  // roles: string[] = ['USER','ADMIN','SUPERADMIN','APPROVEADMIN', 'DEPOSIT','APPROVEDEPOSIT'];
+  roles: string[] = ['USER','ADMIN','SUPERADMIN','APPROVEADMIN','APPROVEDEPOSIT','APPROVEWITHDRAW','SUPPORT'];
+  chatOptions: string[] = []; // Array to hold unique chat IDs
 
   ocrResult: string = '';
   imagePath: string = '';
@@ -60,12 +63,11 @@ export class AddNewUserComponent {
     private utrservice: UtrService,
     private superAdmin: SuperAdminService,
     private snackbarService: SnackbarService,
-    private   titleService:ComponettitleService
-
+    private titleService: ComponettitleService,
+    private notificationService: NotificationService
   ) {}
 
   @ViewChild('fileInput') fileInput: ElementRef;
-
 
  
   ngOnInit(): void {
@@ -73,10 +75,9 @@ export class AddNewUserComponent {
     this.myFormValues();
     const currentDate = new Date();
     // this.formGroup.get('date').setValue(currentDate);
+    this.loadUniqueWaIds();
    
   }
-  
-  
 
   openFileInput(): void {
     this.fileInput.nativeElement.click();
@@ -84,16 +85,56 @@ export class AddNewUserComponent {
   myFormValues(): void {
     this.formGroup = this.fb.group({
       role:['', Validators.required],
-      username: ['', [Validators.required, Validators.minLength(4)]],
+      username: ['', [Validators.required, Validators.minLength(5)]],
       password: ['', [Validators.required, this.passwordValidator]],
       // name: ['', Validators.required],
       // site_id: ['', Validators.required],
-       id: ['0'],
+      id: ['0'],
       // zuserId: [''],
       // date: [new Date()],
+      waIds: [[]]
+    });
+
+    // Listen for changes on the role field
+    this.formGroup.get('role').valueChanges.subscribe(role => {
+      const chatIdControl = this.formGroup.get('waIds');
+      
+      if (role === 'SUPPORT') {
+        // Make chatId required for SUPPORT role
+        chatIdControl.setValidators([
+          Validators.required,
+          (control) => {
+            const value = control.value;
+            return Array.isArray(value) && value.length > 0 ? null : { required: true };
+          }
+        ]);
+      } else {
+        // Remove validators if not SUPPORT role
+        chatIdControl.clearValidators();
+        // Clear chatId value when role is not SUPPORT
+        chatIdControl.setValue([]);
+      }
+      
+      // Update validation status
+      chatIdControl.updateValueAndValidity();
     });
   }
 
+  // Load chat IDs from notification service
+  loadUniqueWaIds() {
+    this.loader = true;
+    this.notificationService.getchatIds().subscribe({
+      next: (waIds) => {
+        this.chatOptions = waIds;
+        console.log('Unique chat IDs:', this.chatOptions);
+        this.loader = false;
+      },
+      error: (err) => {
+        console.error('Error fetching unique chat IDs:', err);
+        this.loader = false;
+      }
+    });
+  }
 
  
   onSubmit() {

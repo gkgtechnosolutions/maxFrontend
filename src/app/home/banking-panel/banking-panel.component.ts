@@ -81,8 +81,6 @@ export class BankingPanelComponent {
   
   
   }
-  
-
 
 
   openDialog() {
