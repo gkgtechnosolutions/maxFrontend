@@ -192,8 +192,9 @@
           
           <div class="message-input-container" [class.recording]="isRecording">
             <mat-form-field class="message-input">
-              <input matInput formControlName="content" placeholder="Type a message">
-          </mat-form-field>
+              <textarea matInput formControlName="content" placeholder="Type a message" (keyup.enter)="onEnter($event)"></textarea>
+            </mat-form-field>
+          
             
             <!-- <button mat-icon-button type="button" (click)="toggleRecording()" class="btn-icon" [class.recording]="isRecording">
               <mat-icon>{{ isRecording ? 'stop' : 'mic' }}</mat-icon>
