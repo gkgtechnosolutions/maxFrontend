@@ -28,7 +28,7 @@
           </div>
           <div class="conversation-details">
             <!-- <h3 *ngIf="conversation.clientId " >{{  conversation.clientName  }}</h3> -->
-            <h3 *ngIf="conversation.clientName " >{{ conversation.clientId ||  conversation.clientName  }}</h3>
+            <h3 *ngIf="conversation.clientName " >{{ conversation.clientName  }}</h3>
             <h3 *ngIf="!conversation.clientName "> USER </h3>
             <p class="lastmsg" [innerHTML]="getlastMessage(conversation.data) | lineBreaks"></p>
             <p class="timestamp">{{ conversation.lastMessageTime | utcToLocal }}</p>
@@ -51,7 +51,7 @@
       <div class="chat-header-user">
         <mat-icon>account_circle</mat-icon>
         <div class="client-name-container">
-          <input *ngIf="isEditingName" 
+          <!-- <input *ngIf="isEditingName" 
                  [(ngModel)]="editingClientName" 
                  (blur)="updateClientName()"
                  (keyup.enter)="updateClientName()"
@@ -61,7 +61,11 @@
               (click)="startEditingName()" 
               [class.has-client-id]="selectedConversation.clientId">
             {{  selectedConversation.clientId ||selectedConversation.clientName || 'USER' }}
+          </h2> -->
+          <h2 >
+            {{ selectedConversation.clientName || 'USER' }}
           </h2>
+
         </div>
       </div>
       <div class="chat-header-actions">
@@ -192,8 +196,9 @@
           
           <div class="message-input-container" [class.recording]="isRecording">
             <mat-form-field class="message-input">
-              <input matInput formControlName="content" placeholder="Type a message">
-          </mat-form-field>
+              <textarea matInput formControlName="content" placeholder="Type a message" (keyup.enter)="onEnter($event)"></textarea>
+            </mat-form-field>
+          
             
             <!-- <button mat-icon-button type="button" (click)="toggleRecording()" class="btn-icon" [class.recording]="isRecording">
               <mat-icon>{{ isRecording ? 'stop' : 'mic' }}</mat-icon>

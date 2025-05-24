@@ -6,9 +6,10 @@ export interface navDomain {
   }
   export const USER: navDomain[] =[
     { routerLink: 'dashboard', icon: "Home",title: "Home"},
-    { routerLink: 'deposit', icon: "download", title: "Deposit" },
+    // { routerLink: 'deposit', icon: "download", title: "Deposit" },
+    {routerLink: 'watti-chat',icon: "group", title: "Chat"},
     // { routerLink: 'withdraw', icon: "upload", title: "Withdraw" },
-    { routerLink: 'reports', icon: "Report", title: "Report" },
+    // { routerLink: 'reports', icon: "Report", title: "Report" },
     // { routerLink: 'add', icon: "person_add", title: "Add User" },
     // { routerLink: 'Add-Old', icon: "person_add", title: "Add Old User" },
     // { routerLink: 'update', icon: "key", title: "Update Password" },
@@ -45,7 +46,7 @@ export interface navDomain {
   export const APPROVEDEPOSIT : navDomain[] = [
     { routerLink: 'AppvDList', icon: "List", title: "A-DList" },
     { routerLink: 'approve', icon: "List", title: "Approve" },
-    { routerLink: 'AppvWlist', icon: "List", title: "A-WList" },
+    // { routerLink: 'AppvWlist', icon: "List", title: "A-WList" },
     // { routerLink: 'users', icon: "group", title: "Users" },
     {routerLink: 'watti-chat',icon: "group", title: "Chat"}
     // { routerLink: 'notification', icon: "notifications", title: "Notify" },
