@@ -46,7 +46,7 @@ export interface navDomain {
   export const APPROVEDEPOSIT : navDomain[] = [
     { routerLink: 'AppvDList', icon: "List", title: "A-DList" },
     { routerLink: 'approve', icon: "List", title: "Approve" },
-    { routerLink: 'AppvWlist', icon: "List", title: "A-WList" },
+    // { routerLink: 'AppvWlist', icon: "List", title: "A-WList" },
     // { routerLink: 'users', icon: "group", title: "Users" },
     {routerLink: 'watti-chat',icon: "group", title: "Chat"}
     // { routerLink: 'notification', icon: "notifications", title: "Notify" },
