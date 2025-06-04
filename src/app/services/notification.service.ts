@@ -58,4 +58,22 @@ export class NotificationService {
 
   }
 
+  getBankNotifications(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/bankWebhook/NotificationsByStatuses`, {
+      params: new HttpParams().set('statuses',"RECEIVED")
+    });
+  }
+
+  getBankNotificationsByDevice(deviceName: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/bankWebhook/by-device`, {
+      params: new HttpParams().set('deviceName', deviceName)
+    });
+  }
+
+  closeNotification( id: any): Observable<any> {
+    return this.http.patch<any>(`${this.baseUrl}/bankWebhook/${id}/status`,null, {
+      params: new HttpParams().set('status',"ARCHIVED")
+    });
+  }
+
 }

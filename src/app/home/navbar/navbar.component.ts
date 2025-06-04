@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponettitleService } from '../../services/componenttitle.service';
-import { admin, APPROVEADMIN, APPROVEDEPOSIT, APPROVEWITHDRAW, DEPOSIT, navDomain, SUPPORT, USER } from './navDomain';
+import { admin, APPROVEADMIN, APPROVEDEPOSIT, APPROVEWITHDRAW, BANKER, DEPOSIT, navDomain, SUPPORT, USER } from './navDomain';
 
 @Component({
   selector: 'app-navbar',
@@ -56,41 +56,46 @@ export class NavbarComponent implements AfterViewInit ,OnInit {
 
       case 'USER':
         this.navDomains = USER;
-     
+  
         break;
 
       case 'ADMIN':
         this.navDomains = admin;
-
+       
         break;
   
       case 'APPROVEDEPOSIT':
         this.navDomains = APPROVEDEPOSIT;
-     
+   
         break;
 
     case 'APPROVEWITHDRAW':
           this.navDomains = APPROVEWITHDRAW;
-      
+       
           break;  
   
       case 'DEPOSIT':
         this.navDomains = DEPOSIT;
-  
+     
         break;
   
       case 'APPROVEADMIN':
         this.navDomains = APPROVEADMIN;
-     
+       
         break;
 
       case 'SUPPORT':
         this.navDomains = SUPPORT;
-    
+       
+        break;
+
+      case 'BANKER':
+        this.navDomains = BANKER;
+       
         break;
   
       default:
-       
+        console.log('No matching role found, setting default role data');
         // You can handle any default case here if needed
         break;
     }

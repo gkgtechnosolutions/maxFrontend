@@ -1,3 +1,5 @@
+<div class="row">
+<div class="col-lg-8">
 <div style="display: flex; ">
   <mat-form-field style="border-radius: 10px;">
     <mat-label style="color: white;">Select Status</mat-label>
@@ -11,7 +13,7 @@
           </span>
         </ng-container>
       </mat-select-trigger>
-      <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
+      <mat-option *ngFor="let status of (userRole === 'BANKER' ? bankerStatus : statuses)" [value]="status">{{ status }}</mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -42,7 +44,8 @@
   <mat-icon>refresh</mat-icon>
 </button>
 </div>
-<div class="carousel-container">
+
+<div class="carousel-container " >
   <Div  *ngIf="deposits.length==0 "style="text-align: center; color: #f7f7f4; font-size: larger;">Records not found pls refresh !!!</Div>
     <!-- Previous Button -->
     <button mat-icon-button *ngIf="deposits.length>0 && !(currentPage === 0)" (click)="prevPage()" [disabled]="currentPage === 0">
@@ -78,7 +81,7 @@
           <!-- <p *ngIf="deposit.approveStatus !== 'PENDING'"><span style="font-weight: bold;">UTR Number :-</span> {{ deposit.utrNumber || 'Not Provided' }}</p> -->
           <div class="input-container" >
               
-            <form [formGroup]="getFormGroup(deposit.id)"  class="form-container" *ngIf="deposit.approveStatus === 'PENDING'"  >
+            <form [formGroup]="getFormGroup(deposit.id)"  class="form-container" *ngIf="deposit.approveStatus == 'PENDING' || deposit.approveStatus =='REJECTED'"  >
               <div class="row form-row">
                 <div class="col-md-6 mb-3">
                   <label for="utrNumber" class="form-label" >UTR Number</label>
@@ -146,6 +149,35 @@
 
         </mat-card-content>
         <mat-card-actions>
+           @if (userRole==="BANKER") {
+
+            <button 
+            *ngIf="deposit.approveStatus === 'REJECTED'" 
+            mat-button
+            (click)="openRejectDialog(deposit)"
+            [ngStyle]="{color: deposit.approveStatus === 'REJECTED' && !isApproved[deposit.id] ? 'white' : 'gray'}"
+            [class.disabled]="deposit.approveStatus !== 'REJECTED' || isApproved[deposit.id]"
+            style="background-color: red"
+          >Reject</button>
+          <button 
+            *ngIf="deposit.approveStatus === 'REJECTED'" 
+            class="approve-btn"
+            type="button"
+            (click)="deposit.approveStatus === 'REJECTED' && !isApproved[deposit.id] ? onSave(deposit) : null"
+            [ngStyle]="{color: deposit.approveStatus === 'REJECTED' && !isApproved[deposit.id] ? 'white' : 'gray'}"
+            [class.disabled]="deposit.approveStatus !== 'REJECTED' || isApproved[deposit.id]"
+            [style.background-color]="'#20d813'"
+            mat-raised-button
+            #approveButton
+            aria-label="Button that displays a tooltip when focused or hovered over"
+          >Approve</button>
+          <div *ngIf="deposit.approveStatus === 'ADMIN_REJECT'" class="status-message rejected">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span><strong>Rejection Reason:</strong> {{ deposit.rejectReason }}</span>
+          </div>
+
+           } @else{
+
           <button 
           *ngIf="deposit.approveStatus === 'PENDING'" 
           mat-button
@@ -198,9 +230,7 @@
             <i class="fas fa-exclamation-triangle"></i>
             <span><strong>Rejection Reason:</strong> {{ deposit.rejectReason }}</span>
           </div>
-
-
-
+        }
         </mat-card-actions>
       </mat-card>
     </div>
@@ -209,6 +239,44 @@
     <button *ngIf="!((currentPage + 1) * itemsPerPage >= totalItems )" mat-icon-button (click)="nextPage()" >
       <mat-icon style="color: white;">arrow_forward</mat-icon>
     </button>
+</div>
+</div>
+<div class="col-lg-4">
+  <div class="notification-container" style="max-height: 80vh; overflow-y: auto;">
+    <!-- <div class="mb-3">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Select Device</mat-label>
+        <mat-select [(value)]="selectedDevice" (selectionChange)="onDeviceChange($event.value)">
+          <mat-option value="">All Devices</mat-option>
+          <mat-option *ngFor="let device of deviceList" [value]="device">
+            {{device}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+    <div class="card mb-3" *ngFor="let notification of bankNotifications">
+      <div class="card-body" style="background-color:  #333; color: white;">
+        <div class="d-flex justify-content-between align-items-start">
+          <h5 class="card-title">{{notification.title}}</h5>
+          <button class="btn-close" style="color: white;" (click)="closeNotification(notification.id)" aria-label="Close"></button>
+        </div>
+        <p class="card-text" style="color: white;">{{notification.text}}</p>
+        <h6 class="card-subtitle mb-2 ">{{notification.appName}} - {{notification.deviceName}}</h6>
+        <!-- <p class="card-text" style="color: white;">{{notification.bigText}}</p> -->
+        <div class="d-flex justify-content-between align-items-center">
+          <small style="color: white;" >{{notification.timestamp | utcToLocal}}</small>
+          <span class="badge" [ngClass]="{
+            'bg-success': notification.status === 'RECEIVED',
+            'bg-warning': notification.status === 'PENDING',
+            'bg-danger': notification.status === 'FAILED'
+          }">{{notification.status}}</span>
+        </div>
+      </div>
+    </div>
+    <!-- <div *ngIf="isLoading" class="text-center my-3">
+      <mat-spinner diameter="30"></mat-spinner>
+    </div> -->
   </div>
-  
+</div>
+</div> 
  

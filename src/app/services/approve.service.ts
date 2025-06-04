@@ -146,6 +146,17 @@ export class ApproveService {
 
   }
 
+  getRejectedSelectiondata(statuses , pageSize:number, pageNo:number): Observable<any>{
+    const params =  new HttpParams()
+     .set('statuses', statuses)
+    .set('pageSize', pageSize.toString())
+    .set('pageNo', pageNo.toString());
+
+    return this.http.get<any>(`${this.baseUrl}/approveOperation/getApproveDepositsByStatusesAndUnderReview`,{params});
+
+  }
+
+
   get200appvd(): Observable<any>{
  
     return this.http.get<any>(`${this.baseUrl}/approveOperation/last-200-approve-deposits`);
