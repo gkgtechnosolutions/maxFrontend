@@ -8,11 +8,12 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { CheckAppvDailogComponent } from '../../shared/check-appv-dailog/check-appv-dailog.component';
 import { UtrService } from '../../services/utr.service';
 import { UTRDetailsPopupComponent } from '../../shared/utrdetails-popup/utrdetails-popup.component';
-import { interval } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { ComponettitleService } from '../../services/componenttitle.service';
 import { DepoDailogComponent } from '../../shared/depo-dailog/depo-dailog.component';
 import { WithDailogComponent } from '../../shared/with-dailog/with-dailog.component';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-approve',
@@ -24,22 +25,30 @@ export class ApproveComponent implements OnInit, OnDestroy {
   deposits: any[] = [];
   depositForms: { [key: number]: FormGroup } = {};
   selectedStatuses = new FormControl('');
+  userRole: string;
   statuses: string[] = [
     'ALL',
     'USER_CREATED',
     'PENDING',
     'APPROVED',
     'IN_PROCESS',
-    'REJECTED',
     'DONE',
     'FAILED',
     'DELETED',
   ];
+  bankerStatus: string[] = [  'ALL',
+    'USER_CREATED',
+    'PENDING',
+    'APPROVED',
+    'IN_PROCESS',
+    'DONE',
+    'FAILED',
+    'DELETED','REJECTED', 'ADMIN_REJECT'];
   isTyping = false; // Flag to track typing
   doneTypingInterval = 500;
   currentPage = 0;
   typingTimer: any;
-  itemsPerPage = 3;
+  itemsPerPage = 2;
   totalItems; // Update this based on your total items in the API
   formGroup: FormGroup;
   formGroups: { [key: string]: FormGroup } = {};
@@ -56,6 +65,12 @@ export class ApproveComponent implements OnInit, OnDestroy {
   startY = 0;
   translateX = 0;
   translateY = 0;
+  bankNotifications: any[] = [];
+  isLoading = false;
+  private notificationSubscription: Subscription;
+  selectedDevice: string = '';
+  deviceList: string[] = [];
+
   constructor(private ApproveService: ApproveService,
     private fb: FormBuilder,
     private snackbarService: SnackbarService,
@@ -63,14 +78,11 @@ export class ApproveComponent implements OnInit, OnDestroy {
     private utrservice: UtrService,
     private cdr: ChangeDetectorRef,
     private titleService: ComponettitleService,
-
+    private notificationService: NotificationService
   ) {
     this.titleService.changeTitle('Approve Panel');
     this.loadProducts();
     this.subscription = interval(2000).subscribe(() => {
-
-
-
       if (!this.isTyping) {
         this.loadProducts();
       }
@@ -85,24 +97,33 @@ export class ApproveComponent implements OnInit, OnDestroy {
   @ViewChild('approveButton') approveButton: ElementRef;
 
   ngOnInit(): void {
-
+    this.getUserRole();
     this.selectedStatuses.valueChanges.subscribe((selectedStatuses) => {
       this.onStatusChange(selectedStatuses);
     });
 
     this.getUserId();
-    console.log(this.deposits);
+    // console.log(this.deposits);
+    this.loadBankNotifications();
+    this.loadDeviceList();
+    
+    this.notificationSubscription = interval(2000).subscribe(() => {
+      this.loadBankNotifications();
+    });
   }
 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    if (this.notificationSubscription) {
+      this.notificationSubscription.unsubscribe();
+    }
   }
 
   initializeFormGroups() {
     this.deposits.forEach(deposit => {
-      // Create a FormGroup for each deposit if it doesn’t exist
+      // Create a FormGroup for each deposit if it doesn't exist
       if (!this.formGroups[deposit.id]) {
         this.formGroups[deposit.id] = new FormGroup({
           utrNumber: new FormControl(deposit.utrNumber || ''),
@@ -119,7 +140,7 @@ export class ApproveComponent implements OnInit, OnDestroy {
     const formGroup = this.formGroups[depositId];
     if (!formGroup) {
       console.error(`FormGroup for deposit ID ${depositId} is missing!`);
-      // Fallback (optional, but ideally shouldn’t be needed)
+      // Fallback (optional, but ideally shouldn't be needed)
       this.formGroups[depositId] = new FormGroup({
         utrNumber: new FormControl(''),
         amount: new FormControl('', [Validators.required]),
@@ -241,17 +262,26 @@ export class ApproveComponent implements OnInit, OnDestroy {
   }
 
   loadProducts(): void {
-    const statusesToSend =
-      this.selectedStatuses.value.length > 0
-        ? this.selectedStatuses.value
-        : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED'];
-    // const start = this.currentPage * this.itemsPerPage;
-    this.ApproveService.getSelectiondata(statusesToSend, this.itemsPerPage, this.currentPage).subscribe((data) => {
+    const statusesToSend = this.selectedStatuses.value.length > 0 
+      ? this.selectedStatuses.value 
+      : this.getDefaultStatuses();
+  
+    const serviceCall = this.userRole === 'BANKER'
+      ? this.ApproveService.getRejectedSelectiondata(statusesToSend, this.itemsPerPage, this.currentPage)
+      : this.ApproveService.getSelectiondata(statusesToSend, this.itemsPerPage, this.currentPage);
+  
+    serviceCall.subscribe(data => {
       this.deposits = data.content;
       this.totalItems = data.totalElements;
       this.initializeFormGroups();
-      this.cdr.detectChanges(); // Initialize form groups after loading products
+      this.cdr.detectChanges();
     });
+  }
+  
+  private getDefaultStatuses(): string[] {
+    return this.userRole === 'BANKER'
+      ? ['PENDING', 'REJECTED', 'IN_PROCESS', 'FAILED', 'APPROVED']
+      : ['PENDING', 'IN_PROCESS', 'FAILED', 'APPROVED'];
   }
 
   nextPage(): void {
@@ -368,7 +398,9 @@ export class ApproveComponent implements OnInit, OnDestroy {
 
   openRejectDialog(deposit: any): void {
     const dialogRef = this.dialog.open(RejectconfirmationComponent, {
-      data: { id: deposit.id, type: 'wati' },
+      data: { id: deposit.id, type: 'wati',
+        role:this.userRole  
+       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -497,6 +529,71 @@ export class ApproveComponent implements OnInit, OnDestroy {
     } else {
       alert('No link available to copy.');
     }
+  }
+
+  getUserRole() {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      const user = JSON.parse(userData);
+      this.userRole = user.role_user;
+    } else {
+      console.error('User data not found in localStorage');
+    }
+  }
+
+  loadBankNotifications() {
+    this.isLoading = true;
+    if (this.selectedDevice) {
+      this.notificationService.getBankNotificationsByDevice(this.selectedDevice).subscribe({
+        next: (notifications) => {
+          this.bankNotifications = notifications;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading bank notifications:', error);
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.notificationService.getBankNotifications().subscribe({
+        next: (notifications) => {
+          this.bankNotifications = notifications;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading bank notifications:', error);
+          this.isLoading = false;
+        }
+      });
+    }
+  }
+
+  closeNotification(id: number) {
+    this.notificationService.closeNotification(id).subscribe({
+      next: (response) => {
+        console.log('Notification closed successfully', response);
+        this.loadBankNotifications();
+      },
+      error: (error) => {
+   console.log(error);
+  }
+  });  }
+
+  loadDeviceList() {
+    // Get unique device names from notifications
+    this.notificationService.getBankNotifications().subscribe({
+      next: (notifications) => {
+        this.deviceList = [...new Set(notifications.map(n => n.deviceName))];
+      },
+      error: (error) => {
+        console.error('Error loading device list:', error);
+      }
+    });
+  }
+
+  onDeviceChange(deviceName: string) {
+    this.selectedDevice = deviceName;
+    this.loadBankNotifications();
   }
 
 }
