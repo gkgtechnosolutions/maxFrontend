@@ -196,7 +196,12 @@
           
           <div class="message-input-container" [class.recording]="isRecording">
             <mat-form-field class="message-input">
-              <textarea matInput formControlName="content" placeholder="Type a message" (keyup.enter)="onEnter($event)"></textarea>
+              <textarea matInput 
+                        formControlName="content" 
+                        placeholder="Type a message" 
+                        (keydown.enter)="onEnter($event)"
+                        style="color: white;">
+              </textarea>
             </mat-form-field>
           
             

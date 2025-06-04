@@ -698,11 +698,15 @@ export class WattiChatComponent implements OnInit, OnDestroy {
     this.selectedImageUrl = null;
   }
 
-  onEnter(event: any) {
-    if (event.ctrlKey) {
-      this.sendMessage(); // Send message on Ctrl + Enter
-    } else {
-      event.preventDefault(); // Prevent default behavior (new line)
+  onEnter(event: any): void {
+    if (event.key === 'Enter') {
+      if (event.shiftKey) {
+        // Allow default behavior (new line) when Shift+Enter is pressed
+        return;
+      }
+      // Prevent default behavior and send message when only Enter is pressed
+      event.preventDefault();
+      this.sendMessage();
     }
   }
 
