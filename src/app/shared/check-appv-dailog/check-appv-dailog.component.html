@@ -222,9 +222,9 @@
           <p><strong>🆔 User ID:</strong> {{ user.userId }}</p>
           <p><strong>💸 Amount:</strong> ₹{{ user.amount }}</p>
           <p><strong>📅 Entry Time:</strong> {{ user.entryTime | date:'dd MMM yyyy, h:mm a' }}</p>
-          <p><strong>🖥️ Site:</strong> 
+          <!-- <p><strong>🖥️ Site:</strong> 
             <a [href]="user.site.url" target="_blank">{{ user.site.name }}</a>
-          </p>
+          </p> -->
            <div class="status" [ngClass]="user.approveWithdrawStatus.toLowerCase()">
             <strong>Status:</strong> {{ status}}
           </div>
