@@ -46,16 +46,16 @@ export const admin: navDomain[]=[
 export const APPROVEDEPOSIT : navDomain[] = [
   { routerLink: 'AppvDList', icon: "List", title: "A-DList" },
   { routerLink: 'approve', icon: "List", title: "Approve" },
-  { routerLink: 'AppvWlist', icon: "List", title: "A-WList" },
+  // { routerLink: 'AppvWlist', icon: "List", title: "A-WList" },
   // { routerLink: 'users', icon: "group", title: "Users" },
-  {routerLink: 'watti-chat',icon: "group", title: "Chat"}
+  // {routerLink: 'watti-chat',icon: "group", title: "Chat"}
   // { routerLink: 'notification', icon: "notifications", title: "Notify" },
  
 ]
 
 export const SUPPORT : navDomain[] = [
-  { routerLink: 'notification', icon: "notifications", title: "Notify" },
-
+  // { routerLink: 'notification', icon: "notifications", title: "Notify" },
+  {routerLink: 'watti-chat',icon: "group", title: "Chat"}
  
 ]
 
@@ -80,7 +80,7 @@ export const APPROVEWITHDRAW : navDomain[] = [
   // { routerLink: 'AppvDList', icon: "List", title: "A-DList" },
   // { routerLink: 'approve', icon: "List", title: "Approve" },
   { routerLink: 'AppvWlist', icon: "List", title: "A-WList" },
-  { routerLink: 'users', icon: "group", title: "Users" },
+  // { routerLink: 'users', icon: "group", title: "Users" },
  
 ]
 
