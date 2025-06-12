@@ -61,6 +61,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LineBreaksPipe } from '../services/line-breaks.pipe';
 import { WattiChatComponent } from './watti-chat/watti-chat.component';
 import { WattiService } from '../services/watti.service';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,9 @@ import { WattiService } from '../services/watti.service';
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatGridListModule,
   ],
   providers: [WattiService]
 })

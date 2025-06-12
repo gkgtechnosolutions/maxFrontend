@@ -294,3 +294,120 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+// .dropdown-item {
+//   position: relative;
+//   cursor: pointer;
+  
+//   .dropdown-arrow {
+//     font-size: 20px;
+//     margin-left: 5px;
+//     transition: transform 0.3s ease;
+//   }
+
+//   &.expanded .dropdown-arrow {
+//     transform: rotate(180deg);
+//   }
+// }
+
+// .dropdown-content {
+//   display: none;
+//   position: absolute;
+//   left: 100%;
+//   top: 0;
+//   background-color: #000000;
+//   min-width: 200px;
+//   box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+//   z-index: 1;
+//   border-radius: 4px;
+//   padding: 8px 0;
+// }
+
+// .dropdown-item:hover .dropdown-content,
+// .dropdown-item.expanded .dropdown-content {
+//   display: block;
+// }
+
+// .dropdown-child {
+//   display: flex;
+//   align-items: center;
+//   padding: 8px 16px;
+//   color: #fff;
+//   text-decoration: none;
+//   transition: background-color 0.3s;
+
+//   &:hover {
+//     background-color: rgba(255, 215, 0, 0.1);
+//   }
+
+//   .icon {
+//     margin-right: 8px;
+//   }
+
+//   &.active {
+//     background-color: rgba(255, 215, 0, 0.2);
+//   }
+// }
+
+//===============================================================
+example-container {
+  height: 500px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.example-sidenav {
+   user-select: none;
+}
+.full-width {
+  width: 100%;
+}
+.menu-button {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
+}
+.menu-button.rotated {
+  transform: rotate(180deg);
+}
+// .submenu {
+//   overflow-y: hidden;
+//   transition: transform 300ms ease;
+//   transform: scaleY(0);
+//   transform-origin: top;
+//   padding-left: 30px;
+// }
+// .submenu.expanded {
+//   transform: scaleY(1);
+// }
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+.submenu.expanded {
+  max-height: 500px;
+}
+.rotated {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+}
+
+::ng-deep .mat-mdc-list-item{
+  color: #6d6e7e !important;
+}
+.mat-icon
+{
+  color: #6d6e7e
+}
+::ng-deep .mdc-list-item__primary-text{
+color:  #6d6e7e!important;
+}
+.small-icon {
+  font-size: 18px;
+  vertical-align: middle;
+}

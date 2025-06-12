@@ -79,228 +79,58 @@
     </div>
   </div>
   <div class="content">
-    <div class="link" *ngFor=" let navDomain of navDomains">
-      <div
-        class="content"
-        [routerLink]="[navDomain.routerLink]"
-        [routerLinkActive]="'active'"
-      >
-        <div class="icon">
-          <span class="material-symbols-outlined"> {{navDomain.icon}} </span>
+ 
+    
+    <mat-nav-list>
+      <ng-container *ngFor="let navDomain of navDomains">
+        
+        <!-- Regular item (no children) -->
+        <a mat-list-item *ngIf="!navDomain.children"
+           [routerLink]="[navDomain.routerLink]"
+           routerLinkActive="active">
+           <span class="material-symbols-outlined small-icon">{{navDomain.icon}}</span>
+          <span >{{ navDomain.title }}</span>
+        </a>
+    
+        <!-- Dropdown item (with children) -->
+        <div *ngIf="navDomain.children">
+          <mat-list-item (click)="toggleSubmenu(navDomain.title)" class="parent">
+            <div class="content">
+            <span class="material-symbols-outlined small-icon" style="margin-right: 10px;">{{navDomain.icon}}</span>
+            <span class="full-width" >{{ navDomain.title }}</span>
+         
+            <mat-icon class="menu-button" 
+                      [ngClass]="{ 'rotated': isSubmenuExpanded(navDomain.title) }"
+                      *ngIf="isSubmenuExpanded(navDomain.title) || isShowing">expand_more</mat-icon>
+          </div>
+          </mat-list-item> 
+    
+          <div class="submenu" 
+               [ngClass]="{ 'expanded': isSubmenuExpanded(navDomain.title) }"
+               *ngIf="isSubmenuExpanded(navDomain.title) || isShowing">
+            <a mat-list-item *ngFor="let child of navDomain.children"
+               [routerLink]="[child.routerLink]"
+               routerLinkActive="active">
+               <div class="content">
+               <span class="material-symbols-outlined small-icon"  style="margin-right: 10px;">{{child.icon}}</span>
+              <span *ngIf="isSubmenuExpanded(navDomain.title) || isShowing">{{ child.title }}</span>
+            </div>
+            </a>
+          </div>
         </div>
-        <div class="title">{{navDomain.title}}</div>
-      </div>
-    </div>
+    
+      </ng-container>
+    </mat-nav-list>
+    
+    
+    
     <div class="link">
       <div class="content" (click)="logout()">
-        <span class="material-symbols-outlined"> logout </span>
+        <span class="material-symbols-outlined">logout</span>
         <div class="title">Logout</div>
       </div>
     </div>
-    <!-- <div class="link">
-      <div
-        class="content"
-        [routerLink]="['dashboard']"
-        [routerLinkActive]="'active'"
-      >
-        <div class="icon">
-          <span class="material-symbols-outlined"> Home </span>
-        </div>
-        <div class="title">Home</div>
-      </div>
-    </div>
-
-    <div class="link">
-      <div
-        class="content"
-        [routerLink]="['deposit']"
-        [routerLinkActive]="'active'"
-      >
-        <div class="icon">
-          <span class="material-symbols-outlined"> download </span>
-        </div>
-        <div class="title">Deposite</div>
-      </div>
-    </div>
-    <div class="link">
-      <div
-        class="content"
-        [routerLink]="['withdraw']"
-        [routerLinkActive]="'active'"
-      >
-        <div class="icon">
-          <span class="material-symbols-outlined"> upload </span>
-        </div>
-        <div class="title">Withdraw</div>
-      </div>
-    </div>
-   
-    <div class="link">
-      <div
-        class="content"
-        [routerLink]="['reports']"
-        [routerLinkActive]="'active'"
-      >
-        <div class="icon">
-          <span class="material-symbols-outlined"> Report </span>
-        </div>
-        <div class="title">Report</div>
-      </div>
-    </div>
-
-    <div class="link">
-      <div class="content" [routerLink]="['add']" [routerLinkActive]="'active'">
-        <div class="icon">
-          <span class="material-symbols-outlined"> person_add </span>
-        </div>
-        <div class="title">Add User</div>
-      </div>
-    </div>
-    <div class="link">
-      <div
-        class="content"
-        [routerLink]="['update']"
-        [routerLinkActive]="'active'"
-      >
-        <div class="icon">
-          <span class="material-symbols-outlined"> key </span>
-        </div>
-        <div class="title">Update Password</div>
-      </div>
-    </div>
-    @if( userRole == "ADMIN" ){
-    <div class="link">
-      <div
-        class="content"
-        [routerLink]="['users']"
-        [routerLinkActive]="'active'"
-      >
-        <div class="icon">
-          <span class="material-symbols-outlined"> group </span>
-        </div>
-        <div class="title">Users</div>
-      </div>
-    </div>
-    }
-    <div class="link">
-      <div class="accordion accordion-flush" id="accordionFlushExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button
-              style="background-color: #000000; color: white"
-              class="accordion-button collapsed icon"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#flush-collapseOne"
-              aria-expanded="false"
-              aria-controls="flush-collapseOne"
-            >
-              <span *ngIf="isExpanded"> Approve </span>
-            </button>
-          </h2>
-          <div
-            id="flush-collapseOne"
-            class="accordion-collapse collapse"
-            data-bs-parent="#accordionFlushExample"
-            style="background-color: #000000; color: white"
-          >
-            <div class="link">
-              <div
-                class="content"
-                [routerLink]="['add-site']"
-                [routerLinkActive]="'active'"
-              >
-                <div class="icon">
-                  <span class="material-symbols-outlined"> web </span>
-                </div>
-                <div class="title">Site</div>
-              </div>
-            </div>
-            <div
-              id="flush-collapseOne"
-              class="accordion-collapse collapse"
-              data-bs-parent="#accordionFlushExample"
-              style="background-color: #000000; color: white"
-            >
-              <div class="link">
-                <div
-                  class="content"
-                  [routerLink]="['site-master']"
-                  [routerLinkActive]="'active'"
-                >
-                  <div class="icon">
-                    <span class="material-symbols-outlined"> web </span>
-                  </div>
-                  <div class="title">Site Master</div>
-                </div>
-              </div>
-              <div
-                id="flush-collapseOne"
-                class="accordion-collapse collapse"
-                data-bs-parent="#accordionFlushExample"
-                style="background-color: #000000; color: white"
-              >
-                <div class="link">
-                  <div
-                    class="content"
-                    [routerLink]="['site-user']"
-                    [routerLinkActive]="'active'"
-                  >
-                    <div class="icon">
-                      <span class="material-symbols-outlined"> web </span>
-                    </div>
-                    <div class="title">Site User</div>
-                  </div>
-                </div>
-                <div class="link">
-                  <div
-                    class="content"
-                    [routerLink]="['AppvDeposit']"
-                    [routerLinkActive]="'active'"
-                  >
-                    <div class="icon">
-                      <span class="material-symbols-outlined">Download</span>
-                    </div>
-                    <div class="title">A-Deposit</div>
-                  </div>
-                </div>
-                <div class="link">
-                  <div
-                    class="content"
-                    [routerLink]="['AppvDList']"
-                    [routerLinkActive]="'active'"
-                  >
-                    <div class="icon">
-                      <span class="material-symbols-outlined">List</span>
-                    </div>
-                    <div class="title">A-DList</div>
-                  </div>
-                </div>
-                <div class="link">
-                  <div
-                    class="content"
-                    [routerLink]="['Bank']"
-                    [routerLinkActive]="'active'"
-                  >
-                    <div class="icon">
-                      <span class="material-symbols-outlined">Money</span>
-                    </div>
-                    <div class="title">Add-Bank</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="link">
-          <div class="content" (click)="logout()">
-            <span class="material-symbols-outlined"> logout </span>
-            <div class="title">Logout</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer"></div>
-    </div> -->
   </div>
+
+
 </div>

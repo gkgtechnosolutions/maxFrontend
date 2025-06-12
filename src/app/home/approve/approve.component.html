@@ -175,6 +175,15 @@
             <i class="fas fa-exclamation-triangle"></i>
             <span><strong>Rejection Reason:</strong> {{ deposit.rejectReason }}</span>
           </div>
+          <div class="loader" *ngIf="deposit.approveStatus === 'IN_PROCESS'">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <div *ngIf="deposit.approveStatus === 'DONE'" class="status-message success">
+            <i class="fas fa-check-circle"></i>  
+            <span>User ID :<strong>"{{ deposit.userId }}"</strong> Deposited amount : <strong>{{ deposit.amount }}</strong> </span>
+          </div>
 
            } @else{
 
