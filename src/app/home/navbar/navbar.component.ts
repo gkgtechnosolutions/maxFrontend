@@ -117,4 +117,52 @@ export class NavbarComponent implements AfterViewInit ,OnInit {
      
     }
   }
+
+  toggleDropdown(event: Event) {
+    const dropdownItem = (event.currentTarget as HTMLElement);
+    dropdownItem.classList.toggle('expanded');
+    
+    // Close other dropdowns
+    const allDropdowns = document.querySelectorAll('.dropdown-item');
+    allDropdowns.forEach(dropdown => {
+      if (dropdown !== dropdownItem) {
+        dropdown.classList.remove('expanded');
+      }
+    });
+  }
+
+  // isExpanded = true;
+  showSubmenu: boolean = false;
+  isShowing = false;
+  showSubSubMenu: boolean = false;
+
+  mouseenter() {
+    if (!this.isExpanded) {
+      this.isShowing = true;
+    }
+  }
+
+  mouseleave() {
+    if (!this.isExpanded) {
+      this.isShowing = false;
+    }
+  }
+
+  // toggleSubmenu(navDomain: any): void {
+  //   navDomain.expanded = !navDomain.expanded;
+  // }
+  expandedMenus = new Set<string>(); // or number, depending on your navDomain key
+
+toggleSubmenu(navTitle: string): void {
+  if (this.expandedMenus.has(navTitle)) {
+    this.expandedMenus.delete(navTitle);
+  } else {
+    this.expandedMenus.add(navTitle);
+  }
+}
+
+isSubmenuExpanded(navTitle: string): boolean {
+  return this.expandedMenus.has(navTitle);
+}
+
 }

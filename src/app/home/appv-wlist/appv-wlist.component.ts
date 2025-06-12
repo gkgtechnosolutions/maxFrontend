@@ -91,7 +91,7 @@ updateSearchText($event: Event) {
 throw new Error('Method not implemented.');
 }
  
-   displayedColumns: string[] = ['Sr.no','userId', 'utrNumber', 'amount', 'entryTime', 'site', 'approveWithdrawStatus','approve', 'Operations'];
+   displayedColumns: string[] = ['Sr.no','userId', 'utrNumber', 'amount', 'entryTime', 'approveWithdrawStatus','approve', 'Operations'];
   
    // Define the data source (replace with your real data)
    dataSource ;
