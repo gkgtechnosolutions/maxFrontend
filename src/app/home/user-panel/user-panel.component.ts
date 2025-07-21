@@ -19,10 +19,14 @@ dataSource : any[];
 depositTableArray:any[];
   loader: boolean;
   Operator: any;
+  operatorName:string;
+  
+  refreshInterval: any;
 constructor(public dialog: MatDialog, private appuserserv :AppUserService) {}
 ngOnInit(): void{
   this.getuserID()
   this.fetchUser();
+  this.refreshInterval = setInterval(() => this.fetchUser(), 5000);
   this.fetchActiveUserCount();
 }
 
@@ -72,6 +76,7 @@ getuserID() {
     // Step 2: Access user_role attribute
     const user = JSON.parse(userString);
     this.Operator = user.user_id;
+    this.operatorName =user.user_email;
   }
 }
 
@@ -141,6 +146,21 @@ blockUser(userId: number): void {
     }
   );
 
+}
+
+logoutUser(userId: any): void {
+  this.loader = true;
+  this.appuserserv.logoutUser(this.operatorName,userId).subscribe(
+    data => {
+      // Optionally show a message or update UI
+      this.fetchUser();
+      this.loader = false;
+    },
+    error => {
+      console.error('Error logging out user', error);
+      this.loader = false;
+    }
+  );
 }
 
 }
