@@ -36,7 +36,7 @@ constructor(public http: HttpClient, private config: AppConfigService) {}
    );
   }
 
-getOtpByUsername(username: string): Observable<string> {
+getOtpByUsername(username: string): Observable<any> {
   return this.http.get<any>(`${this.baseUrl}/auth/show-otp/${encodeURIComponent(username)}`).pipe(
     tap((res) => console.log('OTP API response:', res))
   );
@@ -45,4 +45,10 @@ getOtpByUsername(username: string): Observable<string> {
 logoutUser(superadmin: string, username: string): Observable<any> {
   return this.http.post(`${this.baseUrl}/auth/admin/force-logout`, { superadmin, username });
 }
+
+
+  getUserActivity(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/auth/activity/${userId}`);
+  }
+
 }

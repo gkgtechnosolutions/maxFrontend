@@ -5,11 +5,13 @@ import { AddAppUserComponent } from '../../shared/add-app-user/add-app-user.comp
 import { AppUserService } from '../../services/app-user.service';
 import { UpAppvlistComponent } from '../../shared/up-appvlist/up-appvlist.component';
 import { OtpDialogComponent } from '../../shared/otp-dialog/otp-dialog.component';
+import { SnackbarService } from '../../services/snackbar.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-panel',
   templateUrl: './user-panel.component.html',
-  styleUrl: './user-panel.component.scss'
+  styleUrls: ['./user-panel.component.scss']
 })
 export class UserPanelComponent {
 ActiveUser: Number =0;
@@ -22,11 +24,14 @@ depositTableArray:any[];
   operatorName:string;
   
   refreshInterval: any;
-constructor(public dialog: MatDialog, private appuserserv :AppUserService) {}
-ngOnInit(): void{
-  this.getuserID()
-  this.fetchUser();
-  this.refreshInterval = setInterval(() => this.fetchUser(), 5000);
+  activityData: any[] = [];
+  selectedUserForActivity: string = '';
+  showActivityModal: boolean = false;
+constructor(public dialog: MatDialog, private appuserserv :AppUserService,  private snackBar: SnackbarService,) {}
+ngOnInit(): void {
+  this.getuserID();
+  this.fetchUser(); // first time: full table
+  this.refreshInterval = setInterval(() => this.fetchUser(), 5000); // next: only status update
   this.fetchActiveUserCount();
 }
 
@@ -115,19 +120,36 @@ filterData(searchTerm: string) {
  }
 
  fetchUser(): void {
-  this.loader=true;
+  this.loader = true;
   this.appuserserv.getUserDetails(this.Operator).subscribe(
     data => {
-      this.dataSource = data;
-     
-      this.loader=false;
-      // this.dataSource.shift();
- 
-
+      if (!this.dataSource) {
+        // First time: assign full data
+        this.dataSource = data;
+      } else {
+        // After first time: update only status
+        // 1. Map bana lo username to logged
+        const statusMap = new Map<string, boolean>();
+        data.forEach(user => statusMap.set(user.username, user.logged));
+        // 2. Recursively update status in existing dataSource
+        const updateStatus = (users: any[]) => {
+          if (!users) return;
+          users.forEach(user => {
+            if (statusMap.has(user.username)) {
+              user.logged = statusMap.get(user.username);
+            }
+            if (user.children && user.children.length > 0) {
+              updateStatus(user.children);
+            }
+          });
+        };
+        updateStatus(this.dataSource);
+      }
+      this.loader = false;
     },
     error => {
       console.error('Error fetching banks', error);
-      this.loader=false;
+      this.loader = false;
     }
   );
 }
@@ -149,18 +171,50 @@ blockUser(userId: number): void {
 }
 
 logoutUser(userId: any): void {
-  this.loader = true;
-  this.appuserserv.logoutUser(this.operatorName,userId).subscribe(
-    data => {
-      // Optionally show a message or update UI
-      this.fetchUser();
-      this.loader = false;
+  const confirmed = window.confirm(`Are you sure you want to logout user "${userId}"?`);
+  if (confirmed) {
+    this.loader = true;
+    this.appuserserv.logoutUser(this.operatorName,userId).subscribe(
+      data => {
+        // Optionally show a message or update UI
+        this.fetchUser();
+        this.loader = false;
+        this.snackBar.snackbar('User logged out successfully!', 'success'); 
+      },
+      error => {
+        console.error('Error logging out user', error);
+        this.loader = false;
+      }
+    );
+  }
+}
+
+/**
+ * Fetch and show activity for a user (by userId)
+ */
+showUserActivity(user: any): void {
+  this.selectedUserForActivity = user.username;
+  this.appuserserv.getUserActivity(user.userId || user.id).subscribe(
+    (data) => {
+      this.activityData = data;
+      this.showActivityModal = true;
     },
-    error => {
-      console.error('Error logging out user', error);
-      this.loader = false;
+    (error) => {
+      this.activityData = [];
+      this.showActivityModal = true;
     }
   );
 }
 
+closeActivityModal(): void {
+  this.showActivityModal = false;
+  this.activityData = [];
+  this.selectedUserForActivity = '';
+}
+
+  formatLocalTime(timestamp: string): string {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    return date.toLocaleString();
+  }
 }
