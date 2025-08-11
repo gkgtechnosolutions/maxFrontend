@@ -1,57 +1,59 @@
 <div class="deposite-chat-container">
   <div class="sidebar">
     <div class="sidebar-header whatsapp-style-header position-relative">
-      <div class="sidebar-title-icon">
-        <mat-icon>chat</mat-icon>
-      </div>
-      <div class="d-flex align-items-center w-100" style="justify-content: space-between;">
-        <!-- Left: Empty for spacing -->
-        <div style="flex:1;"></div>
-        <!-- Center: Filter chips -->
-        <div class="filter-chips d-flex gap-2 justify-content-center" style="flex:2;">
-          <span 
-            class="chip"
-            [class.active]="selectedFilter === 'all'"
-            (click)="selectedFilter = 'all'; applyFilter()"
-          >All</span>
-          <span 
-            class="chip"
-            [class.active]="selectedFilter === 'undone'"
-            (click)="selectedFilter = 'undone'; applyFilter()"
-          >Undone</span>
-        </div>
-        <!-- Right: Watti Accounts Dropdown -->
-        <div class="wati-dropdown" *ngIf="userRole === 'ADMIN' || userRole === 'SUPERADMIN' || userRole === 'APPROVEADMIN'" style="flex:1; display: flex; justify-content: flex-end;">
-          <button mat-icon-button [matMenuTriggerFor]="watiMenu">
-            <mat-icon>more_vert</mat-icon>
+      <div class="d-flex align-items-center w-100 flex-nowrap">
+  <div class="filter-chips d-flex gap-2 flex-wrap flex-grow-1">
+    <span 
+      class="chip"
+      [class.active]="selectedFilter === 'all'"
+      (click)="selectedFilter = 'all'; applyFilter()"
+    >All</span>
+    <span 
+      class="chip"
+      [class.active]="selectedFilter === 'undone'"
+      (click)="selectedFilter = 'undone'; applyFilter()"
+    >Undone</span>
+    <span 
+      class="chip chip-block"
+      [class.active]="selectedFilter === 'block'"
+      (click)="selectedFilter = 'block'; applyFilter()"
+    >Blocked</span>
+  </div>
+  <div class="wati-dropdown flex-shrink-0 ms-2">
+    <div *ngIf="userRole === 'ADMIN' || userRole === 'SUPERADMIN' || userRole === 'APPROVEADMIN'" style="display: flex; justify-content: flex-end;">
+      <button mat-icon-button [matMenuTriggerFor]="watiMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #watiMenu="matMenu">
+        <div class="dropdown-header px-3 py-2">
+          <span>Watti Accounts</span>
+          <button mat-button (click)="selectAllWattiAccounts(); $event.stopPropagation()">
+            {{ selectedWattiAccounts.length === watiAccountsList.length ? 'Deselect All' : 'Select All' }}
           </button>
-          <mat-menu #watiMenu="matMenu">
-            <div class="dropdown-header px-3 py-2">
-              <span>Watti Accounts</span>
-              <button mat-button (click)="selectAllWattiAccounts(); $event.stopPropagation()">
-                {{ selectedWattiAccounts.length === watiAccountsList.length ? 'Deselect All' : 'Select All' }}
-              </button>
-            </div>
-            <button mat-menu-item *ngFor="let acc of watiAccountsList">
-              <mat-checkbox
-                [checked]="selectedWattiAccounts.includes(acc.id)"
-                (change)="toggleWattiAccount(acc.id)"
-                (click)="$event.stopPropagation()"
-                style="margin-right: 8px;">
-              </mat-checkbox>
-              <span>{{ acc.watiName }}</span>
-              <span class="badge bg-success ms-2" *ngIf="acc.isActive">Active</span>
-            </button>
-            <div *ngIf="wattiAccountsLoading" class="dropdown-item text-center px-3 py-2">
-              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-              <span class="ms-2">Loading accounts...</span>
-            </div>
-            <div *ngIf="!wattiAccountsLoading && watiAccountsList.length === 0" class="dropdown-item text-muted px-3 py-2">
-              No accounts available
-            </div>
-          </mat-menu>
         </div>
-      </div>
+        <button mat-menu-item *ngFor="let acc of watiAccountsList">
+          <mat-checkbox
+            [checked]="selectedWattiAccounts.includes(acc.id)"
+            (change)="toggleWattiAccount(acc.id)"
+            (click)="$event.stopPropagation()"
+            style="margin-right: 8px;">
+          </mat-checkbox>
+          <span>{{ acc.watiName }}</span>
+          <span class="badge bg-success ms-2" *ngIf="acc.isActive">Active</span>
+        </button>
+        <div *ngIf="wattiAccountsLoading" class="dropdown-item text-center px-3 py-2">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+          <span class="ms-2">Loading accounts...</span>
+        </div>
+        <div *ngIf="!wattiAccountsLoading && watiAccountsList.length === 0" class="dropdown-item text-muted px-3 py-2">
+          No accounts available
+        </div>
+      </mat-menu>
+    </div>
+  </div>
+</div>
+  
+      
       <div class="search-bar mt-3 w-100">
         <form class="d-flex align-items-center position-relative" (submit)="$event.preventDefault()">
           <input
@@ -105,11 +107,29 @@
   </div>
 
   <div class="chat-main">
-    <div class="chat-header" >
+    <div class="chat-header " >
+  
       <div class="chat-header-user">
         <mat-icon>account_circle</mat-icon>
-        <div class="client-name-container"*ngIf="selectedConversation">
-          <h2>{{ selectedConversation.clientName || 'USER' }}</h2>
+        <div class="client-name-container" *ngIf="selectedConversation">
+          <ng-container *ngIf="!isEditingName; else editName">
+            <h2 (click)="startEditingName()" style="cursor:pointer;">
+              {{ selectedConversation.clientName || 'USER' }}
+              <button mat-icon-button class="edit-btn" (click)="startEditingName(); $event.stopPropagation()" style="vertical-align: middle;">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </h2>
+          </ng-container>
+          <ng-template #editName>
+            <input
+              [(ngModel)]="editingClientName"
+              (blur)="updateClientName()"
+              (keydown.enter)="updateClientName()"
+              class="client-name-input"
+              style="font-size:1.5rem; font-weight:600; background:transparent; color:white; border:none; border-bottom:1px solid #aaa; outline:none; width:90%;"
+              autofocus
+            />
+          </ng-template>
         </div>
       </div>
       <div class="chat-header-actions">
@@ -202,7 +222,18 @@
             </div>
           </div>
         </div>
+        <button *ngIf="selectedConversation" mat-icon-button [matMenuTriggerFor]="chatHeaderMenu" class="dark-menu-btn">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #chatHeaderMenu="matMenu">
+          <button mat-menu-item (click)="blockUser()">
+            <mat-icon>block</mat-icon>
+            <span *ngIf="!selectedConversation?.isBlocked">Block User</span>
+             <span *ngIf="selectedConversation?.isBlocked">unBlock User</span>
+          </button>
+        </mat-menu>
       </div>
+   
     </div>
 
     <div class="chat-messages" #chatContainer>
@@ -231,7 +262,7 @@
                   [src]="message.mediaUrl" 
                   alt="Image" 
                   class="media-image" 
-                  (click)="openImage(message.mediaUrl); ">
+                  (click)="openImage(message.mediaUrl)">
                 <div *ngIf="selectedImageUrl" class="image-overlay" (click)="closeImage()">
                   <img [src]="selectedImageUrl" alt="Full-size Image" class="enlarged-image">
                 </div>

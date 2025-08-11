@@ -259,10 +259,28 @@ a {
     
     .client-name-container {
       h2 {
+        font-size: 1.1rem !important; // Smaller text
+        font-weight: 500;
         margin: 0;
         color: var(--text-primary);
-        font-size: 18px;
-        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .edit-btn {
+        margin-left: 4px;
+        color: #90caf9;
+        opacity: 0.7;
+        padding: 0;
+        mat-icon {
+          font-size: 18px !important; // Smaller icon
+          width: 18px !important;
+          height: 18px !important;
+          line-height: 18px !important;
+        }
+      }
+      .edit-btn:hover {
+        opacity: 1;
       }
     }
   }
@@ -1538,6 +1556,15 @@ a {
     letter-spacing: 0.5px;
   }
 } 
+.whatsapp-chat-header{
+  background:  #3d4d579f;
+  border-bottom: 1px solid var(--border-color);
+  padding: 6px 6px 8px 6px;
+ 
+
+
+
+}
 
 .whatsapp-style-header {
   background:  #3d4d579f;
@@ -1631,6 +1658,19 @@ a {
         color: #fff;
       }
     }
+    .chip-block {
+  // background: #ffebee;
+  color: #c05959;
+   &:hover {
+        background: rgba(168, 73, 0, 0.08);
+        color: #a80000;
+      }
+  // border: 1px solid #c62828;
+}
+.chip-block.active {
+  background: #c62828;
+  color: #fff;
+}
   }
 }
 
@@ -1692,3 +1732,59 @@ a {
   border-radius: 50%;
 }
 
+.dark-menu-btn {
+  background: #23272b00 !important;
+  color: #fff !important;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.dark-menu-btn:hover,
+.dark-menu-btn:focus {
+  background: #11131700 !important;
+  color:
+  #fff !important;
+  
+}
+
+.d-flex.align-items-center.w-100 {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.wati-dropdown {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  min-width: 48px;
+  margin-left: 8px;
+}
+.client-name-input {
+  font-size: 1.1rem !important; // Smaller input text
+  font-weight: 500;
+  background: transparent;
+  color: white;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  outline: none;
+  width: 90%;
+}
+.edit-btn {
+  margin-left: 8px;
+  color: #90caf9;
+  opacity: 0.7;
+}
+.edit-btn:hover {
+  opacity: 1;
+}
