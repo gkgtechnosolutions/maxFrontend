@@ -49,7 +49,7 @@ export class SseNotificationService {
           `${this.baseUrl}/notify/subscribe/with`,
           `${this.baseUrl}/notify/subscribe/depo`,
           // `${this.baseUrl}/notifydchat/messages/subscribe`,
-          `${this.baseUrl}/notifydchat/messages/subscribe`,
+          `${this.baseUrl}/api/notifydepochat/sse/messages/subscribe`,
           `${this.baseUrl}/notifywchat/messages/subscribe`
         ];
         
